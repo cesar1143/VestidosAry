@@ -10,7 +10,7 @@ package Pantallas;
  * @author Usuario
  */
 public class InicioSesion extends javax.swing.JFrame {
-
+//simple comentario
     /**
      * Creates new form InicioSesion
      */
