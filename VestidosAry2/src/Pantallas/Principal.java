@@ -107,18 +107,15 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(Buscar)
                 .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276331_Properties.png"))); // NOI18N
         jMenu1.setText("Opciones");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276092_contact-new.png"))); // NOI18N
         jMenuItem1.setText("Agregar Clientes");
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276232_icon-136-document-edit.png"))); // NOI18N
         jMenuItem2.setText("Modificar Clientes");
         jMenu1.add(jMenuItem2);
 
