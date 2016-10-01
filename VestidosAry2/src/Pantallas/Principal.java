@@ -54,7 +54,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Nombre");
 
         Buscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475275692_search.png"))); // NOI18N
         Buscar.setText("Buscar");
         Buscar.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
@@ -107,12 +106,14 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(Buscar)
                 .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/opciones.png"))); // NOI18N
         jMenu1.setText("Opciones");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276092_contact-new.png"))); // NOI18N
         jMenuItem1.setText("Agregar Clientes");
         jMenu1.add(jMenuItem1);
 
@@ -162,6 +163,9 @@ public class Principal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
