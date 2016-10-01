@@ -5,17 +5,24 @@
  */
 package Pantallas;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
  */
 public class Principal extends javax.swing.JFrame {
+    DefaultTableModel tableModel;
 
     /**
      * Creates new form Principal
      */
     public Principal() {
+        tableModel = new DefaultTableModel();
+         
         initComponents();
+       tableModel.setColumnIdentifiers(new Object[]{"Id","Nombre","Paterno"});
+       tableModel.addRow(new Object[]{"1","cesar","lopez"});
         //this.setExtendedState(MAXIMIZED_BOTH);
 
     }
@@ -54,20 +61,16 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Nombre");
 
         Buscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475275692_search.png"))); // NOI18N
         Buscar.setText("Buscar");
         Buscar.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jTable1.setModel(tableModel);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable1MousePressed(evt);
             }
-        ));
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -106,17 +109,18 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(Buscar)
                 .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/opciones.png"))); // NOI18N
         jMenu1.setText("Opciones");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276092_contact-new.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/add.png"))); // NOI18N
         jMenuItem1.setText("Agregar Clientes");
         jMenu1.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276232_icon-136-document-edit.png"))); // NOI18N
         jMenuItem2.setText("Modificar Clientes");
         jMenu1.add(jMenuItem2);
 
@@ -137,6 +141,12 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        // TODO add your handling code here:
+        Todo t = new Todo();
+        t.setVisible(true);
+    }//GEN-LAST:event_jTable1MousePressed
 
     /**
      * @param args the command line arguments
