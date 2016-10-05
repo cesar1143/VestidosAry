@@ -46,6 +46,8 @@ public class ClienteAgregar extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Télefono: ");
 
+        jTextField1.setText("c");
+
         jButton1.setText("Aceptar");
 
         jButton2.setText("Cancelar");
