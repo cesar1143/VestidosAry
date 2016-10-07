@@ -5,6 +5,8 @@
  */
 package Pantallas;
 
+import ModeloInicioSesion.Usuarios;
+import ModeloInicioSesion.daoUsuarios;
 import Validaciones.ValicacionesDeTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -25,7 +27,6 @@ public class InicioSesion extends javax.swing.JFrame {
         initComponents();
 
     }
-  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,7 +43,7 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         contra = new javax.swing.JPasswordField();
         boton = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        comboUsuarios = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,7 +74,7 @@ public class InicioSesion extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecciona...", "mayra", "areli", "lucero" }));
+        comboUsuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mayra", "Areli", "Lucero" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -95,7 +96,7 @@ public class InicioSesion extends javax.swing.JFrame {
                                 .addGap(29, 29, 29)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(contra, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(comboUsuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(145, 145, 145)
                         .addComponent(boton)))
@@ -109,7 +110,7 @@ public class InicioSesion extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
@@ -136,12 +137,25 @@ public class InicioSesion extends javax.swing.JFrame {
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
         // TODO add your handling code here:
         String contraseña = contra.getText().toString();
-        if(contraseña.equals("")){
-            JOptionPane.showMessageDialog(null,"Ingresar contraseña");
-        }else{
-            Principal p = new Principal();
-            p.setVisible(true);
-            this.setVisible(false);
+        String usuario = comboUsuarios.getSelectedItem().toString();
+        if (contraseña.equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar contraseña");
+        } else {
+            daoUsuarios dao = new daoUsuarios();
+            Usuarios bean = dao.consultaEspecifica();
+            if (bean.getUsuario().equals(usuario)) {
+                if (bean.getContra().equals(contraseña)) {
+                    //entra al sistema
+                    Principal p = new Principal();
+                    p.setVisible(true);
+                    this.setVisible(false);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta","ERROR",0);
+                }
+            }else{
+                 JOptionPane.showMessageDialog(null, "Usuario incorrecto","ERROR",0);
+            }
+
         }
     }//GEN-LAST:event_botonActionPerformed
 
@@ -186,8 +200,8 @@ public class InicioSesion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
+    private javax.swing.JComboBox comboUsuarios;
     private javax.swing.JPasswordField contra;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
