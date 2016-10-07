@@ -8,6 +8,7 @@ package ModeloInicioSesion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import servicios.conexion;
 
 /**
@@ -36,6 +37,7 @@ public class daoUsuarios {
                 bean.setContra(rs.getString(6));
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Mensaje en daoUsuarios, consultaEspecifica " + e);
         }
         return bean;
     }

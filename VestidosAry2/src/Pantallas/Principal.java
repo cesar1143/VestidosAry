@@ -5,11 +5,17 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import servicios.conexion;
 
 /**
  *
@@ -18,27 +24,50 @@ import javax.swing.table.DefaultTableModel;
 public class Principal extends javax.swing.JFrame {
 
     DefaultTableModel tableModel;
-
+  ResultSet rs;
     /**
      * Creates new form Principal
      */
     public Principal() {
         tableModel = new DefaultTableModel();
-
+        tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno", "Materno"});
         initComponents();
-
-        tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno"});
-        tableModel.addRow(new Object[]{"1", "cesar", "lopez"});
+        daoCliente dao= new daoCliente();
+        rs=dao.consultaTodos();
+        try {
+           
+        while(rs.next()){
+            int id=rs.getInt("idclientes");
+            String nombre1= rs.getString("nombre");
+            String apaterno1=rs.getString("apaterno");
+            String amaterno1=rs.getString("amaterno");
+            System.out.println("nombre " + nombre1);
+            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1});
+            
+        }
+            
+        } catch (Exception e) {
+        }
+        
+        
+      
+        //tableModel.addRow(new Object[]{"1", "cesar", "lopez"});
         //this.setExtendedState(MAXIMIZED_BOTH);
         soloLetras(TextNombre);
     }
+   
+     
+    
+            
+        
+    
 
     public void soloLetras(JTextField a) {
         a.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (Character.isDigit(c)){
-                     getToolkit().beep();
+                if (Character.isDigit(c)) {
+                    getToolkit().beep();
                     e.consume();
                 }
 
@@ -75,6 +104,7 @@ public class Principal extends javax.swing.JFrame {
         Buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        todos = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -116,6 +146,14 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        todos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        todos.setText("Todos");
+        todos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                todosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,12 +172,15 @@ public class Principal extends javax.swing.JFrame {
                                 .addGap(216, 216, 216)
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(282, 282, 282)
-                                .addComponent(Buscar)))
+                                .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 47, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(235, 235, 235)
+                .addComponent(Buscar)
+                .addGap(18, 18, 18)
+                .addComponent(todos, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +192,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(Buscar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(todos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addContainerGap())
@@ -217,17 +260,104 @@ public class Principal extends javax.swing.JFrame {
     private void TextNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextNombreActionPerformed
-
+    public void vaciarTabla() {
+   
+        for (int i = 0; i <jTable1.getRowCount(); i++) {
+            tableModel.removeRow(i);
+ 
+            i-=1;
+           
+        }
+       
+    }
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         // TODO add your handling code here:
+        
         String nombre = TextNombre.getText().toString();
         if (nombre.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
         } else {
+            String arrayNombre[] = nombre.split(" ");
+            int tamaño = arrayNombre.length;
+            System.out.println("tamaño " + tamaño);
             //entraria la consulta
+            daoCliente dao = new daoCliente();
+
+            if (tamaño == 1) {
+                System.out.println("entro en la consulta con nombre ");
+
+                Clientes bean = dao.consultaEspecifica(arrayNombre[0]);
+
+                System.out.println("nombre " + bean.getNombre());
+                if (bean.getNombre() != null) {
+                    vaciarTabla();
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
+                }
+            } else if (tamaño == 2) {
+                System.out.println("entro en la consulta con nombre y apaterno");
+                String nombre1 = "";
+                String apaterno = "";
+
+                nombre1 = arrayNombre[0];
+                apaterno = arrayNombre[1];
+
+                Clientes bean = dao.consultaEspecificaNombreAndApaterno(nombre1, apaterno);
+
+                System.out.println("nombre " + bean.getNombre());
+                if (bean.getNombre() != null && bean.getApaterno() != null) {
+                    vaciarTabla();
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
+                }
+
+            } else if (tamaño == 3) {
+                System.out.println("entro en la consulta con nombre y apaterno y amaterno");
+                String nombre1 = "";
+                String apaterno = "";
+ 
+                nombre1 = arrayNombre[0];
+                apaterno = arrayNombre[1];
+                String amaterno=arrayNombre[2];
+                Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nombre1, apaterno,amaterno);
+
+                System.out.println("nombre " + bean.getNombre());
+                if (bean.getNombre() != null && bean.getApaterno() != null) {
+                    vaciarTabla();
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
+                }
+
+            }
 
         }
+        
+     
     }//GEN-LAST:event_BuscarActionPerformed
+
+    private void todosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todosActionPerformed
+        // TODO add your handling code here:
+        daoCliente dao= new daoCliente();
+        rs=dao.consultaTodos();
+        try {
+           vaciarTabla();
+        while(rs.next()){
+            int id=rs.getInt("idclientes");
+            String nombre1= rs.getString("nombre");
+            String apaterno1=rs.getString("apaterno");
+            String amaterno1=rs.getString("amaterno");
+            System.out.println("nombre " + nombre1);
+            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1});
+            
+        }
+            
+        } catch (Exception e) {
+        }
+        
+    }//GEN-LAST:event_todosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,5 +409,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton todos;
     // End of variables declaration//GEN-END:variables
 }
