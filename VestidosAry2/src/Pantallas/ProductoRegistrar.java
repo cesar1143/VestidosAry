@@ -5,7 +5,10 @@
  */
 package Pantallas;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,8 +21,32 @@ public class ProductoRegistrar extends javax.swing.JFrame {
      */
     public ProductoRegistrar() {
         initComponents();
+        soloLetras(color);
+        soloNumeros(precio);
     }
-
+public void soloLetras(JTextField a){
+    a.addKeyListener(new KeyAdapter(){
+    public void keyTyped(KeyEvent e){
+        char c= e.getKeyChar();
+        if(Character.isDigit(c)){
+            getToolkit().beep();
+            e.consume();
+        }
+        
+    }
+    });
+}
+public void soloNumeros(JTextField a ){
+    a.addKeyListener(new KeyAdapter(){
+    public void keyTyped(KeyEvent e){
+        char c= e.getKeyChar();
+        if(!Character.isDigit(c)){
+            getToolkit().beep();
+            e.consume();
+        }
+    }
+    });
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,6 +96,11 @@ public class ProductoRegistrar extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Buscar");
 
@@ -163,26 +195,35 @@ public class ProductoRegistrar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int codigo1,precio1;
-        String color1,tipo1;
-        codigo1=Integer.parseInt(codigo.getText().toString());
-        precio1=Integer.parseInt(precio.getText().toString());
-        color1=color.getText().toString();
-        tipo1=comboTipo.getSelectedItem().toString();
-        if(codigo.equals("")){
-            JOptionPane.showMessageDialog(null,"Ingresar el codigo");
-        }else if(String.valueOf(precio1).equals("")){
-             JOptionPane.showMessageDialog(null,"Ingresar el Precio"); 
-        }else if(precio1<=0){
-             JOptionPane.showMessageDialog(null,"El precio debe de ser mayor de 0");
-        }else if(color1.equals("")){
-             JOptionPane.showMessageDialog(null,"Ingresar el color");
-        }else if(tipo1.equals("Selecciona...")){
-             JOptionPane.showMessageDialog(null,"Selecciona el tipo");
-        }else{
+        String codigo1, precio1;
+        String color1, tipo1;
+        codigo1 = codigo.getText().toString();
+        precio1 = precio.getText().toString();
+        color1 = color.getText().toString();
+        tipo1 = comboTipo.getSelectedItem().toString();
+        if (codigo1.equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar el codigo");
+        } else if (String.valueOf(precio1).equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar el Precio");
+//--->>>>> cambiar el precio a int <<<<<<<----------------------------  
+        } else if (precio1.equals("0")) {
+            JOptionPane.showMessageDialog(null, "El precio debe de ser mayor de 0");
+        } else if (color1.equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar el color");
+        } else if (tipo1.equals("Selecciona...")) {
+            JOptionPane.showMessageDialog(null, "Selecciona el tipo");
+        } else {
             //entraria el codigo
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        codigo.setText("");
+        precio.setText("");
+        color.setText("");
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

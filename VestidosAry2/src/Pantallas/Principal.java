@@ -5,7 +5,10 @@
  */
 package Pantallas;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class Principal extends javax.swing.JFrame {
+
     DefaultTableModel tableModel;
 
     /**
@@ -20,12 +24,39 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         tableModel = new DefaultTableModel();
-         
-        initComponents();
-       tableModel.setColumnIdentifiers(new Object[]{"Id","Nombre","Paterno"});
-       tableModel.addRow(new Object[]{"1","cesar","lopez"});
-        //this.setExtendedState(MAXIMIZED_BOTH);
 
+        initComponents();
+
+        tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno"});
+        tableModel.addRow(new Object[]{"1", "cesar", "lopez"});
+        //this.setExtendedState(MAXIMIZED_BOTH);
+        soloLetras(TextNombre);
+    }
+
+    public void soloLetras(JTextField a) {
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (Character.isDigit(c)){
+                     getToolkit().beep();
+                    e.consume();
+                }
+
+            }
+        });
+    }
+
+    public void soloNumeros(JTextField a) {
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) //getToolkit().beep();
+                {
+                    e.consume();
+                }
+
+            }
+        });
     }
 
     /**
@@ -173,13 +204,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        ClienteAgregar ca= new ClienteAgregar();
+        ClienteAgregar ca = new ClienteAgregar();
         ca.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        ClienteModificar cm= new ClienteModificar();
+        ClienteModificar cm = new ClienteModificar();
         cm.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -189,12 +220,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         // TODO add your handling code here:
-        String nombre=TextNombre.getText().toString();
-        if(nombre.equals("")){
+        String nombre = TextNombre.getText().toString();
+        if (nombre.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
-        }else{
+        } else {
             //entraria la consulta
-          
+
         }
     }//GEN-LAST:event_BuscarActionPerformed
 

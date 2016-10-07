@@ -5,7 +5,10 @@
  */
 package Pantallas;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -19,7 +22,7 @@ public class Todo extends javax.swing.JFrame {
     public Todo() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-      
+        
     }
 
     /**
@@ -54,7 +57,7 @@ public class Todo extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         producto = new javax.swing.JTextField();
         fechaPrueba = new com.toedter.calendar.JDateChooser();
-        FechaEvento = new com.toedter.calendar.JDateChooser();
+        fechaEvento = new com.toedter.calendar.JDateChooser();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -270,12 +273,23 @@ public class Todo extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable3);
 
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setText("Total a pagar: ");
 
+        jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(255, 0, 51));
 
@@ -355,7 +369,7 @@ public class Todo extends javax.swing.JFrame {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(CheckSi)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(FechaEvento, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                        .addComponent(fechaEvento, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                                         .addComponent(fechaPrueba, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,7 +406,7 @@ public class Todo extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
-                            .addComponent(FechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(fechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -470,42 +484,41 @@ public class Todo extends javax.swing.JFrame {
 
     private void productoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productoKeyTyped
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_productoKeyTyped
 
     private void productoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productoKeyReleased
         // TODO add your handling code here:
-        if(producto.getText().toString().equals("cesar")){
-         JOptionPane.showMessageDialog(null,"hola");
-        }else{
-             JOptionPane.showMessageDialog(null,"NO");
+        if (producto.getText().toString().equals("cesar")) {
+            JOptionPane.showMessageDialog(null, "hola");
+        } else {
+            JOptionPane.showMessageDialog(null, "NO");
         }
     }//GEN-LAST:event_productoKeyReleased
 
     private void CheckSiStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_CheckSiStateChanged
         // TODO add your handling code here:
-       
-       
+
+
     }//GEN-LAST:event_CheckSiStateChanged
 
     private void CheckSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckSiActionPerformed
         // TODO add your handling code here:
-         if(CheckSi.isSelected()){
-        MedidasRegistrar mr = new MedidasRegistrar();
-        mr.setVisible(true);
-    }else{
+        if (CheckSi.isSelected()) {
+            MedidasRegistrar mr = new MedidasRegistrar();
+            mr.setVisible(true);
+        } else {
             
             MedidasRegistrar mr = new MedidasRegistrar();
-             
-        mr.setVisible(false);
-      
-       
+            
+            mr.setVisible(false);
+            
         }
     }//GEN-LAST:event_CheckSiActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        int abono=Integer.parseInt(JOptionPane.showInputDialog(null, "inserte su abono"));
+        int abono = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresar abono"));
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -516,9 +529,28 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        VerMedidas vm= new VerMedidas();
+        VerMedidas vm = new VerMedidas();
         vm.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String claveP = producto.getText().toString();
+        if (claveP.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingresar clave de producto");
+        } else if (fechaPrueba.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Seleccionar la fecha de la prueba");
+        } else if (fechaEvento.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Seleccionar la fecha del evento");
+        } else {
+            //aqui entraria el codigo
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        producto.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -557,7 +589,7 @@ public class Todo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckSi;
-    private com.toedter.calendar.JDateChooser FechaEvento;
+    private com.toedter.calendar.JDateChooser fechaEvento;
     private com.toedter.calendar.JDateChooser fechaPrueba;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -5,7 +5,11 @@
  */
 package Pantallas;
 
+import java.awt.Event;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,6 +22,33 @@ public class ClienteAgregar extends javax.swing.JFrame {
      */
     public ClienteAgregar() {
         initComponents();
+        soloLetras(nombre);
+        soloNumeros(telefono);
+    }
+
+    public void soloLetras(JTextField a) {
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (Character.isDigit(c)) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+            }
+        });
+    }
+
+    public void soloNumeros(JTextField a) {
+        a.addKeyListener(new KeyAdapter(){
+         public void keyTyped(KeyEvent e){
+             char c=e.getKeyChar();
+             if(!Character.isDigit(c)){
+                 getToolkit().beep();
+                 e.consume();
+             }
+         }          
+        });
+
     }
 
     /**
@@ -56,6 +87,11 @@ public class ClienteAgregar extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,14 +151,22 @@ public class ClienteAgregar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String nombre1=nombre.getText().toString();
-        int telefono1= Integer.parseInt(telefono.getText().toString());
-        if(nombre1.equals("")){
-            JOptionPane.showMessageDialog(null,"Ingresar el nombre del cliente");
-        }else{
+
+        String nombre1 = nombre.getText().toString();
+        String tel = telefono.getText().toString();
+        if (nombre1.equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
+        } else {
+
             //aqui entaria el codigo
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        nombre.setText("");
+        telefono.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,7 +5,10 @@
  */
 package Pantallas;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,8 +21,33 @@ public class ClienteModificar extends javax.swing.JFrame {
      */
     public ClienteModificar() {
         initComponents();
+        soloLetras(nombre);
+        soloLetras(apaterno);
+        soloLetras(amaterno);
+        soloNumeros(telefono);
     }
-
+public void soloLetras(JTextField a){
+    a.addKeyListener(new KeyAdapter(){
+    public void keyTyped(KeyEvent e){
+        char c=e.getKeyChar();
+        if(Character.isDigit(c)){
+            getToolkit().beep();
+            e.consume();
+        }
+    }
+    });
+}
+public void soloNumeros(JTextField a){
+    a.addKeyListener(new KeyAdapter(){
+    public void keyTyped(KeyEvent e ){
+        char c=e.getKeyChar();
+        if(!Character.isDigit(c)){
+            getToolkit().beep();
+            e.consume();
+        }
+    }
+    });
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +94,11 @@ public class ClienteModificar extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,7 +171,7 @@ public class ClienteModificar extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String nombre1,apaterno1,amaterno1;
-        int telefono1= Integer.parseInt(telefono.getText().toString());
+       String telefono1= telefono.getText().toString();
         nombre1=nombre.getText().toString();
         apaterno1=apaterno.getText().toString();
         amaterno1=amaterno.getText().toString();
@@ -154,6 +187,11 @@ public class ClienteModificar extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+       this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

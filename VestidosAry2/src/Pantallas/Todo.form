@@ -450,7 +450,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="CheckSi" min="-2" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="FechaEvento" pref="130" max="32767" attributes="0"/>
+                                              <Component id="fechaEvento" pref="130" max="32767" attributes="0"/>
                                               <Component id="fechaPrueba" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -500,7 +500,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                  <Component id="FechaEvento" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fechaEvento" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jPanel5" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -565,7 +565,7 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="fechaPrueba">
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="FechaEvento">
+            <Component class="com.toedter.calendar.JDateChooser" name="fechaEvento">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane3">
               <AuxValues>
@@ -592,11 +592,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aceptar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
@@ -608,6 +614,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField2">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="14" style="0"/>
                 </Property>
