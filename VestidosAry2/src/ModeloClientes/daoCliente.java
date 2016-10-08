@@ -38,6 +38,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
+                bean.setTelefono(rs.getInt(5));
 
             }
 
@@ -63,6 +64,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
+                bean.setTelefono(rs.getInt(5));
 
             }
 
@@ -90,6 +92,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
+                bean.setTelefono(rs.getInt(5));
 
             }
 
@@ -113,5 +116,48 @@ public class daoCliente {
             JOptionPane.showMessageDialog(null, "Mensaje en daoCliente,  consultaTodos " + e);
         }
         return rs;
+    }
+    
+// ==================================== AGREGAR CLIENTES ==================================== 
+    public boolean registrarCliente(Clientes bean){
+        boolean ban=false;
+        String sql="insert into clientes (nombre,apaterno,amaterno,telefono,fecharegistro,usuario_id)"
+                + "values (?,?,?,?,GETDATE(),'"+bean.getUsuarios_id()+"')";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, bean.getNombre());
+            ps.setString(2, bean.getApaterno());
+            ps.setString(3, bean.getAmaterno());
+            ps.setInt(4, bean.getTelefono());
+            ban=ps.executeUpdate()==1;
+            ban=true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje en daoCliente,  registrarCliente " + e);
+            System.out.println("me " + e);
+        }
+        return ban;
+    }
+    
+// ==================================== UPDATE CLIENTES ==================================== 
+    public boolean modificar (Clientes bean){
+        boolean ban=false;
+        String sql="Update clientes set nombre=? , apaterno=?, amaterno=?, telefono=? where idclientes=?";
+        try {
+           con=conexion.getConnection();
+           ps=con.prepareStatement(sql);
+           ps.setString(1, bean.getNombre());
+           ps.setString(2,bean.getApaterno());
+           ps.setString(3, bean.getAmaterno());
+           ps.setInt(4, bean.getTelefono());
+           ps.setInt(5, bean.getIdClientes());
+          ban=ps.executeUpdate()==1;
+          ban=true;
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null,"Mensaje daoCliente modificar " + e);
+        }
+        return ban;
+        
     }
 }

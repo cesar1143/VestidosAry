@@ -30,8 +30,18 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno", "Materno"});
+        tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno", "Materno","Telefono"});
         initComponents();
+        setFilas();
+        
+      
+        //tableModel.addRow(new Object[]{"1", "cesar", "lopez"});
+        //this.setExtendedState(MAXIMIZED_BOTH);
+        soloLetras(TextNombre);
+    }
+   
+     
+    public void setFilas(){
         daoCliente dao= new daoCliente();
         rs=dao.consultaTodos();
         try {
@@ -41,23 +51,17 @@ public class Principal extends javax.swing.JFrame {
             String nombre1= rs.getString("nombre");
             String apaterno1=rs.getString("apaterno");
             String amaterno1=rs.getString("amaterno");
-            System.out.println("nombre " + nombre1);
-            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1});
+            int telefono1=rs.getInt("telefono");
+           
+            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1,telefono1});
             
         }
+      
             
         } catch (Exception e) {
         }
         
-        
-      
-        //tableModel.addRow(new Object[]{"1", "cesar", "lopez"});
-        //this.setExtendedState(MAXIMIZED_BOTH);
-        soloLetras(TextNombre);
     }
-   
-     
-    
             
         
     
@@ -110,7 +114,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -253,8 +257,27 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Seleccionar la fila");
+        }else{
+         int fila =jTable1.getSelectedRow();
+         Object nombre=jTable1.getValueAt(fila, 1);
+         Object apaterno=jTable1.getValueAt(fila, 2);
+         Object amaterno=jTable1.getValueAt(fila, 3);
+         Object telefono=jTable1.getValueAt(fila, 4);
+         Object id=jTable1.getValueAt(fila, 0);
+         ;
+         
+         
         ClienteModificar cm = new ClienteModificar();
+        ClienteModificar.nombre.setText(nombre.toString());
+         ClienteModificar.apaterno.setText(apaterno.toString());
+          ClienteModificar.amaterno.setText(amaterno.toString());
+           ClienteModificar.telefono.setText(telefono.toString());
+            ClienteModificar.id=Integer.parseInt(id.toString());
+        
         cm.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void TextNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextNombreActionPerformed
@@ -291,7 +314,7 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null) {
                     vaciarTabla();
-                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno(),bean.getTelefono()});
                 } else {
                     JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
                 }
@@ -308,7 +331,7 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null && bean.getApaterno() != null) {
                     vaciarTabla();
-                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno(),bean.getTelefono()});
                 } else {
                     JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
                 }
@@ -326,7 +349,7 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null && bean.getApaterno() != null) {
                     vaciarTabla();
-                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno()});
+                    tableModel.addRow(new Object[]{bean.getIdClientes(), bean.getNombre(), bean.getApaterno(), bean.getAmaterno(),bean.getTelefono()});
                 } else {
                     JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
                 }
@@ -349,8 +372,9 @@ public class Principal extends javax.swing.JFrame {
             String nombre1= rs.getString("nombre");
             String apaterno1=rs.getString("apaterno");
             String amaterno1=rs.getString("amaterno");
+            int telefono1=rs.getInt("telefono");
             System.out.println("nombre " + nombre1);
-            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1});
+            tableModel.addRow(new Object[]{id,nombre1,apaterno1,amaterno1,telefono1});
             
         }
             

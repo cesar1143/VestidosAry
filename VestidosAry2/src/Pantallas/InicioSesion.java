@@ -5,6 +5,7 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
 import ModeloInicioSesion.Usuarios;
 import ModeloInicioSesion.daoUsuarios;
 import Validaciones.ValicacionesDeTextField;
@@ -147,8 +148,12 @@ public class InicioSesion extends javax.swing.JFrame {
                 if (bean.getContra().equals(contraseña)) {
                     //entra al sistema
                     Principal p = new Principal();
+                   
                     p.setVisible(true);
+                    
                     this.setVisible(false);
+                    //clientes
+                     Clientes.usuarios_id=bean.getIdusuarios();
                 }else{
                     JOptionPane.showMessageDialog(null, "Contraseña incorrecta","ERROR",0);
                 }

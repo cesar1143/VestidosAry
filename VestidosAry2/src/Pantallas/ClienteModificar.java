@@ -5,6 +5,8 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
@@ -19,6 +21,7 @@ public class ClienteModificar extends javax.swing.JFrame {
     /**
      * Creates new form ClienteModificar
      */
+    public static int id;
     public ClienteModificar() {
         initComponents();
         soloLetras(nombre);
@@ -170,6 +173,7 @@ public void soloNumeros(JTextField a){
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         String nombre1,apaterno1,amaterno1;
        String telefono1= telefono.getText().toString();
         nombre1=nombre.getText().toString();
@@ -183,6 +187,26 @@ public void soloNumeros(JTextField a){
              JOptionPane.showMessageDialog(null,"Ingrese el apellido materno del cliente");
         }else{
             //aqui entraria el codigo
+            Clientes bean = new Clientes();
+            daoCliente dao= new daoCliente();
+            bean.setNombre(nombre1);
+            bean.setApaterno(apaterno1);
+            bean.setAmaterno(amaterno1);
+            bean.setTelefono(Integer.parseInt(telefono1));
+            System.out.println("id cliente " + id);
+            bean.setIdClientes(id);
+            boolean ban=dao.modificar(bean);
+            if(ban){
+                JOptionPane.showMessageDialog(null,"El cliente se modifico correctamente");
+                nombre.setText("");
+                apaterno.setText("");
+                amaterno.setText("");
+                telefono.setText("");
+                this.setVisible(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null,"Error al modificar el cliente","ERROR",0);
+            }
         }
         
         
@@ -229,8 +253,8 @@ public void soloNumeros(JTextField a){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField amaterno;
-    private javax.swing.JTextField apaterno;
+    public static javax.swing.JTextField amaterno;
+    public static javax.swing.JTextField apaterno;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -238,7 +262,7 @@ public void soloNumeros(JTextField a){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField nombre;
-    private javax.swing.JTextField telefono;
+    public static javax.swing.JTextField nombre;
+    public static javax.swing.JTextField telefono;
     // End of variables declaration//GEN-END:variables
 }

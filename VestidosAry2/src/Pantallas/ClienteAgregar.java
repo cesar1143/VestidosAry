@@ -5,9 +5,12 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
 import java.awt.Event;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -39,14 +42,14 @@ public class ClienteAgregar extends javax.swing.JFrame {
     }
 
     public void soloNumeros(JTextField a) {
-        a.addKeyListener(new KeyAdapter(){
-         public void keyTyped(KeyEvent e){
-             char c=e.getKeyChar();
-             if(!Character.isDigit(c)){
-                 getToolkit().beep();
-                 e.consume();
-             }
-         }          
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+            }
         });
 
     }
@@ -153,12 +156,38 @@ public class ClienteAgregar extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         String nombre1 = nombre.getText().toString();
+        String array[] = nombre1.split(" ");
+        int tamaño = array.length;
+        System.out.println("tamaño " + tamaño);
         String tel = telefono.getText().toString();
         if (nombre1.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
         } else {
-
             //aqui entaria el codigo
+            Clientes bean = new Clientes();
+            daoCliente dao = new daoCliente();
+            System.out.println("ar0 " + array[0]);
+            bean.setNombre(array[0]);
+            System.out.println("ar1 " + array[1]);
+            bean.setApaterno(array[1]);
+            System.out.println("ar2 " + array[2]);
+            bean.setAmaterno(array[2]);
+            bean.setTelefono(Integer.parseInt(tel));
+            boolean ban = dao.registrarCliente(bean);
+            if (ban) {
+                JOptionPane.showMessageDialog(null, "El cliente se registro correctamente");
+               
+                
+
+                nombre.setText("");
+                telefono.setText("");
+                this.setVisible(false);
+               
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro al registrar al cliente", "ERROR", 0);
+            }
+            
+           
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

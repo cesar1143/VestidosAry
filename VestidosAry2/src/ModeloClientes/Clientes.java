@@ -13,12 +13,21 @@ import java.util.Date;
  */
 public class Clientes {
 
-    private int idClientes;
+    private int idClientes,telefono;
     private String nombre, apaterno, amaterno;
-    private int usuarios_id;
+    public static int usuarios_id;
     private Date fechaRegistroDate;
     private String fechaRegistro;
 
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    
     public int getIdClientes() {
         return idClientes;
     }
