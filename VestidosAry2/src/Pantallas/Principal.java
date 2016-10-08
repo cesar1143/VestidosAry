@@ -245,7 +245,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
         // TODO add your handling code here:
+        int fila=jTable1.getSelectedRow();
+        Object nombre=jTable1.getValueAt(fila,1);
+        Object apaterno=jTable1.getValueAt(fila,2);
+        Object amaterno=jTable1.getValueAt(fila,3);
+        String nomCompleto=nombre.toString() + " " + apaterno.toString() + " " + amaterno.toString();
         Todo t = new Todo();
+        Todo.jLabel2.setText(nomCompleto);
         t.setVisible(true);
     }//GEN-LAST:event_jTable1MousePressed
 

@@ -523,7 +523,7 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        ProductoRegistrar pr = new ProductoRegistrar();
+        RegistroProducto pr = new  RegistroProducto();
         pr.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -602,7 +602,7 @@ public class Todo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
+    public static javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
