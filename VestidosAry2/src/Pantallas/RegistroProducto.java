@@ -83,7 +83,7 @@ public class RegistroProducto extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         codigo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

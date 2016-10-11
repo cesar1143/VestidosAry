@@ -5,10 +5,14 @@
  */
 package Pantallas;
 
+import ModeloProductos.DaoProductos;
+import ModeloProductos.Productos;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,10 +23,20 @@ public class Todo extends javax.swing.JFrame {
     /**
      * Creates new form Todo
      */
+    DefaultTableModel tablaVentas;
+    int totalPagar = 0;
+
     public Todo() {
+        tablaVentas = new DefaultTableModel(null, getColumnas());
         initComponents();
+
         this.setExtendedState(MAXIMIZED_BOTH);
-        
+
+    }
+
+    public String[] getColumnas() {
+        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo"};
+        return columnas;
     }
 
     /**
@@ -259,17 +273,7 @@ public class Todo extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable3.setModel(tablaVentas);
         jScrollPane3.setViewportView(jTable3);
 
         jButton1.setText("Aceptar");
@@ -296,8 +300,18 @@ public class Todo extends javax.swing.JFrame {
         jButton3.setText("Registrar venta");
 
         jButton4.setText("Cancelar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Quitar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 204));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Registro Producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
@@ -489,10 +503,18 @@ public class Todo extends javax.swing.JFrame {
 
     private void productoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productoKeyReleased
         // TODO add your handling code here:
-        if (producto.getText().toString().equals("cesar")) {
-            JOptionPane.showMessageDialog(null, "hola");
-        } else {
-            JOptionPane.showMessageDialog(null, "NO");
+        DaoProductos dao = new DaoProductos();
+        String clave = producto.getText().toString();
+        Productos bean = dao.consultaExiste(clave);
+        System.out.println("bean +  " + bean.getClave());
+        try {
+            if (bean.getClave().equals(clave)) {
+                JOptionPane.showMessageDialog(null, "\n Precio: " + bean.getPrecio(), "Acerca del producto", -1);
+            } else if (bean.getClave().equals(null)) {
+                JOptionPane.showMessageDialog(null, "No existe el producto ");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "El producto no esta registrado");
         }
     }//GEN-LAST:event_productoKeyReleased
 
@@ -508,11 +530,11 @@ public class Todo extends javax.swing.JFrame {
             MedidasRegistrar mr = new MedidasRegistrar();
             mr.setVisible(true);
         } else {
-            
+
             MedidasRegistrar mr = new MedidasRegistrar();
-            
+
             mr.setVisible(false);
-            
+
         }
     }//GEN-LAST:event_CheckSiActionPerformed
 
@@ -523,7 +545,7 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        RegistroProducto pr = new  RegistroProducto();
+        RegistroProducto pr = new RegistroProducto();
         pr.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -544,13 +566,61 @@ public class Todo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccionar la fecha del evento");
         } else {
             //aqui entraria el codigo
+            int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
+            int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
+            int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
+            String FechaP = año + "-" + mes + "-" + dia;
+            int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
+            int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
+            int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
+            String fechaEven = añoE + "-" + mesE + "-" + diaE;
+            // consulta para obtener datos del producto
+            DaoProductos dao = new DaoProductos();
+            String clave = producto.getText().toString();
+            Productos bean = dao.consultaExiste(clave);
+            tablaVentas.addRow(new Object[]{bean.getIdProductos(), bean.getClave(), bean.getPrecio(), bean.getTipo()});
+
+            totalPagar = totalPagar + bean.getPrecio();
+            jTextField2.setText(String.valueOf(totalPagar));
+            //limpia campo de producto
+            producto.setText("");        // TODO add your handling code here:
+            fechaPrueba.setCalendar(null);
+            fechaEvento.setCalendar(null);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         producto.setText("");        // TODO add your handling code here:
+        fechaPrueba.setCalendar(null);
+        fechaEvento.setCalendar(null);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if (jTable3.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccionar la fila");
+        } else {
+            int fila = jTable3.getSelectedRow();
+            Object valorPrecio = jTable3.getValueAt(fila, 2);
+            tablaVentas.removeRow(fila);
+            totalPagar = totalPagar - Integer.parseInt(valorPrecio.toString());
+            jTextField2.setText(String.valueOf(totalPagar));
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+public void limpiarTabla(){
+    for(int i=0;i<jTable3.getRowCount();i++){
+        tablaVentas.removeRow(i);
+        i=i-1;
+    }
+}
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        limpiarTabla();
+        jTextField2.setText("0");
+        totalPagar=0;
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

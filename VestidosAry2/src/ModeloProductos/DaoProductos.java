@@ -20,6 +20,7 @@ public class DaoProductos {
     Connection con=null;
     PreparedStatement ps ;
     ResultSet rs;
+     Productos bean = new Productos();
     public boolean registrarProducto(Productos bean){
         boolean ban=false;
         String sql="insert into productos (clave,precio,color,tipo,fecharegistro,foto,usuario_id) values(?,?,?,?,GETDATE(),?,'"+bean.getUsuario_id()+"')";
@@ -40,6 +41,27 @@ public class DaoProductos {
         }
         return ban;
         
+    }
+//Consultar si el producto existe
+    public Productos consultaExiste(String clave){
+        
+        String sql="select * from productos where clave=?";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, clave);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                bean.setIdProductos(rs.getInt(1));
+                bean.setClave(rs.getString(2));
+                bean.setPrecio(rs.getInt(3));
+                bean.setColor(rs.getString(4));
+                bean.setTipo(rs.getString(5));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje DaoProductos consultaExiste " + e);
+        }
+       return bean;
     }
     
 }
