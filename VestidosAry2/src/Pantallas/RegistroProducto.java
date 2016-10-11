@@ -5,10 +5,17 @@
  */
 package Pantallas;
 
+import ModeloProductos.DaoProductos;
+import ModeloProductos.Productos;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -19,34 +26,40 @@ public class RegistroProducto extends javax.swing.JFrame {
     /**
      * Creates new form RegistroProducto
      */
+    Image foto;
+    File file;
+
     public RegistroProducto() {
         initComponents();
-     soloLetras(color);
+        soloLetras(color);
         soloNumeros(precio);
     }
-public void soloLetras(JTextField a){
-    a.addKeyListener(new KeyAdapter(){
-    public void keyTyped(KeyEvent e){
-        char c= e.getKeyChar();
-        if(Character.isDigit(c)){
-            getToolkit().beep();
-            e.consume();
-        }
-        
+
+    public void soloLetras(JTextField a) {
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (Character.isDigit(c)) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+
+            }
+        });
     }
-    });
-}
-public void soloNumeros(JTextField a ){
-    a.addKeyListener(new KeyAdapter(){
-    public void keyTyped(KeyEvent e){
-        char c= e.getKeyChar();
-        if(!Character.isDigit(c)){
-            getToolkit().beep();
-            e.consume();
-        }
+
+    public void soloNumeros(JTextField a) {
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    getToolkit().beep();
+                    e.consume();
+                }
+            }
+        });
     }
-    });
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,10 +100,15 @@ public void soloNumeros(JTextField a ){
         });
 
         jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Novia", "IVaños", "Presentacion", "Trajes" }));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Tipo: ");
@@ -112,6 +130,12 @@ public void soloNumeros(JTextField a ){
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton2)
+                        .addGap(60, 60, 60)
+                        .addComponent(jButton3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,21 +154,14 @@ public void soloNumeros(JTextField a ){
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButton2)
-                        .addGap(60, 60, 60)
-                        .addComponent(jButton3)))
-                .addGap(20, 20, 20))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -160,7 +177,8 @@ public void soloNumeros(JTextField a ){
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -208,6 +226,25 @@ public void soloNumeros(JTextField a ){
             JOptionPane.showMessageDialog(null, "Selecciona el tipo");
         } else {
             //entraria el codigo
+            Productos bean = new Productos();
+            bean.setClave(codigo1);
+            bean.setPrecio(Integer.parseInt(precio1));
+            bean.setColor(color1);
+            bean.setTipo(tipo1);
+            bean.setFotoStrin(String.valueOf(file));
+            DaoProductos dao = new DaoProductos();
+            boolean ban = dao.registrarProducto(bean);
+            if (ban) {
+                JOptionPane.showMessageDialog(null, "El producto se registro correctamente");
+                codigo.setText("");
+                precio.setText("");
+                color.setText("");
+                jLabel2.setIcon(null);
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro al registrar el Producto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -216,8 +253,26 @@ public void soloNumeros(JTextField a ){
         codigo.setText("");
         precio.setText("");
         color.setText("");
-
+ jLabel2.setIcon(null);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Formatos de archivos JPEG(*.JPG ;*.JEPG;*.PNG)","jpg","jpeg","png");
+        JFileChooser archivo = new JFileChooser();
+        archivo.addChoosableFileFilter(filtro);
+        archivo.setDialogTitle("Abrir archivo");
+        int ventana = archivo.showOpenDialog(null);
+        if (ventana == JFileChooser.APPROVE_OPTION) {
+            file = archivo.getSelectedFile();
+            foto = getToolkit().getImage(String.valueOf(file));
+            foto = foto.getScaledInstance(170, 130, Image.SCALE_DEFAULT);
+            jLabel2.setIcon(new ImageIcon(foto));
+
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
