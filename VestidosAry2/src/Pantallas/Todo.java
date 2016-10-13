@@ -5,6 +5,7 @@
  */
 package Pantallas;
 
+import ModeloMedidas.Medidas;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
 import java.awt.event.KeyAdapter;
@@ -25,6 +26,11 @@ public class Todo extends javax.swing.JFrame {
      */
     DefaultTableModel tablaVentas;
     int totalPagar = 0;
+
+    int con = 0;
+    int conFechas = 0;
+    double arre[][] = new double[5][9];
+    String arreFechas[][] = new String[5][3];
 
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
@@ -298,6 +304,11 @@ public class Todo extends javax.swing.JFrame {
         jTextField2.setForeground(new java.awt.Color(255, 0, 51));
 
         jButton3.setText("Registrar venta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Cancelar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -557,35 +568,129 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+
         String claveP = producto.getText().toString();
         if (claveP.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ingresar clave de producto");
-        } else if (fechaPrueba.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Seleccionar la fecha de la prueba");
-        } else if (fechaEvento.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "Seleccionar la fecha del evento");
+
         } else {
             //aqui entraria el codigo
-            int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
-            int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
-            int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
-            String FechaP = año + "-" + mes + "-" + dia;
-            int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
-            int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
-            int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
-            String fechaEven = añoE + "-" + mesE + "-" + diaE;
+           
             // consulta para obtener datos del producto
             DaoProductos dao = new DaoProductos();
             String clave = producto.getText().toString();
             Productos bean = dao.consultaExiste(clave);
-            tablaVentas.addRow(new Object[]{bean.getIdProductos(), bean.getClave(), bean.getPrecio(), bean.getTipo()});
 
-            totalPagar = totalPagar + bean.getPrecio();
-            jTextField2.setText(String.valueOf(totalPagar));
-            //limpia campo de producto
-            producto.setText("");        // TODO add your handling code here:
-            fechaPrueba.setCalendar(null);
-            fechaEvento.setCalendar(null);
+//Ver si el check medidas esta o no seleccionado
+            if (CheckSi.isSelected()) {
+                if (fechaPrueba.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Seleccionar la fecha de la prueba");
+                } else if (fechaEvento.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Seleccionar la fecha del evento");
+                } else {
+                    tablaVentas.addRow(new Object[]{bean.getIdProductos(), bean.getClave(), bean.getPrecio(), bean.getTipo()});
+                    totalPagar = totalPagar + bean.getPrecio();
+                    jTextField2.setText(String.valueOf(totalPagar));
+                    //Obtenemos las medidas
+                    double talle1 = Double.parseDouble(MedidasRegistrar.talle.getText().toString());
+                    double sise1 = Double.parseDouble(MedidasRegistrar.sisa.getText().toString());
+                    double hombros1 = Double.parseDouble(MedidasRegistrar.hombros.getText().toString());
+                    double busto1 = Double.parseDouble(MedidasRegistrar.busto.getText().toString());
+                    double cintura1 = Double.parseDouble(MedidasRegistrar.cintura.getText().toString());
+                    double cadera1 = Double.parseDouble(MedidasRegistrar.cadera.getText().toString());
+                    double largoFalda1 = Double.parseDouble(MedidasRegistrar.largoFalda.getText().toString());
+                    double anchoPuño1 = Double.parseDouble(MedidasRegistrar.anchoPuño.getText().toString());
+                    int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
+                    int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
+                    String fechaP = año + "-" + mes + "-" + dia;
+                    int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
+                    int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
+                    String fechaEven = añoE + "-" + mesE + "-" + diaE;
+                    System.out.println("si estoy seleccionado");
+                    arre[con][0] = Double.parseDouble(claveP);
+                    arre[con][1] = talle1;
+                    arre[con][2] = sise1;
+                    arre[con][3] = hombros1;
+                    arre[con][4] = busto1;
+                    arre[con][5] = cintura1;
+                    arre[con][6] = cadera1;
+                    arre[con][7] = largoFalda1;
+                    arre[con][8] = anchoPuño1;
+                    arreFechas[conFechas][0] = claveP;
+                    arreFechas[conFechas][1] = fechaP;
+                    arreFechas[conFechas][2] = fechaEven;
+                    conFechas++;
+                    con++;
+                    for (int i = 0; i < arreFechas.length; i++) {
+
+                        System.out.println("========= Fechas  chek seleccionado ==============");
+                        System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
+                        System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
+                        System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
+                        System.out.println("========== termina impresion fechas ============");
+
+                    }
+                    for (int j = 0; j < arre.length; j++) {
+
+                        System.out.println("======= imprimir medidas ================");
+
+                        System.out.println("idvestido " + "posicion " + j + 0 + arre[j][0]);
+                        System.out.println("talle " + "posicion " + j + 1 + arre[j][1]);
+                        System.out.println("sise " + "posicion " + j + 2 + arre[j][2]);
+                        System.out.println("hombros " + "posicion " + j + 3 + arre[j][3]);
+                        System.out.println("busto " + "posicion " + j + 4 + arre[j][4]);
+                        System.out.println("cintura " + "posicion " + j + 5 + arre[j][5]);
+
+                        System.out.println("cadera " + "posicion " + j + 6 + arre[j][6]);
+                        System.out.println("largoFalda " + "posicion " + j + 7 + arre[j][7]);
+                        System.out.println("ancho puño" + "posicion " + j + 8 + arre[j][8]);
+
+                    }
+
+                    //limpia campo de producto
+                    producto.setText("");        // TODO add your handling code here:
+                    fechaPrueba.setCalendar(null);
+                    fechaEvento.setCalendar(null);
+                }//cierra el if de fechas
+            } else {//si no esta seleccionad check medidas
+                 try {
+                     System.out.println(" entro en el checl no seleccionado");
+                int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
+                int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
+                int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
+                String fechaP = año + "-" + mes + "-" + dia;
+                int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
+                int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
+                int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
+                String fechaEven = añoE + "-" + mesE + "-" + diaE;
+                arreFechas[conFechas][0] = claveP;
+                arreFechas[conFechas][1] = fechaP;
+                arreFechas[conFechas][2] = fechaEven;
+                System.out.println("esto tengo en el arreglo " + arreFechas[conFechas][0]);
+                conFechas++;
+                for (int i = 0; i < arreFechas.length; i++) {
+
+                    System.out.println("========= Fechas sin chek seleccionado ==============");
+                    System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
+                    System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
+                    System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
+                    System.out.println("========== termina impresion fechas ============");
+
+                }
+            } catch (Exception e) {
+                System.out.println("llenado de fecha " + e);
+            }
+                tablaVentas.addRow(new Object[]{bean.getIdProductos(), bean.getClave(), bean.getPrecio(), bean.getTipo()});
+                totalPagar = totalPagar + bean.getPrecio();
+                jTextField2.setText(String.valueOf(totalPagar));
+                //limpia campo de producto
+                producto.setText("");        // TODO add your handling code here:
+                fechaPrueba.setCalendar(null);
+                fechaEvento.setCalendar(null);
+            }
+
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -609,18 +714,29 @@ public class Todo extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton5ActionPerformed
-public void limpiarTabla(){
-    for(int i=0;i<jTable3.getRowCount();i++){
-        tablaVentas.removeRow(i);
-        i=i-1;
+    public void limpiarTabla() {
+        for (int i = 0; i < jTable3.getRowCount(); i++) {
+            tablaVentas.removeRow(i);
+            i = i - 1;
+        }
     }
-}
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         limpiarTabla();
         jTextField2.setText("0");
-        totalPagar=0;
+        totalPagar = 0;
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("filas " + jTable3.getRowCount());
+
+        for (int j = 0; j < jTable3.getRowCount(); j++) {
+            System.out.println("valores " + jTable3.getValueAt(j, 0));
+
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
