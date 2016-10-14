@@ -29,7 +29,7 @@ public class Todo extends javax.swing.JFrame {
 
     int con = 0;
     int conFechas = 0;
-    double arre[][] = new double[5][9];
+    double arreMedidas[][] = new double[5][9];
     String arreFechas[][] = new String[5][3];
 
     public Todo() {
@@ -575,14 +575,13 @@ public class Todo extends javax.swing.JFrame {
 
         } else {
             //aqui entraria el codigo
-           
+
             // consulta para obtener datos del producto
             DaoProductos dao = new DaoProductos();
             String clave = producto.getText().toString();
             Productos bean = dao.consultaExiste(clave);
 
-//Ver si el check medidas esta o no seleccionado
-            if (CheckSi.isSelected()) {
+            if (CheckSi.isSelected()) {//Ver si el check medidas esta o no seleccionado
                 if (fechaPrueba.getDate() == null) {
                     JOptionPane.showMessageDialog(null, "Seleccionar la fecha de la prueba");
                 } else if (fechaEvento.getDate() == null) {
@@ -609,20 +608,21 @@ public class Todo extends javax.swing.JFrame {
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
                     String fechaEven = añoE + "-" + mesE + "-" + diaE;
                     System.out.println("si estoy seleccionado");
-                    arre[con][0] = Double.parseDouble(claveP);
-                    arre[con][1] = talle1;
-                    arre[con][2] = sise1;
-                    arre[con][3] = hombros1;
-                    arre[con][4] = busto1;
-                    arre[con][5] = cintura1;
-                    arre[con][6] = cadera1;
-                    arre[con][7] = largoFalda1;
-                    arre[con][8] = anchoPuño1;
+                    arreMedidas[con][0] = Double.parseDouble(claveP);
+                    arreMedidas[con][1] = talle1;
+                    arreMedidas[con][2] = sise1;
+                   arreMedidas[con][3] = hombros1;
+                    arreMedidas[con][4] = busto1;
+                    arreMedidas[con][5] = cintura1;
+                    arreMedidas[con][6] = cadera1;
+                    arreMedidas[con][7] = largoFalda1;
+                    arreMedidas[con][8] = anchoPuño1;
                     arreFechas[conFechas][0] = claveP;
                     arreFechas[conFechas][1] = fechaP;
                     arreFechas[conFechas][2] = fechaEven;
                     conFechas++;
                     con++;
+                    /*
                     for (int i = 0; i < arreFechas.length; i++) {
 
                         System.out.println("========= Fechas  chek seleccionado ==============");
@@ -648,40 +648,56 @@ public class Todo extends javax.swing.JFrame {
                         System.out.println("ancho puño" + "posicion " + j + 8 + arre[j][8]);
 
                     }
-
+*/
                     //limpia campo de producto
                     producto.setText("");        // TODO add your handling code here:
                     fechaPrueba.setCalendar(null);
                     fechaEvento.setCalendar(null);
+                    //limpiar campos de Medidas
+                    MedidasRegistrar.talle.setText("");
+                    MedidasRegistrar.sisa.setText("");
+                    MedidasRegistrar.hombros.setText("");
+                    MedidasRegistrar.busto.setText("");
+                    MedidasRegistrar.cintura.setText("");
+                    MedidasRegistrar.cadera.setText("");
+                    MedidasRegistrar.largoFalda.setText("");
+                    MedidasRegistrar.anchoPuño.setText("");
+                    CheckSi.setSelected(false);
+                    MedidasRegistrar m = new MedidasRegistrar();
+                   m.setVisible(false);
+                   
+                   
                 }//cierra el if de fechas
             } else {//si no esta seleccionad check medidas
-                 try {
-                     System.out.println(" entro en el checl no seleccionado");
-                int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
-                int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
-                int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
-                String fechaP = año + "-" + mes + "-" + dia;
-                int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
-                int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
-                int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
-                String fechaEven = añoE + "-" + mesE + "-" + diaE;
-                arreFechas[conFechas][0] = claveP;
-                arreFechas[conFechas][1] = fechaP;
-                arreFechas[conFechas][2] = fechaEven;
-                System.out.println("esto tengo en el arreglo " + arreFechas[conFechas][0]);
-                conFechas++;
-                for (int i = 0; i < arreFechas.length; i++) {
+                try {
+                    System.out.println(" entro en el checl no seleccionado");
+                    int dia = fechaPrueba.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
+                    int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
+                    String fechaP = año + "-" + mes + "-" + dia;
+                    int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
+                    int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
+                    String fechaEven = añoE + "-" + mesE + "-" + diaE;
+                    arreFechas[conFechas][0] = claveP;
+                    arreFechas[conFechas][1] = fechaP;
+                    arreFechas[conFechas][2] = fechaEven;
+                   
+                    conFechas++;
+                    /*
+                    for (int i = 0; i < arreFechas.length; i++) {
 
-                    System.out.println("========= Fechas sin chek seleccionado ==============");
-                    System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
-                    System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
-                    System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
-                    System.out.println("========== termina impresion fechas ============");
+                        System.out.println("========= Fechas sin chek seleccionado ==============");
+                        System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
+                        System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
+                        System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
+                        System.out.println("========== termina impresion fechas ============");
 
+                    }
+                    */
+                } catch (Exception e) {
+                    System.out.println("No hay fechas " + e);
                 }
-            } catch (Exception e) {
-                System.out.println("llenado de fecha " + e);
-            }
                 tablaVentas.addRow(new Object[]{bean.getIdProductos(), bean.getClave(), bean.getPrecio(), bean.getTipo()});
                 totalPagar = totalPagar + bean.getPrecio();
                 jTextField2.setText(String.valueOf(totalPagar));
@@ -732,7 +748,21 @@ public class Todo extends javax.swing.JFrame {
         System.out.println("filas " + jTable3.getRowCount());
 
         for (int j = 0; j < jTable3.getRowCount(); j++) {
-            System.out.println("valores " + jTable3.getValueAt(j, 0));
+            System.out.println("valores " + jTable3.getValueAt(j, 1));
+            Object idProducto=jTable3.getValueAt(j, 1);
+            for (int i = 0;  i< arreMedidas.length; i++) {
+                System.out.println("idProducto " + idProducto);
+                System.out.println("id arreglo " + (int)((arreMedidas[i][0])));
+                if(Integer.parseInt(idProducto.toString())== (int)((arreMedidas[i][0]))){
+                    System.out.println(" si existe este id en medidas y en la tabla");
+                    System.out.println("idTabla " + idProducto);
+                    System.out.println("id arreglo medidas " + (int)arreMedidas[i][0] + " posicion " + i + " " + 0);
+                    
+                }else{
+                    System.out.println(" no encontro el id en el arreglo");
+                }
+                
+            }
 
         }
 
