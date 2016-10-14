@@ -8,6 +8,9 @@ package Pantallas;
 import ModeloMedidas.Medidas;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
+import ModeloProductosApartados.DaoProductosApartados;
+import ModeloProductosApartados.Operaciones;
+import ModeloProductosApartados.ProductosApartados;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
@@ -31,6 +34,7 @@ public class Todo extends javax.swing.JFrame {
     int conFechas = 0;
     double arreMedidas[][] = new double[5][9];
     String arreFechas[][] = new String[5][3];
+    public static int idCliente;
 
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
@@ -488,20 +492,24 @@ public class Todo extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(437, Short.MAX_VALUE))
+                .addContainerGap(415, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 65, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -608,47 +616,47 @@ public class Todo extends javax.swing.JFrame {
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
                     String fechaEven = añoE + "-" + mesE + "-" + diaE;
                     System.out.println("si estoy seleccionado");
-                    arreMedidas[con][0] = Double.parseDouble(claveP);
+                    arreMedidas[con][0] = bean.getIdProductos();
                     arreMedidas[con][1] = talle1;
                     arreMedidas[con][2] = sise1;
-                   arreMedidas[con][3] = hombros1;
+                    arreMedidas[con][3] = hombros1;
                     arreMedidas[con][4] = busto1;
                     arreMedidas[con][5] = cintura1;
                     arreMedidas[con][6] = cadera1;
                     arreMedidas[con][7] = largoFalda1;
                     arreMedidas[con][8] = anchoPuño1;
-                    arreFechas[conFechas][0] = claveP;
+                    arreFechas[conFechas][0] = String.valueOf(bean.getIdProductos());
                     arreFechas[conFechas][1] = fechaP;
                     arreFechas[conFechas][2] = fechaEven;
                     conFechas++;
                     con++;
                     /*
-                    for (int i = 0; i < arreFechas.length; i++) {
+                     for (int i = 0; i < arreFechas.length; i++) {
 
-                        System.out.println("========= Fechas  chek seleccionado ==============");
-                        System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
-                        System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
-                        System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
-                        System.out.println("========== termina impresion fechas ============");
+                     System.out.println("========= Fechas  chek seleccionado ==============");
+                     System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
+                     System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
+                     System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
+                     System.out.println("========== termina impresion fechas ============");
 
-                    }
-                    for (int j = 0; j < arre.length; j++) {
+                     }
+                     for (int j = 0; j < arre.length; j++) {
 
-                        System.out.println("======= imprimir medidas ================");
+                     System.out.println("======= imprimir medidas ================");
 
-                        System.out.println("idvestido " + "posicion " + j + 0 + arre[j][0]);
-                        System.out.println("talle " + "posicion " + j + 1 + arre[j][1]);
-                        System.out.println("sise " + "posicion " + j + 2 + arre[j][2]);
-                        System.out.println("hombros " + "posicion " + j + 3 + arre[j][3]);
-                        System.out.println("busto " + "posicion " + j + 4 + arre[j][4]);
-                        System.out.println("cintura " + "posicion " + j + 5 + arre[j][5]);
+                     System.out.println("idvestido " + "posicion " + j + 0 + arre[j][0]);
+                     System.out.println("talle " + "posicion " + j + 1 + arre[j][1]);
+                     System.out.println("sise " + "posicion " + j + 2 + arre[j][2]);
+                     System.out.println("hombros " + "posicion " + j + 3 + arre[j][3]);
+                     System.out.println("busto " + "posicion " + j + 4 + arre[j][4]);
+                     System.out.println("cintura " + "posicion " + j + 5 + arre[j][5]);
 
-                        System.out.println("cadera " + "posicion " + j + 6 + arre[j][6]);
-                        System.out.println("largoFalda " + "posicion " + j + 7 + arre[j][7]);
-                        System.out.println("ancho puño" + "posicion " + j + 8 + arre[j][8]);
+                     System.out.println("cadera " + "posicion " + j + 6 + arre[j][6]);
+                     System.out.println("largoFalda " + "posicion " + j + 7 + arre[j][7]);
+                     System.out.println("ancho puño" + "posicion " + j + 8 + arre[j][8]);
 
-                    }
-*/
+                     }
+                     */
                     //limpia campo de producto
                     producto.setText("");        // TODO add your handling code here:
                     fechaPrueba.setCalendar(null);
@@ -664,9 +672,8 @@ public class Todo extends javax.swing.JFrame {
                     MedidasRegistrar.anchoPuño.setText("");
                     CheckSi.setSelected(false);
                     MedidasRegistrar m = new MedidasRegistrar();
-                   m.setVisible(false);
-                   
-                   
+                    m.setVisible(false);
+
                 }//cierra el if de fechas
             } else {//si no esta seleccionad check medidas
                 try {
@@ -679,22 +686,22 @@ public class Todo extends javax.swing.JFrame {
                     int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
                     String fechaEven = añoE + "-" + mesE + "-" + diaE;
-                    arreFechas[conFechas][0] = claveP;
+                    arreFechas[conFechas][0] = String.valueOf(bean.getIdProductos());
                     arreFechas[conFechas][1] = fechaP;
                     arreFechas[conFechas][2] = fechaEven;
-                   
+
                     conFechas++;
                     /*
-                    for (int i = 0; i < arreFechas.length; i++) {
+                     for (int i = 0; i < arreFechas.length; i++) {
 
-                        System.out.println("========= Fechas sin chek seleccionado ==============");
-                        System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
-                        System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
-                        System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
-                        System.out.println("========== termina impresion fechas ============");
+                     System.out.println("========= Fechas sin chek seleccionado ==============");
+                     System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
+                     System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
+                     System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
+                     System.out.println("========== termina impresion fechas ============");
 
-                    }
-                    */
+                     }
+                     */
                 } catch (Exception e) {
                     System.out.println("No hay fechas " + e);
                 }
@@ -745,24 +752,27 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        System.out.println("filas " + jTable3.getRowCount());
 
-        for (int j = 0; j < jTable3.getRowCount(); j++) {
-            System.out.println("valores " + jTable3.getValueAt(j, 1));
-            Object idProducto=jTable3.getValueAt(j, 1);
-            for (int i = 0;  i< arreMedidas.length; i++) {
-                System.out.println("idProducto " + idProducto);
-                System.out.println("id arreglo " + (int)((arreMedidas[i][0])));
-                if(Integer.parseInt(idProducto.toString())== (int)((arreMedidas[i][0]))){
-                    System.out.println(" si existe este id en medidas y en la tabla");
-                    System.out.println("idTabla " + idProducto);
-                    System.out.println("id arreglo medidas " + (int)arreMedidas[i][0] + " posicion " + i + " " + 0);
-                    
-                }else{
-                    System.out.println(" no encontro el id en el arreglo");
-                }
-                
+        System.out.println("filas " + jTable3.getRowCount());
+        int pago = Integer.parseInt(JOptionPane.showInputDialog("Ingresar Pago"));
+        System.out.println("pago " + pago);
+        if (pago == Integer.parseInt(jTextField2.getText().toString())) {
+            System.out.println("entro al pago es igual ala deuda");
+            //creamo el item para el status
+            String status[] = {"Pagado entregado", "Pagado NO entregado"};
+            Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
+            Operaciones o = new Operaciones();
+            boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
+            System.out.println("ban " + ban);
+            if (ban) {
+                JOptionPane.showMessageDialog(null, "ahuevo");
+               
+            } else {
+                JOptionPane.showMessageDialog(null, "NEL");
+
             }
+
+        } else {//si el pago no es igual ala deuda 
 
         }
 

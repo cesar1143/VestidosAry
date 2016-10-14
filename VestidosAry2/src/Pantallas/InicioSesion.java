@@ -9,6 +9,7 @@ import ModeloClientes.Clientes;
 import ModeloInicioSesion.Usuarios;
 import ModeloInicioSesion.daoUsuarios;
 import ModeloProductos.Productos;
+import ModeloProductosApartados.ProductosApartados;
 import Validaciones.ValicacionesDeTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -158,6 +159,8 @@ public class InicioSesion extends javax.swing.JFrame {
                      
                     //Productos
                      Productos.usuario_id=bean.getIdusuarios();
+                     //Productos apartados
+                     ProductosApartados.usuario_id=bean.getIdusuarios();
                 }else{
                     JOptionPane.showMessageDialog(null, "Contraseña incorrecta","ERROR",0);
                 }
