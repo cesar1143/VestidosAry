@@ -36,6 +36,7 @@ public class Todo extends javax.swing.JFrame {
     String arreFechas[][] = new String[5][3];
     public static int idCliente;
 
+
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         initComponents();
@@ -756,19 +757,26 @@ public class Todo extends javax.swing.JFrame {
         System.out.println("filas " + jTable3.getRowCount());
         int pago = Integer.parseInt(JOptionPane.showInputDialog("Ingresar Pago"));
         System.out.println("pago " + pago);
+        Operaciones o = new Operaciones(pago);
         if (pago == Integer.parseInt(jTextField2.getText().toString())) {
             System.out.println("entro al pago es igual ala deuda");
-            //creamo el item para el status
+            //creamos el item para el status
             String status[] = {"Pagado entregado", "Pagado NO entregado"};
             Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
-            Operaciones o = new Operaciones();
-            boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
-            System.out.println("ban " + ban);
-            if (ban) {
-                JOptionPane.showMessageDialog(null, "ahuevo");
-               
-            } else {
-                JOptionPane.showMessageDialog(null, "NEL");
+            if (estado.equals("Pagado entregado")) {//si se cumple se registra en apartados y vendidos
+
+                
+                boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
+                System.out.println("ban " + ban);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "ahuevo");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "NEL");
+
+                }
+
+            } else {//si el estado es igual a pagado no entregado solo registramos en la tabla apartados
 
             }
 
@@ -849,7 +857,7 @@ public class Todo extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField2;
+    public static javax.swing.JTextField jTextField2;
     private javax.swing.JTextField producto;
     // End of variables declaration//GEN-END:variables
 }

@@ -250,6 +250,7 @@ public class Principal extends javax.swing.JFrame {
         Object apaterno=jTable1.getValueAt(fila,2);
         Object amaterno=jTable1.getValueAt(fila,3);
          Object idCliente=jTable1.getValueAt(fila,0);
+         
         String nomCompleto=nombre.toString() + " " + apaterno.toString() + " " + amaterno.toString();
         Todo t = new Todo();
         Todo.idCliente=Integer.parseInt(idCliente.toString());

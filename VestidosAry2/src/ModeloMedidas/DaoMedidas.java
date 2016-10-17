@@ -19,6 +19,7 @@ public class DaoMedidas {
     PreparedStatement ps;
     ResultSet rs;
     Connection con = null;
+    
 
     public boolean registrar(Medidas bean) {
         boolean ban = false;
