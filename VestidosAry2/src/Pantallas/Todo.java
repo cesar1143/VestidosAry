@@ -14,8 +14,10 @@ import ModeloProductosApartados.ProductosApartados;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -673,7 +675,9 @@ public class Todo extends javax.swing.JFrame {
                     MedidasRegistrar.anchoPuño.setText("");
                     CheckSi.setSelected(false);
                     MedidasRegistrar m = new MedidasRegistrar();
-                    m.setVisible(false);
+                    System.out.println("si paso por aqui");
+                   m.setVisible(false);
+                   
 
                 }//cierra el if de fechas
             } else {//si no esta seleccionad check medidas
@@ -747,8 +751,9 @@ public class Todo extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         limpiarTabla();
-        jTextField2.setText("0");
-        totalPagar = 0;
+         totalPagar = 0;
+        jTextField2.setText(String.valueOf(totalPagar));
+       
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -758,6 +763,9 @@ public class Todo extends javax.swing.JFrame {
         int pago = Integer.parseInt(JOptionPane.showInputDialog("Ingresar Pago"));
         System.out.println("pago " + pago);
         Operaciones o = new Operaciones(pago);
+        
+            
+        
         if (pago == Integer.parseInt(jTextField2.getText().toString())) {
             System.out.println("entro al pago es igual ala deuda");
             //creamos el item para el status
@@ -769,20 +777,43 @@ public class Todo extends javax.swing.JFrame {
                 boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
                 System.out.println("ban " + ban);
                 if (ban) {
-                    JOptionPane.showMessageDialog(null, "ahuevo");
+                    JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                     limpiarTabla();
+                    jTextField2.setText(String.valueOf(totalPagar));
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "NEL");
+                    JOptionPane.showMessageDialog(null, "Error al registrar la venta ","ERROR",0);
 
                 }
 
             } else {//si el estado es igual a pagado no entregado solo registramos en la tabla apartados
+               boolean ban1=o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
+               if (ban1) {
+                    JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                     limpiarTabla();
+                    jTextField2.setText(String.valueOf(totalPagar));
 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar la venta ","ERROR",0);
+
+                }
             }
 
-        } else {//si el pago no es igual ala deuda 
+        } else {//si el pago no es igual ala deuda pero el check esta seleccionado
+            System.out.println("El pago no es igual ala deuda");
+            
+            boolean ban2=o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, "Pagado NO entregado");
+            if (ban2) {
+                    JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                     limpiarTabla();
+                    jTextField2.setText(String.valueOf(totalPagar));
 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar la venta ","ERROR",0);
+
+                }
         }
+       
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
