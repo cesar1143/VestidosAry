@@ -106,12 +106,15 @@ public class Operaciones {
                     }
                     i = arreMedidas.length;
                 } else {
-    //---- REVISAR ESTA PARTE
+                    //---- REVISAR ESTA PARTE
                     /*No se encontro el id de la tabla en arreglo medias, osea no hay medidas*/
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
                     System.out.println(" no encontro el id en el arreglo arre medidas");
-                  
+                    //LLENAMOS EL BEAN DE PROAPAR
+                    beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
+                    beanPA.setCliente_id(idCliente);
+                    beanPA.setStatus(estado.toString());
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
 
                         System.out.println("entramos al for para buscar fechas");
@@ -124,39 +127,61 @@ public class Operaciones {
 
                                 banr = true;
                                 //si se registra en apartados registramos FECHAS PRUEBA
-                                
-                              
-                                    
-                                   
-                                    boolean banFechas = registraFechas(arreFechas[k][1]);
-                                    if (banFechas) {
-                                        JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
-                                        //si se registra en fechas registramos vendidos
-                                        boolean banPV = registrarProductosVendidos();
-                                        if (banPV) {
-                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
-                                        }
+                                boolean banFechas = registraFechas(arreFechas[k][1]);
+                                if (banFechas) {
+                                    JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
+                                    //si se registra en fechas registramos vendidos
+                                    boolean banPV = registrarProductosVendidos();
+                                    if (banPV) {
+                                        //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                        JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
+                                        JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
                                     }
-                               
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
+                                }
+
                             } else {
 
                             }
                             k = arreFechas.length;
                         } else {
-                            //si no tiene fechas
-                            System.out.println(" nose encontro el id en fechas");
+                            //si no tiene fechas y tampoco medidas
+                            System.out.println(" nose encontro el id en fechas y tampoco medidas");
 
+                            System.out.println(" no encontro el id en el arreglo arre medidas");
+                            //LLENAMOS EL BEAN DE PROAPAR
+                            beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
+                            beanPA.setCliente_id(idCliente);
+                            beanPA.setStatus(estado.toString());
+
+                            beanPA.setFechaEntrega(null);
+                            boolean ban = daoPA.registrarVenta(beanPA);//registramos en apartados
+                            if (ban) {
+
+                                banr = true;
+                                //si se registra en apartados registramos FECHAS PRUEBA
+
+                                boolean banPV = registrarProductosVendidos();
+                                if (banPV) {
+                                    //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                    JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                }
+
+                            }
+                            k = arreFechas.length;
                         }
+                         
 
                     }
-                   //===================== HASTA AQUI ========================================
-                    
+                    //===================== HASTA AQUI ========================================
+                i=arreMedidas.length;
                 }
 
             }
@@ -179,6 +204,7 @@ public class Operaciones {
 
         return banr;
     }
+    
     /* REGISTRO CASI COMPLETO SOLO NO SE RESGITRA EN VENTIDOS YA QUE EL ESTATUS ES PAGADO NO  ENTREGADO */
 
     public boolean registrarExecptoVendidos(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
