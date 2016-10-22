@@ -253,8 +253,13 @@ public class Principal extends javax.swing.JFrame {
          
         String nomCompleto=nombre.toString() + " " + apaterno.toString() + " " + amaterno.toString();
         Todo t = new Todo();
+        Todo.nom=nombre.toString();
+        Todo.apa=apaterno.toString();
+        Todo.ama=amaterno.toString();
+        
         Todo.idCliente=Integer.parseInt(idCliente.toString());
         Todo.jLabel2.setText(nomCompleto);
+        t.setFilasPA();
         t.setVisible(true);
     }//GEN-LAST:event_jTable1MousePressed
 

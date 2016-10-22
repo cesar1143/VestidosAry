@@ -5,6 +5,8 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
 import ModeloMedidas.Medidas;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
@@ -13,12 +15,16 @@ import ModeloProductosApartados.Operaciones;
 import ModeloProductosApartados.ProductosApartados;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import servicios.conexion;
 
 /**
  *
@@ -29,7 +35,11 @@ public class Todo extends javax.swing.JFrame {
     /**
      * Creates new form Todo
      */
-    DefaultTableModel tablaVentas;
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection conec = null;
+    DefaultTableModel tablaVentas, tableApartados;
+ 
     int totalPagar = 0;
 
     int con = 0;
@@ -37,10 +47,13 @@ public class Todo extends javax.swing.JFrame {
     double arreMedidas[][] = new double[2][9];
     String arreFechas[][] = new String[2][3];
     public static int idCliente;
-
+   public static String  nom,apa,ama;
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
+        tableApartados = new DefaultTableModel(null, getColumnasPA());
+       
         initComponents();
+         
 
         this.setExtendedState(MAXIMIZED_BOTH);
 
@@ -49,6 +62,37 @@ public class Todo extends javax.swing.JFrame {
     public String[] getColumnas() {
         String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo"};
         return columnas;
+    }
+
+    public String[] getColumnasPA() {
+        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus", "Fecha Evento"};
+        return columnas;
+    }
+
+    public  void setFilasPA() {
+        daoCliente dao = new daoCliente();
+        
+       
+
+        Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom,apa,ama);
+        String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
+                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where  productosapartados.status='Pagado NO entregado' and clientes.idclientes='"+bean.getIdClientes()+"' or  productosapartados.status='Apartado'  ;";
+        try {
+
+            conec = conexion.getConnection();
+            ps = conec.prepareStatement(sql);
+            rs=ps.executeQuery();
+            Object fila[]= new Object[6];
+            while(rs.next()){
+                for (int i = 0; i < 6; i++) {
+                    fila[i]=rs.getObject(i+1);
+                }
+                tableApartados.addRow(fila);
+            }
+
+        } catch (Exception e) {
+        }
+
     }
 
     /**
@@ -114,17 +158,7 @@ public class Todo extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Productos apartados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(733, 253));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(tableApartados);
         jTable1.setPreferredSize(new java.awt.Dimension(733, 253));
         jScrollPane1.setViewportView(jTable1);
 
@@ -746,34 +780,43 @@ public class Todo extends javax.swing.JFrame {
             i = i - 1;
         }
     }
+     public void limpiarTablaPA() {
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            tableApartados.removeRow(i);
+            i = i - 1;
+        }
+    }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         limpiarTabla();
         totalPagar = 0;
-        con=0;
-        conFechas=0;
+        con = 0;
+        conFechas = 0;
         jTextField2.setText(String.valueOf(totalPagar));
 
     }//GEN-LAST:event_jButton4ActionPerformed
-    public void limpiarArregloMedidas(double arreMedidas[][]) {
-        for (int i = 0; i < arreMedidas.length; i++) {
-            for (int j = 0; j < arreMedidas.length; j++) {
-                arreMedidas[i][j] = 0.0;
+    //ya no se utilizo
+    /*
+     public void limpiarArregloMedidas(double arreMedidas[][]) {
+     for (int i = 0; i < arreMedidas.length; i++) {
+     for (int j = 0; j < arreMedidas.length; j++) {
+     arreMedidas[i][j] = 0.0;
 
-            }
+     }
 
-        }
-    }
+     }
+     }
 
-    public void limpiarArregloFechas(String arreMedidas[][]) {
-        for (int i = 0; i < arreMedidas.length; i++) {
-            for (int j = 0; j < arreMedidas.length; j++) {
-                arreMedidas[i][j] = null;
+     public void limpiarArregloFechas(String arreMedidas[][]) {
+     for (int i = 0; i < arreMedidas.length; i++) {
+     for (int j = 0; j < arreMedidas.length; j++) {
+     arreMedidas[i][j] = null;
 
-            }
+     }
 
-        }
-    }
+     }
+     }
+     */
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -789,9 +832,9 @@ public class Todo extends javax.swing.JFrame {
             String status[] = {"Pagado entregado", "Pagado NO entregado"};
             Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
             if (estado.equals("Pagado entregado")) {//si se cumple se registra en apartados y vendidos
-
+                System.out.println("entro al estado pagado entregado");
                 boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
-                System.out.println("ban " + ban);
+
                 if (ban) {
                     JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
                     limpiarTabla();
@@ -802,11 +845,14 @@ public class Todo extends javax.swing.JFrame {
                 }
 
             } else {//si el estado es igual a pagado no entregado solo registramos en la tabla apartados
+                System.out.println("entro al estado pagado NO entregado");
                 boolean ban1 = o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
                 if (ban1) {
                     JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
                     limpiarTabla();
-                   // jTextField2.setText(String.valueOf(totalPagar));
+                    limpiarTablaPA();
+                    setFilasPA();
+                    // jTextField2.setText(String.valueOf(totalPagar));
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
@@ -817,10 +863,12 @@ public class Todo extends javax.swing.JFrame {
         } else {//si el pago no es igual ala deuda pero el check esta seleccionado
             System.out.println("El pago no es igual ala deuda");
 
-            boolean ban2 = o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, "Pagado NO entregado");
+            boolean ban2 = o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, "Apartado");
             if (ban2) {
                 JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
                 limpiarTabla();
+                limpiarTablaPA();
+                setFilasPA();
                 //jTextField2.setText(String.valueOf(totalPagar));
 
             } else {

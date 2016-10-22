@@ -5,6 +5,8 @@
  */
 package Iconos;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Usuario
@@ -13,9 +15,22 @@ public class pruebaarre {
     
     
     public static void main(String[] args) {
-      double arre[][]= new double[2][3];
-        
-        System.out.println("arre " + arre[0][1]);
+        Scanner ler= new Scanner (System.in);
+        String nombre="";
+        System.out.println("ingres nombre");
+        nombre=ler.next();
+        String arre[]=nombre.split("");
+        int i=0;
+        System.out.println("long " + arre.length);
+        while(i<arre.length){
+            System.out.println("i " + i);
+            if(arre[i].equals("a") || arre[i].equals("e")){
+                System.out.println("tenemos una vocal " + arre[i]);
+            }else{
+                System.out.println("no hay vocal " + arre[i]);
+            }
+            i++;
+        }
     }
     
 }
