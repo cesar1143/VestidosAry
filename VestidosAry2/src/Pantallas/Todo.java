@@ -38,8 +38,8 @@ public class Todo extends javax.swing.JFrame {
     PreparedStatement ps;
     ResultSet rs;
     Connection conec = null;
-    DefaultTableModel tablaVentas, tableApartados;
- 
+    DefaultTableModel tablaVentas, tableApartados, tablePagos;
+
     int totalPagar = 0;
 
     int con = 0;
@@ -47,20 +47,25 @@ public class Todo extends javax.swing.JFrame {
     double arreMedidas[][] = new double[2][9];
     String arreFechas[][] = new String[2][3];
     public static int idCliente;
-   public static String  nom,apa,ama;
+    public static String nom, apa, ama;
+
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         tableApartados = new DefaultTableModel(null, getColumnasPA());
-       
+        tablePagos = new DefaultTableModel(null, getColumnasPagos());
         initComponents();
-         
 
         this.setExtendedState(MAXIMIZED_BOTH);
-
+        
     }
 
     public String[] getColumnas() {
         String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo"};
+        return columnas;
+    }
+
+    public String[] getColumnasPagos() {
+        String columnas[] = new String[]{"Id", "Abono", "Fecha registro", "Usuario"};
         return columnas;
     }
 
@@ -69,28 +74,52 @@ public class Todo extends javax.swing.JFrame {
         return columnas;
     }
 
-    public  void setFilasPA() {
+    public void setFilasPA() {
         daoCliente dao = new daoCliente();
-        
-       
 
-        Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom,apa,ama);
+        Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
         String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
-                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where  productosapartados.status='Pagado NO entregado' and clientes.idclientes='"+bean.getIdClientes()+"' or  productosapartados.status='Apartado'  ;";
+                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where  productosapartados.status='Pagado NO entregado' and clientes.idclientes='" + bean.getIdClientes() + "' or  productosapartados.status='Apartado'  ;";
         try {
 
             conec = conexion.getConnection();
             ps = conec.prepareStatement(sql);
-            rs=ps.executeQuery();
-            Object fila[]= new Object[6];
-            while(rs.next()){
+            rs = ps.executeQuery();
+            Object fila[] = new Object[6];
+            while (rs.next()) {
                 for (int i = 0; i < 6; i++) {
-                    fila[i]=rs.getObject(i+1);
+                    fila[i] = rs.getObject(i + 1);
                 }
                 tableApartados.addRow(fila);
             }
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje Todo setFeilasPA");
+        }
+
+    }
+
+    public void setFilasPagos() {
+        daoCliente dao = new daoCliente();
+
+        Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+        String sql = "select pagos.idpagos,pagos.abono,pagos.fecharegistro,pagos.usuario_id\n"
+                + "from pagos join deudatotal on pagos.deudatotal_id=deudatotal.iddeudatotal where deudatotal.cliente_id='" + bean.getIdClientes() + "' and deudatotal.status='No pagado';";
+        try {
+
+            conec = conexion.getConnection();
+            ps = conec.prepareStatement(sql);
+            rs = ps.executeQuery();
+            Object fila[] = new Object[4];
+            while (rs.next()) {
+                for (int i = 0; i < 4; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+                tablePagos.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje Todo setFeilasPagos");
         }
 
     }
@@ -209,17 +238,7 @@ public class Todo extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Pagos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(733, 253));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable2.setModel(tablePagos);
         jTable2.setPreferredSize(new java.awt.Dimension(733, 253));
         jScrollPane2.setViewportView(jTable2);
 
@@ -780,7 +799,8 @@ public class Todo extends javax.swing.JFrame {
             i = i - 1;
         }
     }
-     public void limpiarTablaPA() {
+
+    public void limpiarTablaPA() {
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             tableApartados.removeRow(i);
             i = i - 1;
