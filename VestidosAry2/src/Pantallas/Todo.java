@@ -98,10 +98,11 @@ public class Todo extends javax.swing.JFrame {
 
     public void setFilasPA() {
         daoCliente dao = new daoCliente();
-
+        System.out.println("nombre " + nom);
         Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+        System.out.println("bean.getidclieten " + bean.getIdClientes());
         String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
-                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where  productosapartados.status='Pagado NO entregado' and clientes.idclientes='" + bean.getIdClientes() + "' or  productosapartados.status='Apartado'  ;";
+                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where   clientes.idclientes='" + bean.getIdClientes() + "' and productosapartados.status='Apartado'  ;";
         try {
 
             conec = conexion.getConnection();
