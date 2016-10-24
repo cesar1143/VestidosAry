@@ -57,4 +57,21 @@ public class DaoPagos {
         return ultimo_id;
     }
 
+   //obtener la suma de de todos los abonos del cliente
+public int sumaabonos(int iddeudaTotal){
+    int sumaPagos=0;
+    String sql="select abono from pagos where deudatotal_id=?";
+    try {
+        con=conexion.getConnection();
+        ps=con.prepareStatement(sql);
+        ps.setInt(1, iddeudaTotal);
+        rs=ps.executeQuery();
+        while(rs.next()){
+            sumaPagos=sumaPagos+rs.getInt("abono");
+        }
+    } catch (Exception e) {
+        System.out.println("Mensaje DaoPagos sumaAbonos");
+    }
+    return sumaPagos;
+}
 }

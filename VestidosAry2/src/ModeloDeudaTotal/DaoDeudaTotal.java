@@ -37,4 +37,42 @@ public class DaoDeudaTotal {
         return ban;
     }
     
+    public DeudaTotal consultarDeuda(int idCliente){
+        DeudaTotal bean= new DeudaTotal();
+        String sql="select * from deudatotal  where deudatotal.cliente_id=? and deudatotal.status='No pagado';";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, idCliente);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                bean.setIdDeudaTotal(rs.getInt(1));
+                bean.setDeudaTotal(rs.getInt(2));
+                bean.setStatus(rs.getString(3));
+                
+                
+                
+            }
+            
+        } catch (Exception e) {
+             System.out.println("Mensaje daoDeudaTotal consultarDeuda " + e);
+        }
+        
+    return bean;
+    }
+    
+    public boolean modificarDeuda(int nuevadeuda,int iddeudaTotal){
+        boolean ban=false;
+        String sql="update deudatotal set deudatotal=? where iddeudatotal=?";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, nuevadeuda);
+            ps.setInt(2, iddeudaTotal);
+            ban=ps.executeUpdate()==1;
+            ban=true;
+        } catch (Exception e) {
+        }
+        return ban;
+    }
 }
