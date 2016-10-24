@@ -28,14 +28,16 @@ public class OpreacionesCondeuda {
 
     private int pago;
     private int iddeudaTotal;
+    private int nuevaDeuda;
 
     Medidas beanMedidas = new Medidas();
     DaoMedidas daoMedidas = new DaoMedidas();
 
-    public OpreacionesCondeuda(int pago, int iddeudaTotal) {
+    public OpreacionesCondeuda(int pago, int iddeudaTotal,int nuevaDeuda) {
 
         this.pago = pago;
         this.iddeudaTotal = iddeudaTotal;
+        this.nuevaDeuda= nuevaDeuda;
     }
 
     public boolean registrar(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
@@ -441,7 +443,7 @@ public class OpreacionesCondeuda {
         bean.setDeudaTotal(Integer.parseInt(Todo.jTextField2.getText().toString()));
         bean.setCliente_id(Todo.idCliente);
         bean.setStatus("Pagado");
-        boolean banDT = dao.modificarDeuda(pago, iddeudaTotal);
+        boolean banDT = dao.modificarDeuda(nuevaDeuda, iddeudaTotal);
         if (banDT) {
             ban = true;
         } else {

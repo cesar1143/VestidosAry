@@ -57,10 +57,28 @@ public class Todo extends javax.swing.JFrame {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         tableApartados = new DefaultTableModel(null, getColumnasPA());
         tablePagos = new DefaultTableModel(null, getColumnasPagos());
+        
         initComponents();
-
+ 
         this.setExtendedState(MAXIMIZED_BOTH);
+       
 
+    }
+    public void infoPrincipal(){
+        daoCliente daoCliente = new daoCliente();
+        DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+        DaoPagos daoPagos = new DaoPagos();
+        System.out.println("nombre " + nom);
+        Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+        System.out.println("soy el id del cliente " + idCliente);
+        DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+        System.out.println("bean get deuda " + beanDeuda.getDeudaTotal());
+
+        int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal());
+        int deudaMenosPagos = beanDeuda.getDeudaTotal() - sumaPagos;
+        jLabel4.setText(String.valueOf(beanDeuda.getDeudaTotal()));
+        jLabel6.setText(String.valueOf(deudaMenosPagos));
+        
     }
 
     public String[] getColumnas() {
@@ -873,7 +891,7 @@ public class Todo extends javax.swing.JFrame {
 //===================== BUSCAMOS SI TIENE DEUDA ====================================================
         if (beanDeuda.getDeudaTotal() != 0) {// si tiene deuda solo modificaremos la deuda
             System.out.println("si tiene deuda solo modificaremos la deuda");
-            OpreacionesCondeuda opera = new OpreacionesCondeuda(totalDeuda, beanDeuda.getIdDeudaTotal());
+            OpreacionesCondeuda opera = new OpreacionesCondeuda(pago, beanDeuda.getIdDeudaTotal(), totalDeuda);
 
             if (pago == deudaMenosPagos) {
 
@@ -892,6 +910,12 @@ public class Todo extends javax.swing.JFrame {
                         setFilasPA();
                         limpiarTablaPagos();
                         setFilasPagos();
+                        totalPagar = 0;
+                        jTextField2.setText(String.valueOf(totalPagar));
+                        con = 0;
+                        conFechas = 0;
+                        jLabel4.setText(String.valueOf(totalDeuda));
+                        jLabel6.setText(String.valueOf(deudaMenosPagos));
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
@@ -908,6 +932,12 @@ public class Todo extends javax.swing.JFrame {
                         setFilasPA();
                         limpiarTablaPagos();
                         setFilasPagos();
+                        totalPagar = 0;
+                        jTextField2.setText(String.valueOf(totalPagar));
+                        con = 0;
+                        conFechas = 0;
+                        jLabel4.setText(String.valueOf(totalDeuda));
+                        jLabel6.setText(String.valueOf(deudaMenosPagos));
                         // jTextField2.setText(String.valueOf(totalPagar));
 
                     } else {
@@ -927,6 +957,12 @@ public class Todo extends javax.swing.JFrame {
                     setFilasPA();
                     limpiarTablaPagos();
                     setFilasPagos();
+                    totalPagar = 0;
+                    jTextField2.setText(String.valueOf(totalPagar));
+                    con = 0;
+                    conFechas = 0;
+                    jLabel4.setText(String.valueOf(totalDeuda));
+                    jLabel6.setText(String.valueOf(deudaMenosPagos));
                     //jTextField2.setText(String.valueOf(totalPagar));
 
                 } else {
@@ -943,9 +979,9 @@ public class Todo extends javax.swing.JFrame {
 
 //------------------------ HASTA AQUI ----------------------------------------------------------------                
         } else {// si no tiene deuda se registrara todo
-System.out.println("se registra todo por que no tienes deuda");
+            System.out.println("se registra todo por que no tienes deuda");
             if (pago == totalDeuda) {
-                
+
                 System.out.println("entro al pago es igual ala deuda");
                 //creamos el item para el status
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
@@ -1024,13 +1060,13 @@ System.out.println("se registra todo por que no tienes deuda");
 
         }//cerramos el if de no tiene deuda
         /*
-        totalPagar = 0;
-        jTextField2.setText(String.valueOf(totalPagar));
-        con = 0;
-        conFechas = 0;
-        jLabel4.setText(String.valueOf(totalDeuda));
-        jLabel6.setText(String.valueOf(deudaMenosPagos));
-        */
+         totalPagar = 0;
+         jTextField2.setText(String.valueOf(totalPagar));
+         con = 0;
+         conFechas = 0;
+         jLabel4.setText(String.valueOf(totalDeuda));
+         jLabel6.setText(String.valueOf(deudaMenosPagos));
+         */
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

@@ -259,6 +259,7 @@ public class Principal extends javax.swing.JFrame {
         
         Todo.idCliente=Integer.parseInt(idCliente.toString());
         Todo.jLabel2.setText(nomCompleto);
+        t.infoPrincipal();
         t.setFilasPA();
         t.setFilasPagos();
         t.setVisible(true);
