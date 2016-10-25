@@ -57,14 +57,14 @@ public class Todo extends javax.swing.JFrame {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         tableApartados = new DefaultTableModel(null, getColumnasPA());
         tablePagos = new DefaultTableModel(null, getColumnasPagos());
-        
+
         initComponents();
- 
+
         this.setExtendedState(MAXIMIZED_BOTH);
-       
 
     }
-    public void infoPrincipal(){
+
+    public void infoPrincipal() {
         daoCliente daoCliente = new daoCliente();
         DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
         DaoPagos daoPagos = new DaoPagos();
@@ -78,7 +78,7 @@ public class Todo extends javax.swing.JFrame {
         int deudaMenosPagos = beanDeuda.getDeudaTotal() - sumaPagos;
         jLabel4.setText(String.valueOf(beanDeuda.getDeudaTotal()));
         jLabel6.setText(String.valueOf(deudaMenosPagos));
-        
+
     }
 
     public String[] getColumnas() {
@@ -884,9 +884,10 @@ public class Todo extends javax.swing.JFrame {
         int pago = Integer.parseInt(JOptionPane.showInputDialog("Ingresar Pago"));
         System.out.println("pago " + pago);
 
-        int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal()) + pago;
+        int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal());
+        int sumarPagos=sumaPagos+pago;
 
-        int deudaMenosPagos = totalDeuda - sumaPagos;
+        int deudaMenosPagos = totalDeuda - sumarPagos;
         System.out.println("esto debes descontando los pagos " + deudaMenosPagos);
         Operaciones o = new Operaciones(pago);
 //===================== BUSCAMOS SI TIENE DEUDA ====================================================
@@ -894,7 +895,7 @@ public class Todo extends javax.swing.JFrame {
             System.out.println("si tiene deuda solo modificaremos la deuda");
             OpreacionesCondeuda opera = new OpreacionesCondeuda(pago, beanDeuda.getIdDeudaTotal(), totalDeuda);
 
-            if (pago == deudaMenosPagos) {
+            if (sumarPagos == totalDeuda) {
 
                 System.out.println("entro al pago es igual ala deuda");
                 //creamos el item para el status
@@ -917,7 +918,10 @@ public class Todo extends javax.swing.JFrame {
                         conFechas = 0;
                         jLabel4.setText(String.valueOf(totalDeuda));
                         jLabel6.setText(String.valueOf(deudaMenosPagos));
-
+ //-------------->>>>>otra opcion es mandar a cambiarlo con el status del ultimo registro de venta
+                        CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
+                        cs.setFilasPA();
+                        cs.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
 
@@ -939,6 +943,9 @@ public class Todo extends javax.swing.JFrame {
                         conFechas = 0;
                         jLabel4.setText(String.valueOf(totalDeuda));
                         jLabel6.setText(String.valueOf(deudaMenosPagos));
+                        CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
+                        cs.setFilasPA();
+                        cs.setVisible(true);
                         // jTextField2.setText(String.valueOf(totalPagar));
 
                     } else {
@@ -981,7 +988,7 @@ public class Todo extends javax.swing.JFrame {
 //------------------------ HASTA AQUI ----------------------------------------------------------------                
         } else {// si no tiene deuda se registrara todo
             System.out.println("se registra todo por que no tienes deuda");
-            if (pago == totalDeuda) {
+            if (pago == Integer.parseInt(jTextField2.getText().toString())) {
 
                 System.out.println("entro al pago es igual ala deuda");
                 //creamos el item para el status

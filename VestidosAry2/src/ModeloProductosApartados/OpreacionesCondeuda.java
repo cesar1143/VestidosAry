@@ -192,7 +192,7 @@ public class OpreacionesCondeuda {
 
         }
         //si se registra en vendidos registramos deuda total
-        boolean banDT = modificarDeudaTotla();
+        boolean banDT = modificarDeudaTotalAndStatus();
         if (banDT) {
             JOptionPane.showMessageDialog(null, "Se modifico correctamente deuda total");
             //si se registra la deuda total registramos en pagos
@@ -444,6 +444,22 @@ public class OpreacionesCondeuda {
         bean.setCliente_id(Todo.idCliente);
         bean.setStatus("Pagado");
         boolean banDT = dao.modificarDeuda(nuevaDeuda, iddeudaTotal);
+        if (banDT) {
+            ban = true;
+        } else {
+
+        }
+        return ban;
+    }
+    //modificar deudda total y el status
+    public boolean modificarDeudaTotalAndStatus() {
+        boolean ban = false;
+        DeudaTotal bean = new DeudaTotal();
+        DaoDeudaTotal dao = new DaoDeudaTotal();
+        bean.setDeudaTotal(Integer.parseInt(Todo.jTextField2.getText().toString()));
+        bean.setCliente_id(Todo.idCliente);
+        bean.setStatus("Pagado");
+        boolean banDT = dao.modificarDeudaAndStatus(nuevaDeuda, iddeudaTotal);
         if (banDT) {
             ban = true;
         } else {

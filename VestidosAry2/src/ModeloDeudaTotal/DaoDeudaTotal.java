@@ -75,4 +75,19 @@ public class DaoDeudaTotal {
         }
         return ban;
     }
+     public boolean modificarDeudaAndStatus(int nuevadeuda,int iddeudaTotal){
+        boolean ban=false;
+        String sql="update deudatotal set deudatotal=?, status='Pagado' where iddeudatotal=?";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, nuevadeuda);
+            
+            ps.setInt(2, iddeudaTotal);
+            ban=ps.executeUpdate()==1;
+            ban=true;
+        } catch (Exception e) {
+        }
+        return ban;
+    }
 }
