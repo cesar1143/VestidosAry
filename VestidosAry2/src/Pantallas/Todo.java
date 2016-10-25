@@ -59,6 +59,7 @@ public class Todo extends javax.swing.JFrame {
         tablePagos = new DefaultTableModel(null, getColumnasPagos());
 
         initComponents();
+   jTable1.setDefaultRenderer(Object.class, new ColorearTabla());
 
         this.setExtendedState(MAXIMIZED_BOTH);
 
@@ -108,10 +109,12 @@ public class Todo extends javax.swing.JFrame {
             conec = conexion.getConnection();
             ps = conec.prepareStatement(sql);
             rs = ps.executeQuery();
+            
             Object fila[] = new Object[6];
             while (rs.next()) {
                 for (int i = 0; i < 6; i++) {
                     fila[i] = rs.getObject(i + 1);
+                    
                 }
                 tableApartados.addRow(fila);
             }
@@ -648,8 +651,17 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        if(jTable1.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Selecciona la fila");
+        }else{
+            int fila=jTable1.getSelectedRow();
+            Object idPA=jTable1.getValueAt( fila, 0);
+            System.out.println("este es el valor de la fila " + idPA);
+            
         VerMedidas vm = new VerMedidas();
+        vm.setFilas(Integer.parseInt(idPA.toString()));
         vm.setVisible(true);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

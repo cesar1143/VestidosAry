@@ -5,6 +5,19 @@
  */
 package Pantallas;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
+import static Pantallas.Todo.ama;
+import static Pantallas.Todo.apa;
+import static Pantallas.Todo.nom;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import servicios.conexion;
+
 /**
  *
  * @author Usuario
@@ -14,10 +27,43 @@ public class VerMedidas extends javax.swing.JFrame {
     /**
      * Creates new form VerMedidas
      */
+      PreparedStatement ps;
+    ResultSet rs;
+    Connection conec = null;
+    DefaultTableModel tableMedidas;
     public VerMedidas() {
+        tableMedidas = new DefaultTableModel(null,getColumnas());
         initComponents();
+      
     }
+ public String[] getColumnas(){
+     String columnas[]= new String[]{"Id","Talle","Sise","Hombros,Busto","Largo falda","Ancho puño","Cintura","Cadera"};
+     return columnas;
+ }
+ 
+ public void setFilas(int idPA){
+      
+    
+        String sql = "select medidas.idmedidas,talle,sise,hombros,busto,largoFalda,anchoPuño,cintura,cadera from medidas join productosapartados on medidas.productosapartados_id=productosapartados.idproductosapartados where medidas.productosapartados_id='"+idPA+"';";
+        try {
 
+            conec = conexion.getConnection();
+            ps = conec.prepareStatement(sql);
+            rs = ps.executeQuery();
+            Object fila[] = new Object[9];
+            while (rs.next()) {
+                for (int i = 0; i < 9; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+                tableMedidas.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje Todo setFeilasPA");
+        }
+
+     
+ }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,21 +78,12 @@ public class VerMedidas extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medidas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(tableMedidas);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -60,9 +97,10 @@ public class VerMedidas extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
