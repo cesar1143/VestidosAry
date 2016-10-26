@@ -283,6 +283,13 @@ public class Operaciones {
                         System.out.println("entramos al for para buscar fechas");
 //                        System.out.println("arreFechas " + Integer.parseInt(String.valueOf(arreFechas[k][0])));
                         System.out.println("STring " + arreFechas[k][0]);
+                        if(arreFechas[k][0]== null){
+                            arreFechas[k][0]=String.valueOf("0");
+                             System.out.println("entro al if " + arreFechas[k][0]);
+                        }else{
+                            
+                        }
+                        System.out.println("STring ya  " + arreFechas[k][0]);
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                            
                             System.out.println("si tiene fechas");

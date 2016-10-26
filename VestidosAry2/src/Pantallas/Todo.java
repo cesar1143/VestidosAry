@@ -11,6 +11,7 @@ import ModeloDeudaTotal.DaoDeudaTotal;
 import ModeloDeudaTotal.DeudaTotal;
 import ModeloMedidas.Medidas;
 import ModeloPagos.DaoPagos;
+import ModeloPagos.Pagos;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
 import ModeloProductosApartados.DaoProductosApartados;
@@ -45,6 +46,7 @@ public class Todo extends javax.swing.JFrame {
     DefaultTableModel tablaVentas, tableApartados, tablePagos;
 
     int totalPagar = 0;
+    private int deudaTotal_id;
 
     int con = 0;
     int conFechas = 0;
@@ -59,7 +61,7 @@ public class Todo extends javax.swing.JFrame {
         tablePagos = new DefaultTableModel(null, getColumnasPagos());
 
         initComponents();
-   jTable1.setDefaultRenderer(Object.class, new ColorearTabla());
+        jTable1.setDefaultRenderer(Object.class, new ColorearTabla());
 
         this.setExtendedState(MAXIMIZED_BOTH);
 
@@ -93,7 +95,7 @@ public class Todo extends javax.swing.JFrame {
     }
 
     public String[] getColumnasPA() {
-        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus", "Fecha Evento"};
+        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus","Fecha Prueba", "Fecha Evento"};
         return columnas;
     }
 
@@ -102,19 +104,20 @@ public class Todo extends javax.swing.JFrame {
         System.out.println("nombre " + nom);
         Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
         System.out.println("bean.getidclieten " + bean.getIdClientes());
-        String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
-                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where   clientes.idclientes='" + bean.getIdClientes() + "' and productosapartados.status='Apartado'  ;";
+        String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,fechaspruebas.fechaprueba,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
+                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id  left join  fechaspruebas on fechaspruebas.productosapartados_id=productosapartados.idproductosapartados "
+                + "where   clientes.idclientes='" + bean.getIdClientes() + "' and productosapartados.status='Apartado'  ;";
         try {
 
             conec = conexion.getConnection();
             ps = conec.prepareStatement(sql);
             rs = ps.executeQuery();
-            
-            Object fila[] = new Object[6];
+
+            Object fila[] = new Object[7];
             while (rs.next()) {
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 7; i++) {
                     fila[i] = rs.getObject(i + 1);
-                    
+
                 }
                 tableApartados.addRow(fila);
             }
@@ -640,7 +643,64 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        int sumaPagos = 0;
         int abono = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresar abono"));
+        for (int i = 0; i < jTable2.getRowCount(); i++) {
+            Object pagos = jTable2.getValueAt(i, 1);
+            sumaPagos = sumaPagos + Integer.parseInt(pagos.toString());
+
+        }
+        int total = sumaPagos + abono;
+        System.out.println("suma pagos  " + total);
+        int deudaMenosPagos= Integer.parseInt(jLabel4.getText().toString())-total;
+        if (total == Integer.parseInt(jLabel4.getText().toString())) {
+            System.out.println("los pagos son igual ala deuda");
+            //entonces registramos y enviamos un mensaje de ultimo pago registrado
+            daoCliente daoCliente = new daoCliente();
+            DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+            DaoPagos daoPagos = new DaoPagos();
+            Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+            System.out.println("soy el id del cliente " + idCliente);
+            DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+
+            Pagos beanPagos = new Pagos();
+
+            beanPagos.setAbono(abono);
+            beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
+            boolean ban = daoPagos.registrar(beanPagos);
+            if (ban) {
+                JOptionPane.showMessageDialog(null, "Ultimo pago registrado correctamente");
+                limpiarTablaPagos();
+                setFilasPagos();
+                jLabel6.setText(String.valueOf(deudaMenosPagos));
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al registrar el Ultimo pago ", "ERROR", 0);
+            }
+
+        } else {
+            // registramos con mensaje de el abono se registro correctamente
+            daoCliente daoCliente = new daoCliente();
+            DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+            DaoPagos daoPagos = new DaoPagos();
+            Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+            System.out.println("soy el id del cliente " + idCliente);
+            DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+
+            Pagos beanPagos = new Pagos();
+
+            beanPagos.setAbono(abono);
+            beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
+            boolean ban = daoPagos.registrar(beanPagos);
+            if (ban) {
+                JOptionPane.showMessageDialog(null, "El abono registrado correctamente");
+                limpiarTablaPagos();
+                setFilasPagos();
+                jLabel6.setText(String.valueOf(deudaMenosPagos));
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al registrar el  abono ", "ERROR", 0);
+
+            }
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -651,16 +711,16 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        if(jTable1.getSelectedRow()==-1){
-            JOptionPane.showMessageDialog(null,"Selecciona la fila");
-        }else{
-            int fila=jTable1.getSelectedRow();
-            Object idPA=jTable1.getValueAt( fila, 0);
+        if (jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona la fila");
+        } else {
+            int fila = jTable1.getSelectedRow();
+            Object idPA = jTable1.getValueAt(fila, 0);
             System.out.println("este es el valor de la fila " + idPA);
-            
-        VerMedidas vm = new VerMedidas();
-        vm.setFilas(Integer.parseInt(idPA.toString()));
-        vm.setVisible(true);
+
+            VerMedidas vm = new VerMedidas();
+            vm.setFilas(Integer.parseInt(idPA.toString()));
+            vm.setVisible(true);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -888,6 +948,7 @@ public class Todo extends javax.swing.JFrame {
         Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
         System.out.println("soy el id del cliente " + idCliente);
         DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+
         System.out.println("bean get deuda " + beanDeuda.getDeudaTotal());
         int totalDeuda = beanDeuda.getDeudaTotal() + Integer.parseInt(jTextField2.getText().toString());
         System.out.println("esto es lo que debees " + totalDeuda);
@@ -897,7 +958,7 @@ public class Todo extends javax.swing.JFrame {
         System.out.println("pago " + pago);
 
         int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal());
-        int sumarPagos=sumaPagos+pago;
+        int sumarPagos = sumaPagos + pago;
 
         int deudaMenosPagos = totalDeuda - sumarPagos;
         System.out.println("esto debes descontando los pagos " + deudaMenosPagos);
@@ -930,7 +991,7 @@ public class Todo extends javax.swing.JFrame {
                         conFechas = 0;
                         jLabel4.setText(String.valueOf(totalDeuda));
                         jLabel6.setText(String.valueOf(deudaMenosPagos));
- //-------------->>>>>otra opcion es mandar a cambiarlo con el status del ultimo registro de venta
+                        //-------------->>>>>otra opcion es mandar a cambiarlo con el status del ultimo registro de venta
                         CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
                         cs.setFilasPA();
                         cs.setVisible(true);
