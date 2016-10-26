@@ -10,5 +10,5 @@ package Iconos;
  * @author Usuario
  */
 public class NewClass {
-    
+    private int i;
 }
