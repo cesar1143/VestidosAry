@@ -17,7 +17,18 @@ public class Pagos {
     private Date fechaRegistroDate;
     public static int usuario_id;
 
+    public Pagos(int idPagos,int abono) {
+        this.idPagos=idPagos;
+        this.abono=abono;
+    }
+
+    public Pagos() {
+    }
+    
+    
+
     public String getStatus() {
+        
         return status;
     }
 

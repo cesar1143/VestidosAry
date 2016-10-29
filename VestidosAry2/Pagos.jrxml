@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="611edf2c-1b46-4f78-8db2-0eae9a74264b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select idpagos,abono from pagos;]]>
+	</queryString>
+	<field name="idPagos" class="java.lang.Number"/>
+	<field name="abono" class="java.lang.Number"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="534" height="65" uuid="4f7cf50c-03ff-4e0c-bd86-b64dc2121f9f"/>
+				<imageExpression><![CDATA["C:\\Users\\Usuario\\Documents\\vestidosary.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="251" y="24" width="100" height="20" uuid="9e3c4243-e942-4c75-8229-04e734eb6bc8"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagos de:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="0" width="100" height="20" uuid="e383492e-0147-4969-96cf-348accf3b13f"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[idPagos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="208" y="0" width="100" height="20" uuid="8599ca71-343c-44fd-9199-a2f6b32411a4"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[abono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="2" width="100" height="20" uuid="0321ec96-11ff-45a2-96ff-09d15247844a"/>
+				<text><![CDATA[idPagos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="2" width="100" height="20" uuid="6801edf6-2c82-4f25-87c4-5d1b339e6c97"/>
+				<text><![CDATA[idPagos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="2" width="100" height="20" uuid="c6fac6aa-7229-4212-8b33-b9dd870672d8"/>
+				<text><![CDATA[abono]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="21" y="0" width="100" height="20" uuid="1a0d84b6-4a04-4eed-864b-97a7bf316e17"/>
+				<textFieldExpression><![CDATA[$F{idPagos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="0" width="100" height="20" uuid="991c7ed1-694c-4007-82d5-6f3c24a14b27"/>
+				<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
