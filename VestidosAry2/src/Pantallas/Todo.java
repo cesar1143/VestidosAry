@@ -18,6 +18,7 @@ import ModeloProductosApartados.DaoProductosApartados;
 import ModeloProductosApartados.Operaciones;
 import ModeloProductosApartados.OpreacionesCondeuda;
 import ModeloProductosApartados.ProductosApartados;
+import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -38,6 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -45,6 +48,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 import servicios.conexion;
 
@@ -71,8 +75,9 @@ public class Todo extends javax.swing.JFrame {
     String arreFechas[][] = new String[2][3];
     public static int idCliente;
     public static String nom, apa, ama;
-    
-    Connection conex=null;
+
+    Connection conex = null;
+    JDialog ver = new JDialog(new Frame(), "reporte", true);
 
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
@@ -114,7 +119,7 @@ public class Todo extends javax.swing.JFrame {
     }
 
     public String[] getColumnasPA() {
-        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus","Fecha Prueba", "Fecha Evento"};
+        String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus", "Fecha Prueba", "Fecha Evento"};
         return columnas;
     }
 
@@ -683,7 +688,7 @@ public class Todo extends javax.swing.JFrame {
         }
         int total = sumaPagos + abono;
         System.out.println("suma pagos  " + total);
-        int deudaMenosPagos= Integer.parseInt(jLabel4.getText().toString())-total;
+        int deudaMenosPagos = Integer.parseInt(jLabel4.getText().toString()) - total;
         if (total == Integer.parseInt(jLabel4.getText().toString())) {
             System.out.println("los pagos son igual ala deuda");
             //entonces registramos y enviamos un mensaje de ultimo pago registrado
@@ -1183,23 +1188,21 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        
-       
-    
-        
-        try {
-            JasperReport reporte = (JasperReport) JRLoader.loadObject("report1.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, conex);
 
-        JRExporter exporter = new JRHtmlExporter();
-        
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("reportePDF.pdf"));
-        exporter.exportReport();
-        } catch (Exception ex) {
-            System.out.println("error " + ex);
+        try {
+            
+            JasperReport report;
+            report = (JasperReport) JRLoader.loadObject("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Sicoca\\VestidosAry\\VestidosAry\\VestidosAry2\\src\\Pantallas\\report1.jrxml");
+            System.out.println("aaa " + report);
+            JasperPrint print = JasperFillManager.fillReport(report, null, conex);
+ 
+            JasperViewer v = new   JasperViewer(print);
+            v.show();
+            
+        } catch (Exception e) {
+             
+            System.out.println("error " + e.getMessage());
         }
-    
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**

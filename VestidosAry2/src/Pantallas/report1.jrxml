@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43b7c8cc-b262-47f3-9749-a9eef40cfb66">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="973f5520-4762-4f0a-80be-dbc78f40a76f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
-	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<queryString>
-		<![CDATA[select * from pagos where idpagos=2;]]>
+		<![CDATA[select * from pagos;]]>
 	</queryString>
 	<field name="idpagos" class="java.lang.Integer"/>
 	<field name="abono" class="java.lang.Integer"/>
@@ -19,122 +15,33 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
-			<image>
-				<reportElement x="-20" y="0" width="595" height="64" uuid="73d79fa7-7d94-476d-9cf7-aeb817620254"/>
-				<imageExpression><![CDATA["wood.jpg"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement style="Title" x="0" y="5" width="263" height="33" uuid="d5c6096a-98e6-45e1-853b-a367cc39c8d2"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Wood Title]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="36e86bc5-9937-4f27-9571-a2aad8bf564b"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Wood SubTitle]]></text>
-			</staticText>
-		</band>
+		<band height="79" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="36" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="29da269a-1dd8-4c12-9c1f-ffa91e8287ce"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="111" height="15" uuid="6859e888-94a5-4a4b-b9da-493e59548f2d"/>
-				<text><![CDATA[idpagos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="111" y="19" width="111" height="15" uuid="40c5a255-9403-4274-bd4e-aea16cf3b60f"/>
-				<text><![CDATA[abono]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="222" y="19" width="111" height="15" uuid="0d2376f9-75d0-4947-ae72-72273becedb5"/>
-				<text><![CDATA[fecharegistro]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="333" y="19" width="111" height="15" uuid="8e6d060f-e737-4618-a9a2-b787fb9473c5"/>
-				<text><![CDATA[deudatotal_id]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="444" y="19" width="111" height="15" uuid="a58e2427-543f-4c64-a52c-2671e5333cfe"/>
-				<text><![CDATA[usuario_id]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="16" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="5966bb6f-fef5-47ac-a5ba-0f570afcb4b1"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
+		<band height="35" splitType="Stretch">
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="111" height="15" uuid="7a6e7d4d-ab96-48dd-9d93-8eafcd8502a3"/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="3f83e7ed-ee90-4916-a0c0-1a4df357ec29"/>
 				<textFieldExpression><![CDATA[$F{idpagos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="111" y="0" width="111" height="15" uuid="0d15145d-dd0a-4680-ac71-751496ef074b"/>
+				<reportElement x="100" y="0" width="100" height="20" uuid="2c85e61d-db9d-4ca8-9eeb-0697b3df44f5"/>
 				<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement style="Detail" x="222" y="0" width="111" height="15" uuid="c1974913-c67a-421a-8625-8693d37d4dba"/>
-				<textFieldExpression><![CDATA[$F{fecharegistro}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="333" y="0" width="111" height="15" uuid="d6026484-922d-4e5b-8fe5-84efcdf590aa"/>
-				<textFieldExpression><![CDATA[$F{deudatotal_id}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="444" y="0" width="111" height="15" uuid="abdf5bde-a83a-4124-99e5-9a7d99840aee"/>
-				<textFieldExpression><![CDATA[$F{usuario_id}]]></textFieldExpression>
-			</textField>
 		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="bce42a66-e8de-47ed-b7ff-a5e5bfb1a514"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
+		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c4425f7e-01cd-4dfc-b44d-27ee2a95c79b"/>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="29be90b9-9b1c-45a6-a67b-1238dcceeb51"/>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="1853ffad-fab9-42d3-9baf-c29ff6b6c053"/>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>
