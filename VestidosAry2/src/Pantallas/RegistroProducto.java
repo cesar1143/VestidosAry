@@ -108,7 +108,7 @@ public class RegistroProducto extends javax.swing.JFrame {
 
         jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Novia", "IVaños", "Presentacion", "Trajes" }));
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Novia", "IV años", "Presentacion", "Trajes" }));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Tipo: ");

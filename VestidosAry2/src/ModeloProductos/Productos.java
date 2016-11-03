@@ -15,7 +15,7 @@ public class Productos {
     private int idProductos,precio;
     private String clave,color,tipo,fecha,fotoStrin;
     private Date fechaDate;
-    private Byte[] foto;
+    private byte[] foto;
    public static int usuario_id;
 
     public int getIdProductos() {
@@ -74,11 +74,11 @@ public class Productos {
         this.fechaDate = fechaDate;
     }
 
-    public Byte[] getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Byte[] foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 
