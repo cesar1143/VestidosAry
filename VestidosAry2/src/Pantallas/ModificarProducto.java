@@ -7,6 +7,7 @@ package Pantallas;
 
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
+import static Pantallas.Principal.controlProductoMod;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -56,6 +57,11 @@ public class ModificarProducto extends javax.swing.JFrame {
         codigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -271,6 +277,11 @@ public class ModificarProducto extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Principal.controlProductoMod=false;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

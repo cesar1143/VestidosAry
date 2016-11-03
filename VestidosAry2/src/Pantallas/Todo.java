@@ -18,6 +18,7 @@ import ModeloProductosApartados.DaoProductosApartados;
 import ModeloProductosApartados.Operaciones;
 import ModeloProductosApartados.OpreacionesCondeuda;
 import ModeloProductosApartados.ProductosApartados;
+import static Pantallas.Principal.controlClienteAdd;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -78,7 +79,9 @@ public class Todo extends javax.swing.JFrame {
 
     Connection conex = null;
     JDialog ver = new JDialog(new Frame(), "reporte", true);
-
+    public static boolean controlProductoAdd=false;
+    public static boolean controlMedidasVer=false;
+       public static boolean controlMedidasAdd=false;
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         tableApartados = new DefaultTableModel(null, getColumnasPA());
@@ -667,7 +670,15 @@ public class Todo extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (CheckSi.isSelected()) {
             MedidasRegistrar mr = new MedidasRegistrar();
+            if(controlMedidasAdd==false){
             mr.setVisible(true);
+             controlMedidasAdd=true;
+             
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
+        }
+           
         } else {
 
             MedidasRegistrar mr = new MedidasRegistrar();
@@ -742,7 +753,15 @@ public class Todo extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         RegistroProducto pr = new RegistroProducto();
-        pr.setVisible(true);
+        if(controlProductoAdd==false){
+             pr.setVisible(true);
+             controlProductoAdd=true;
+             
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
+        }
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -756,7 +775,15 @@ public class Todo extends javax.swing.JFrame {
 
             VerMedidas vm = new VerMedidas();
             vm.setFilas(Integer.parseInt(idPA.toString()));
-            vm.setVisible(true);
+             if(controlMedidasVer==false){
+             vm.setVisible(true);
+             controlMedidasVer=true;
+             
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
+        }
+            
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 

@@ -205,7 +205,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Principal.controlMensaje=false;
+        Principal.controlClienteAdd=false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

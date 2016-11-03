@@ -37,7 +37,11 @@ public class Principal extends javax.swing.JFrame {
     DefaultTableModel tableModel, tableVerProductos;
     ResultSet rs;
     private Object btnBoton;
-    public static boolean controlMensaje=false;
+    //estas variables sirven para que solo se abra un jframe
+    public static boolean controlClienteAdd=false;
+    public static boolean controlClienteMod=false;
+    public static boolean controlProductoMod=false;
+    public static boolean controlProductoAdd=false;
     public Principal() {
         tableModel = new DefaultTableModel();
         tableVerProductos = new DefaultTableModel(null, getColumnasVP());
@@ -761,12 +765,15 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ClienteAgregar ca = new ClienteAgregar();
        
-        if(controlMensaje==false){
+        if(controlClienteAdd==false){
              ca.setVisible(true);
-             controlMensaje=true;
+             controlClienteAdd=true;
+             
         }else{
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
         }
+         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -774,6 +781,8 @@ public class Principal extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar la fila");
         } else {
+            
+       
             int fila = jTable1.getSelectedRow();
             Object nombre = jTable1.getValueAt(fila, 1);
             Object apaterno = jTable1.getValueAt(fila, 2);
@@ -788,9 +797,18 @@ public class Principal extends javax.swing.JFrame {
             ClienteModificar.amaterno.setText(amaterno.toString());
             ClienteModificar.telefono.setText(telefono.toString());
             ClienteModificar.id = Integer.parseInt(id.toString());
+            if(controlClienteMod==false){
             
+             controlClienteMod=true;
             cm.setVisible(true);
+          
+             }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
         }
+          
+        }
+         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void panelPrincipalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelPrincipalStateChanged
@@ -912,7 +930,15 @@ public class Principal extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         RegistroProducto rp= new RegistroProducto();
-        rp.setVisible(true);
+        if(controlProductoAdd==false){
+            rp.setVisible(true);
+             controlProductoAdd=true;
+             
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
+        }
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -941,8 +967,15 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println("error al cargar al imagen " + ex);
         }
+        if(controlProductoMod==false){
+             mp.setVisible(true);
+             controlProductoMod=true;
+             
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+           
+        }
         
-        mp.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
