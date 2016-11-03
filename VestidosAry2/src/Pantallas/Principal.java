@@ -37,7 +37,7 @@ public class Principal extends javax.swing.JFrame {
     DefaultTableModel tableModel, tableVerProductos;
     ResultSet rs;
     private Object btnBoton;
-    
+    public static boolean controlMensaje=false;
     public Principal() {
         tableModel = new DefaultTableModel();
         tableVerProductos = new DefaultTableModel(null, getColumnasVP());
@@ -355,11 +355,16 @@ public class Principal extends javax.swing.JFrame {
         labelFoto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jPanel4.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Editar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Editar producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel4.setPreferredSize(new java.awt.Dimension(206, 104));
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475276232_icon-136-document-edit.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -384,6 +389,11 @@ public class Principal extends javax.swing.JFrame {
 
         jButton5.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475467326_sign-add.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -529,6 +539,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7)
+                        .addGap(0, 0, 0)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createSequentialGroup()
@@ -574,15 +585,11 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel9))
+                    .addComponent(jLabel9)
                     .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel10))
+                    .addComponent(jLabel10)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jButton3)
@@ -753,7 +760,13 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         ClienteAgregar ca = new ClienteAgregar();
-        ca.setVisible(true);
+       
+        if(controlMensaje==false){
+             ca.setVisible(true);
+             controlMensaje=true;
+        }else{
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -895,6 +908,43 @@ public class Principal extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        RegistroProducto rp= new RegistroProducto();
+        rp.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(jTable2.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null, "Seleccionar fila");
+        }else{
+         ModificarProducto mp = new ModificarProducto();
+        int fila=jTable2.getSelectedRow();
+        Object idPro=jTable2.getValueAt(fila,0);
+        DaoProductos dao= new DaoProductos();
+        System.out.println("idPro " + idPro);
+        Productos bean= dao.consultaEspecifica(Integer.parseInt(idPro.toString()));
+        RegistroProducto.idProducto=bean.getIdProductos();
+        System.out.println("get clave " + bean.getClave());
+         ModificarProducto.codigo.setText(bean.getClave());
+        ModificarProducto.precio.setText(String.valueOf(bean.getPrecio()));
+         ModificarProducto.color.setText(bean.getColor());
+         ModificarProducto.comboTipo.setSelectedItem(bean.getTipo());
+         ModificarProducto.idProducto=bean.getIdProductos();
+        Image imagen;
+        try {
+            imagen = dao.getImage(bean.getFoto(), false);
+            Icon icon = new ImageIcon(imagen.getScaledInstance(170, 130, Image.SCALE_DEFAULT));
+            ModificarProducto .jLabel2.setIcon(icon);
+        } catch (Exception ex) {
+            System.out.println("error al cargar al imagen " + ex);
+        }
+        
+        mp.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

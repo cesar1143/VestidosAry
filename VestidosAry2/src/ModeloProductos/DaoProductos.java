@@ -100,15 +100,14 @@ public class DaoProductos {
 
         try {
             con = conexion.getConnection();
-            
+
             ps = con.prepareStatement(sql);
             System.out.println("soy id pro " + idpro);
             ps.setInt(1, idpro);
             rs = ps.executeQuery();
             while (rs.next()) {
-                byte[] img =rs.getBytes("foto");
+                byte[] img = rs.getBytes("foto");
                 bean.setFoto(img);
-                
 
             }
 
@@ -136,5 +135,73 @@ public class DaoProductos {
         return reader.read(0, param);
 
     }
+//=============== Consulta Especifica para modificar =================================
 
+    public Productos consultaEspecifica(int idPro) {
+
+        String sql = "select * from productos where idproductos=?";
+        try {
+            con = conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idPro);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                bean.setIdProductos(rs.getInt(1));
+                bean.setClave(rs.getString(2));
+                bean.setPrecio(rs.getInt(3));
+                bean.setColor(rs.getString(4));
+                bean.setTipo(rs.getString(5));
+                byte[] img = rs.getBytes("foto");
+                bean.setFoto(img);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje DaoProductos consultaEspecifica " + e);
+        }
+        return bean;
+    }
+//============== Modificar Productos con nueva foto =================================
+public boolean modificarProductoConFoto(Productos bean) {
+        boolean ban = false;
+        String sql = "update productos set clave=?,precio=?,color=?,tipo=?,foto=? where idproductos=?";
+        try {
+            con = conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, bean.getClave());
+            ps.setInt(2, bean.getPrecio());
+            ps.setString(3, bean.getColor());
+            ps.setString(4, bean.getTipo());
+            FileInputStream archivoFoto = new FileInputStream(bean.getFotoStrin());
+            ps.setBinaryStream(5, archivoFoto);
+            ps.setInt(6, bean.getIdProductos());
+            ban = ps.executeUpdate() == 1;
+            ban = true;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje DaoProductos ModificarProductos " + e);
+        }
+        return ban;
+
+    }
+//============== Modificar Productos foto actual =================================
+public boolean modificarProductoFotoActual(Productos bean) {
+        boolean ban = false;
+        String sql = "update productos set clave=?,precio=?,color=?,tipo=? where idproductos=?";
+        try {
+            con = conexion.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, bean.getClave());
+            ps.setInt(2, bean.getPrecio());
+            ps.setString(3, bean.getColor());
+            ps.setString(4, bean.getTipo());
+            
+            ps.setInt(5, bean.getIdProductos());
+            ban = ps.executeUpdate() == 1;
+            ban = true;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje DaoProductos ModificarProductos " + e);
+        }
+        return ban;
+
+    }
 }

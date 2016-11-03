@@ -50,6 +50,7 @@ public class InicioSesion extends javax.swing.JFrame {
         comboUsuarios = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
