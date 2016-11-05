@@ -60,7 +60,12 @@ public class Operaciones {
                     System.out.println("long arre fechas " + arreFechas.length);
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -79,13 +84,18 @@ public class Operaciones {
                                     if (banFechas) {
                                         JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                         //si se registra en fechas registramos vendidos
-                                        boolean banPV = registrarProductosVendidos();
-                                        if (banPV) {
-                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                        System.out.println("soy el estado " + estado);
+                                        if (estado.equals("Pagado entregado")) {
+                                            boolean banPV = registrarProductosVendidos();
+                                            if (banPV) {
+                                                //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                                JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
+                                            } else {
+                                                JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                            }
                                         } else {
-                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos");
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
@@ -106,7 +116,7 @@ public class Operaciones {
                     }
                     i = arreMedidas.length;
                 } else {
-                    
+
                     /*No se encontro el id de la tabla en arreglo medias, osea no hay medidas*/
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
@@ -116,7 +126,12 @@ public class Operaciones {
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -132,13 +147,18 @@ public class Operaciones {
                                 if (banFechas) {
                                     JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                     //si se registra en fechas registramos vendidos
-                                    boolean banPV = registrarProductosVendidos();
-                                    if (banPV) {
-                                        //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                        JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                    System.out.println("soy el estado " + estado);
+                                    if (estado.equals("Pagado entregado")) {
+                                        boolean banPV = registrarProductosVendidos();
+                                        if (banPV) {
+                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                        }
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                        JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos");
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
@@ -165,23 +185,27 @@ public class Operaciones {
                                 banr = true;
                                 //si se registra en apartados registramos FECHAS PRUEBA
 
-                                boolean banPV = registrarProductosVendidos();
-                                if (banPV) {
-                                    //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                    JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                               System.out.println("soy el estado " + estado);
+                                        if(estado.equals("Pagado entregado")){
+                                             boolean banPV = registrarProductosVendidos();
+                                              if (banPV) {
+                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
-                                }
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                        }
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                        }
 
                             }
                             k = arreFechas.length;
                         }
-                         
 
                     }
                     //===================== HASTA AQUI ========================================
-                i=arreMedidas.length;
+                    i = arreMedidas.length;
                 }
 
             }
@@ -204,12 +228,12 @@ public class Operaciones {
 
         return banr;
     }
-    
+
     /* REGISTRO CASI COMPLETO SOLO NO SE RESGITRA EN VENTIDOS YA QUE EL ESTATUS ES PAGADO NO  ENTREGADO */
 //aqui lo unico que cambia es el estado y tampoco registramos en vanta trabajar aqui
     public boolean registrarExecptoVendidos(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
         boolean banr = false;
-        
+
         System.out.println("filas " + jTable3.getRowCount());
         for (int j = 0; j < jTable3.getRowCount(); j++) {//obtenemos el id de la tabla
 
@@ -231,7 +255,12 @@ public class Operaciones {
                     System.out.println("long arre fechas " + arreFechas.length);
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -273,25 +302,25 @@ public class Operaciones {
                     /*No se encontro el id de la tabla en arreglo medias, osea no hay medidas*/
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
-                   
+
                     //LLENAMOS EL BEAN DE PROAPAR
                     beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
-                           
+
                         System.out.println("entramos al for para buscar fechas");
 //                        System.out.println("arreFechas " + Integer.parseInt(String.valueOf(arreFechas[k][0])));
                         System.out.println("STring " + arreFechas[k][0]);
-                        if(arreFechas[k][0]== null){
-                            arreFechas[k][0]=String.valueOf("0");
-                             System.out.println("entro al if " + arreFechas[k][0]);
-                        }else{
-                            
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
+
                         }
                         System.out.println("STring ya  " + arreFechas[k][0]);
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
-                           
+
                             System.out.println("si tiene fechas");
                             System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
                             beanPA.setFechaEntrega(arreFechas[k][2]);
@@ -327,16 +356,14 @@ public class Operaciones {
                             if (ban) {
 
                                 banr = true;
-                                
 
                             }
                             k = arreFechas.length;
                         }
-                         
 
                     }
                     //===================== HASTA AQUI ========================================
-                i=arreMedidas.length;
+                    i = arreMedidas.length;
                 }
 
             }

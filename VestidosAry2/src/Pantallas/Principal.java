@@ -70,7 +70,7 @@ public class Principal extends javax.swing.JFrame {
         jDateChooser2.setVisible(false);
         jButton3.setVisible(false);
         jTextField1.setVisible(false);
-        
+
     }
 
     public String[] getColumnasVP() {
@@ -589,8 +589,8 @@ public class Principal extends javax.swing.JFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(659, 659, 659)
@@ -799,7 +799,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
 
         }
-        
+
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -845,18 +845,15 @@ public class Principal extends javax.swing.JFrame {
     private void panelPrincipal2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipal2MouseClicked
         // TODO add your handling code here:
         sesionReportes in = new sesionReportes();
-         if (controlSesionReporte  == false) {
-             in.setVisible(true);
-            controlSesionReporte  = true;
+        if (controlSesionReporte == false) {
+            in.setVisible(true);
+            controlSesionReporte = true;
 
         } else {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
 
         }
-        
-       
-         
-        
+
 
     }//GEN-LAST:event_panelPrincipal2MouseClicked
 
@@ -868,7 +865,7 @@ public class Principal extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "cerrar sesion");
-       
+
         //ocultamos las cosas en reporte hasta que inicie sesion
         jLabel5.setVisible(false);
         jLabel6.setVisible(false);
@@ -885,62 +882,66 @@ public class Principal extends javax.swing.JFrame {
         jTextField1.setVisible(false);
 
         panelPrincipal.setSelectedIndex(0);
-        controlSesionReporte =false;
-        
+        controlSesionReporte = false;
+
 
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
-        String tipoReporte=jComboBox2.getSelectedItem().toString();
-        if(tipoReporte.equals("Selecciona...")){
-              jTextField1.setText("");
-            jLabel11.setText("Venta" );
+        String tipoReporte = jComboBox2.getSelectedItem().toString();
+        if (tipoReporte.equals("Selecciona...")) {
+            jTextField1.setText("");
+            jLabel11.setText("Venta");
             jLabel8.setVisible(false);
             jDateChooser1.setVisible(false);
             jLabel9.setVisible(false);
             jYearChooser1.setVisible(false);
             jLabel10.setVisible(false);
             jDateChooser2.setVisible(false);
-            }if(tipoReporte.equals("Dia")){
-             jLabel8.setText("Ingresar fecha");
+        }
+        if (tipoReporte.equals("Dia")) {
+            jLabel8.setText("Ingresar fecha");
             jLabel8.setVisible(true);
             jDateChooser1.setVisible(true);
             jLabel9.setVisible(false);
             jYearChooser1.setVisible(false);
             jLabel10.setVisible(false);
             jDateChooser2.setVisible(false);
-            
-        }else if(tipoReporte.equals("Semana")){
+            jTextField1.setText("");
+
+        } else if (tipoReporte.equals("Semana")) {
             jLabel8.setText("Fecha inicial");
-             jLabel8.setVisible(true);
-             jDateChooser1.setVisible(true);
-             jLabel10.setText("Fecha final");
-              
-              jLabel10.setVisible(true);
-              jDateChooser2.setVisible(true);
-              jLabel9.setVisible(false);
+            jLabel8.setVisible(true);
+            jDateChooser1.setVisible(true);
+            jLabel10.setText("Fecha final");
+
+            jLabel10.setVisible(true);
+            jDateChooser2.setVisible(true);
+            jLabel9.setVisible(false);
             jYearChooser1.setVisible(false);
-             
-            
-        }else if(tipoReporte.equals("Año")){
-             jLabel8.setVisible(false);
-            jDateChooser1.setVisible(false);
-            jLabel9.setVisible(true);
-            jYearChooser1.setVisible(true);
-            jLabel10.setVisible(false);
-            jDateChooser2.setVisible(false);
-            
-        }else if(tipoReporte.equals("Mes con mas ventas")){
+            jTextField1.setText("");
+
+        } else if (tipoReporte.equals("Año")) {
             jLabel8.setVisible(false);
             jDateChooser1.setVisible(false);
             jLabel9.setVisible(true);
             jYearChooser1.setVisible(true);
             jLabel10.setVisible(false);
             jDateChooser2.setVisible(false);
-            
+            jTextField1.setText("");
+
+        } else if (tipoReporte.equals("Mes con mas ventas")) {
+            jLabel8.setVisible(false);
+            jDateChooser1.setVisible(false);
+            jLabel9.setVisible(true);
+            jYearChooser1.setVisible(true);
+            jLabel10.setVisible(false);
+            jDateChooser2.setVisible(false);
+            jTextField1.setText("");
+
         }
-        
+
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
@@ -1079,28 +1080,97 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-         DaoDeudaTotal dao= new  DaoDeudaTotal();
-        String tipoReporte=jComboBox2.getSelectedItem().toString();
-        if(tipoReporte.equals("Selecciona...")){
+        DaoDeudaTotal dao = new DaoDeudaTotal();
+        String tipoReporte = jComboBox2.getSelectedItem().toString();
+        if (tipoReporte.equals("Selecciona...")) {
             JOptionPane.showMessageDialog(null, "Seleccionar un tipo de reporte");
-        }else if(tipoReporte.equals("Dia")){
+        } else if (tipoReporte.equals("Dia")) {
             if (jDateChooser1.getDate() == null) {
-                    JOptionPane.showMessageDialog(null, "Ingresar la fecha");
-                } else{
+                JOptionPane.showMessageDialog(null, "Ingresar la fecha");
+            } else {
                 int dia = jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH);
-                    int mes = jDateChooser1.getCalendar().get(Calendar.MONTH) +1;
-                    int año = jDateChooser1.getCalendar().get(Calendar.YEAR);
-                    String fechaDia = año + "-" + mes + "-" + dia;
-                    String fechaDia2 = dia + "-" + mes + "-" + año;
-                    System.out.println("Fechaaa " + fechaDia);
-                 jDateChooser1.setCalendar(null);
-                 int ventaXDia=dao.consultarDeudaRporteDia(fechaDia);
-                
-                 jLabel11.setText("Venta del dia  " + fechaDia2 );
-                 System.out.println("venta por dia  " + ventaXDia);
-                 jTextField1.setText(String.valueOf(ventaXDia));
+                int mes = jDateChooser1.getCalendar().get(Calendar.MONTH) + 1;
+                int año = jDateChooser1.getCalendar().get(Calendar.YEAR);
+                String fechaDia = año + "-" + mes + "-" + dia;
+                String fechaDia2 = dia + "-" + mes + "-" + año;
+                System.out.println("Fechaaa " + fechaDia);
+
+                int ventaXDia = dao.consultarDeudaRporteDia(fechaDia);
+
+                jLabel11.setText("Venta del dia  " + fechaDia2);
+                System.out.println("venta por dia  " + ventaXDia);
+                jTextField1.setText(String.valueOf(ventaXDia));
             }
+        } else if (tipoReporte.equals("Semana")) {
+            if (jDateChooser1.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "Ingresar la fecha inicial");
+            } else if (jDateChooser2.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "Ingresar la fecha final");
+
+            } else {
+                //primera fecha
+                int dia1 = jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH);
+                int mes1 = jDateChooser1.getCalendar().get(Calendar.MONTH) + 1;
+                int año1 = jDateChooser1.getCalendar().get(Calendar.YEAR);
+                String fechaInicial = año1 + "-" + mes1 + "-" + dia1;
+                String fechaInicial1 = dia1 + "-" + mes1 + "-" + año1;
+                // segunda fecha
+                int dia2 = jDateChooser2.getCalendar().get(Calendar.DAY_OF_MONTH);
+                int mes2 = jDateChooser2.getCalendar().get(Calendar.MONTH) + 1;
+                int año2 = jDateChooser2.getCalendar().get(Calendar.YEAR);
+                String fechaFinal = año2 + "-" + mes2 + "-" + dia2;
+                String fechaFinal2 = dia2 + "-" + mes2 + "-" + año2;
+
+                //obtenemos la cantida de ventas y lo mostramos
+                int ventaXSemana = dao.consultarDeudaRporteSemana(fechaInicial, fechaFinal);
+
+                jLabel11.setText("Venta semanal del  " + fechaInicial1 + " al " + fechaFinal2);
+
+                jTextField1.setText(String.valueOf(ventaXSemana));
+
+            }
+        } else if (tipoReporte.equals("Año")) {
+            int año = jYearChooser1.getYear();
+            JOptionPane.showMessageDialog(null, "soy año " + año);
+            String fechaInicialAño = año + "-" + "01" + "-" + "01";
+            String fechaFinalAño = año + "-" + "12" + "-" + "31";
+            
+            String fechaInicialAño1 = "01"+"-"+"01"+"-"+año;
+            String fechaFinalAño1 = "31"+"-"+"12"+"-"+año;
+            
+            
+             //obtenemos la cantida de ventas y lo mostramos
+                int ventaXSemana = dao.consultarDeudaRporteSemana(fechaInicialAño, fechaFinalAño);
+
+                jLabel11.setText("Venta anual del  " + fechaInicialAño1 + " al " + fechaFinalAño1);
+
+                jTextField1.setText(String.valueOf(ventaXSemana));
+
+        }else if(tipoReporte.equals("Mes con mas ventas")){
+            int conMes=1;
+            int añoMes = jYearChooser1.getYear();
+            
+            
+            /*
+            String fechaInicialAño1 = "01"+"-"+"01"+"-"+añoMes;
+            String fechaFinalAño1 = "31"+"-"+"12"+"-"+añoMes;
+            */
+            /* ------------>>>>>>>>>>>>>>>>>>> PENDIENTEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+            while(conMes<=12){
+                String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
+            String fechaFinalAño = añoMes + "-" + conMes + "-" + "31";
+            int ventaXSemana = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño);
+            conMes++;
+            }
+                jLabel11.setText("Venta del mes mas vendido");
+
+                jTextField1.setText(String.valueOf(ventaXSemana));
+            */
+            
         }
+        jDateChooser1.setCalendar(null);
+        jDateChooser2.setCalendar(null);
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -1117,16 +1187,21 @@ public class Principal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

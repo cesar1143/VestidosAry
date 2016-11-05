@@ -1039,7 +1039,7 @@ public class Todo extends javax.swing.JFrame {
                 //creamos el item para el status
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
                 Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
-                if (estado.equals("Pagado entregado")) {//si se cumple se registra en apartados y vendidos
+                //if (estado.equals("Pagado entregado")) {//QUITAR ESTAR//si se cumple se registra en apartados y vendidos
                     System.out.println("entro al estado pagado entregado");
                     boolean ban = opera.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
@@ -1065,8 +1065,9 @@ public class Todo extends javax.swing.JFrame {
 
                     }
 
-                } else {//si el estado es igual a pagado no entregado solo registramos en la tabla apartados
-                    System.out.println("entro al estado pagado NO entregado");
+             //   } else {//QUITAR ESTE si el estado es igual a pagado no entregado solo registramos en la tabla apartados
+                   
+                    /*System.out.println("entro al estado pagado NO entregado");
                     boolean ban1 = opera.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
                     if (ban1) {
                         JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
@@ -1090,7 +1091,8 @@ public class Todo extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
 
                     }
-                }
+                    */
+              //  }//QUITAR ESTE
 
             } else {//si el pago no es igual ala deuda pero el check esta seleccionado
                 System.out.println("El pago no es igual ala deuda");
@@ -1132,8 +1134,8 @@ public class Todo extends javax.swing.JFrame {
                 //creamos el item para el status
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
                 Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
-                if (estado.equals("Pagado entregado")) {//si se cumple se registra en apartados y vendidos
-                    System.out.println("entro al estado pagado entregado");
+               
+                    
                     boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
                     if (ban) {
@@ -1155,29 +1157,6 @@ public class Todo extends javax.swing.JFrame {
 
                     }
 
-                } else {//si el estado es igual a pagado no entregado solo registramos en la tabla apartados
-                    System.out.println("entro al estado pagado NO entregado");
-                    boolean ban1 = o.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
-                    if (ban1) {
-                        JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
-                        limpiarTabla();
-                        limpiarTablaPA();
-                        setFilasPA();
-                        limpiarTablaPagos();
-                        setFilasPagos();
-                        totalPagar = 0;
-                        jTextField2.setText(String.valueOf(totalPagar));
-                        con = 0;
-                        conFechas = 0;
-                        jLabel4.setText(String.valueOf(totalDeuda));
-                        jLabel6.setText(String.valueOf(deudaMenosPagos));
-                        // jTextField2.setText(String.valueOf(totalPagar));
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
-
-                    }
-                }
 
             } else {//si el pago no es igual ala deuda pero el check esta seleccionado
                 System.out.println("El pago no es igual ala deuda");
@@ -1205,14 +1184,7 @@ public class Todo extends javax.swing.JFrame {
             }
 
         }//cerramos el if de no tiene deuda
-        /*
-         totalPagar = 0;
-         jTextField2.setText(String.valueOf(totalPagar));
-         con = 0;
-         conFechas = 0;
-         jLabel4.setText(String.valueOf(totalDeuda));
-         jLabel6.setText(String.valueOf(deudaMenosPagos));
-         */
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed

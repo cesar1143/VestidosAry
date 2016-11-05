@@ -5,6 +5,8 @@
  */
 package ModeloProductosApartados;
 
+import ModeloClientes.Clientes;
+import ModeloClientes.daoCliente;
 import ModeloDeudaTotal.DaoDeudaTotal;
 import ModeloDeudaTotal.DeudaTotal;
 import ModeloFechasPruebas.DaoFechasPruebas;
@@ -16,7 +18,10 @@ import ModeloPagos.Pagos;
 import ModeloProductosVendidos.DaoProductosVendidos;
 import ModeloProductosVendidos.ProductosVendidos;
 import Pantallas.Todo;
+import static Pantallas.Todo.ama;
+import static Pantallas.Todo.apa;
 import static Pantallas.Todo.idCliente;
+import static Pantallas.Todo.nom;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -33,11 +38,11 @@ public class OpreacionesCondeuda {
     Medidas beanMedidas = new Medidas();
     DaoMedidas daoMedidas = new DaoMedidas();
 
-    public OpreacionesCondeuda(int pago, int iddeudaTotal,int nuevaDeuda) {
+    public OpreacionesCondeuda(int pago, int iddeudaTotal, int nuevaDeuda) {
 
         this.pago = pago;
         this.iddeudaTotal = iddeudaTotal;
-        this.nuevaDeuda= nuevaDeuda;
+        this.nuevaDeuda = nuevaDeuda;
     }
 
     public boolean registrar(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
@@ -65,7 +70,12 @@ public class OpreacionesCondeuda {
                     System.out.println("long arre fechas " + arreFechas.length);
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -84,14 +94,22 @@ public class OpreacionesCondeuda {
                                     if (banFechas) {
                                         JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                         //si se registra en fechas registramos vendidos
-                                        boolean banPV = registrarProductosVendidos();
-                                        if (banPV) {
+ //-->aqui le meti mano jejeje
+                                        System.out.println("soy el estado " + estado);
+                                        if(estado.equals("Pagado entregado")){
+                                             boolean banPV = registrarProductosVendidos();
+                                              if (banPV) {
                                             //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
                                             JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
                                         } else {
                                             JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
                                         }
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                        }
+                                       
+                                       
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
                                     }
@@ -121,7 +139,12 @@ public class OpreacionesCondeuda {
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -137,14 +160,18 @@ public class OpreacionesCondeuda {
                                 if (banFechas) {
                                     JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                     //si se registra en fechas registramos vendidos
-                                    boolean banPV = registrarProductosVendidos();
-                                    if (banPV) {
-                                        //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                        JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                    if(estado.equals("Pagado entregado")){
+                                             boolean banPV = registrarProductosVendidos();
+                                              if (banPV) {
+                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
-                                    }
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                        }
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                        }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
                                 }
@@ -170,14 +197,18 @@ public class OpreacionesCondeuda {
                                 banr = true;
                                 //si se registra en apartados registramos FECHAS PRUEBA
 
-                                boolean banPV = registrarProductosVendidos();
-                                if (banPV) {
-                                    //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                    JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                               if(estado.equals("Pagado entregado")){
+                                             boolean banPV = registrarProductosVendidos();
+                                              if (banPV) {
+                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
+                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
-                                }
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
+                                        }
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                        }
 
                             }
                             k = arreFechas.length;
@@ -196,7 +227,7 @@ public class OpreacionesCondeuda {
         if (banDT) {
             JOptionPane.showMessageDialog(null, "Se modifico correctamente deuda total");
             //si se registra la deuda total registramos en pagos
-            boolean banP = registrarPagos();
+            boolean banP = registrarPagosDeudaCliente();//HAY QUE CAMBIAR ESTO
             if (banP) {
                 JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
             } else {
@@ -235,7 +266,12 @@ public class OpreacionesCondeuda {
                     System.out.println("long arre fechas " + arreFechas.length);
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
@@ -283,12 +319,17 @@ public class OpreacionesCondeuda {
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
+                        if (arreFechas[k][0] == null) {
+                            arreFechas[k][0] = String.valueOf("0");
+                            System.out.println("entro al if " + arreFechas[k][0]);
+                        } else {
 
+                        }
                         System.out.println("entramos al for para buscar fechas");
 //                        System.out.println("arreFechas " + Integer.parseInt(String.valueOf(arreFechas[k][0])));
                         System.out.println("STring " + arreFechas[k][0]);
                         System.out.println("");
-                        if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0])) ) {//si si existe obtenemos las fechas
+                        if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
 
                             System.out.println("si tiene fechas");
                             System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
@@ -343,7 +384,7 @@ public class OpreacionesCondeuda {
         if (banDT) {
             JOptionPane.showMessageDialog(null, "Se modifico correctamente deuda total");
             //si se registra la deuda total registramos en pagos
-            boolean banP = registrarPagos();
+            boolean banP = registrarPagosDeudaCliente();
             if (banP) {
                 JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
             } else {
@@ -435,7 +476,6 @@ public class OpreacionesCondeuda {
     }
 
     //si el cliente tiene deuda solo modificamos la deuda
-
     public boolean modificarDeudaTotla() {
         boolean ban = false;
         DeudaTotal bean = new DeudaTotal();
@@ -451,6 +491,7 @@ public class OpreacionesCondeuda {
         }
         return ban;
     }
+
     //modificar deudda total y el status
     public boolean modificarDeudaTotalAndStatus() {
         boolean ban = false;
@@ -501,6 +542,34 @@ public class OpreacionesCondeuda {
 
         }
 
+        return ban;
+    }
+    
+/*
+    AQUI BUSCAREMOS EL ID DE LA DEUDA TOTAL PARA REGISTRAR EL PAGO,
+    POR QUE EL CLIENTE YA TIENE UNA DEUDA
+    */
+    public boolean registrarPagosDeudaCliente(){
+        boolean ban=false;
+      
+            DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+            DaoPagos daoPagos = new DaoPagos();
+           
+            System.out.println("soy el id del cliente " + idCliente);
+            DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+            Pagos bean = new Pagos();
+        DaoPagos dao = new DaoPagos();
+        
+        bean.setAbono(pago);
+        bean.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
+        boolean banP = dao.registrar(bean);
+        if (banP) {
+            ban = true;
+
+        } else {
+
+        }
+        
         return ban;
     }
 }

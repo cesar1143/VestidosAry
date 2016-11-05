@@ -116,4 +116,48 @@ public class DaoDeudaTotal {
         
     return sumVentas;
     }
+//Obtener la venta semanal para el reporte 
+      public int consultarDeudaRporteSemana(String fechaInicial,String fechaFinal){
+        int sumVentas=0;
+        String sql="select deudatotal.deudatotal from deudatotal where CONVERT(date, deudatotal.fecharegistro, 101)>='"+fechaInicial+"'  AND CONVERT(date, deudatotal.fecharegistro, 101)<='"+fechaFinal+"' and deudatotal.status='Pagado';";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+           
+            System.out.println("sql " + sql);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                sumVentas=sumVentas+rs.getInt("deudatotal");
+            }
+            System.out.println("sum venta s dao " + sumVentas);
+            
+        } catch (Exception e) {
+             System.out.println("Mensaje daoDeudaTotal consultarDeudaRporteDia " + e);
+        }
+        
+    return sumVentas;
+    }
+      //Obtener la venta semanal para el reporte 
+      public int consultarDeudaRporteMesMasVentas(String fechaInicial,String fechaFinal){
+        int sumVentas=0;
+        String sql="select CONVERT(date, deudatotal.fecharegistro, 101)as fechas,status,sum(deudatotal)from deudatotal group by  CONVERT(date, deudatotal.fecharegistro, 101),status having CONVERT(date, deudatotal.fecharegistro, 101)>='"+fechaInicial+"'  AND CONVERT(date, deudatotal.fecharegistro, 101)<='2016-10-31' and deudatotal.status='Pagado';";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+           
+            System.out.println("sql " + sql);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                sumVentas=sumVentas+rs.getInt("deudatotal");
+            }
+            System.out.println("sum venta s dao " + sumVentas);
+            
+        } catch (Exception e) {
+             System.out.println("Mensaje daoDeudaTotal consultarDeudaRporteDia " + e);
+        }
+        
+    return sumVentas;
+    }
 }
