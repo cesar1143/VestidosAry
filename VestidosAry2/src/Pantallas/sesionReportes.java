@@ -155,27 +155,28 @@ public class sesionReportes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "simon");
             this.setVisible(false);
             Principal.jLabel6.setVisible(true);
-            Principal.jLabel7.setVisible(true);
-            Principal.jComboBox2.setVisible(true);
-            Principal.jButton3.setVisible(true);
-            Principal.jLabel11.setVisible(true);
-            Principal.jTextField1.setVisible(true);
-            /*
-             Principal.jLabel5.setVisible(true);
-             Principal.jLabel5.setVisible(true);
+             Principal.jLabel7.setVisible(true);
+             Principal.jComboBox2.setVisible(true);
+                Principal.jButton3.setVisible(true);
+                Principal.jLabel11.setVisible(true);
+                    Principal.jTextField1.setVisible(true);
+                    Principal.jLabel5.setVisible(true);
+/*
+            
+            Principal.jLabel5.setVisible(true);
             
            
-             Principal.jLabel8.setVisible(true);
-             Principal.jLabel9.setVisible(true);
-             Principal.jLabel10.setVisible(true);
+            Principal.jLabel8.setVisible(true);
+            Principal.jLabel9.setVisible(true);
+            Principal.jLabel10.setVisible(true);
             
             
-             Principal.jDateChooser1.setVisible(true);
-             Principal.jYearChooser1.setVisible(true);
-             Principal.jDateChooser2.setVisible(true);
+            Principal.jDateChooser1.setVisible(true);
+            Principal.jYearChooser1.setVisible(true);
+            Principal.jDateChooser2.setVisible(true);
          
         
-             */
+            */
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

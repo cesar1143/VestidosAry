@@ -7,6 +7,7 @@ package Pantallas;
 
 import ModeloClientes.Clientes;
 import ModeloClientes.daoCliente;
+import ModeloDeudaTotal.DaoDeudaTotal;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
 import static Pantallas.Todo.ama;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -549,6 +551,7 @@ public class Principal extends javax.swing.JFrame {
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(255, 0, 51));
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -564,17 +567,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(465, 465, 465)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(610, 610, 610)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(657, 657, 657)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addGap(465, 465, 465)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(2, 2, 2)
@@ -587,8 +586,12 @@ public class Principal extends javax.swing.JFrame {
                                     .addComponent(jLabel7)
                                     .addGap(0, 0, 0)
                                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(659, 659, 659)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -891,6 +894,8 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String tipoReporte=jComboBox2.getSelectedItem().toString();
         if(tipoReporte.equals("Selecciona...")){
+              jTextField1.setText("");
+            jLabel11.setText("Venta" );
             jLabel8.setVisible(false);
             jDateChooser1.setVisible(false);
             jLabel9.setVisible(false);
@@ -1074,13 +1079,27 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+         DaoDeudaTotal dao= new  DaoDeudaTotal();
         String tipoReporte=jComboBox2.getSelectedItem().toString();
-        if(tipoReporte.equals("Dia")){
-            jLabel9.setVisible(false);
-            jYearChooser1.setVisible(false);
-            jLabel10.setVisible(false);
-            jDateChooser2.setVisible(false);
-            
+        if(tipoReporte.equals("Selecciona...")){
+            JOptionPane.showMessageDialog(null, "Seleccionar un tipo de reporte");
+        }else if(tipoReporte.equals("Dia")){
+            if (jDateChooser1.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Ingresar la fecha");
+                } else{
+                int dia = jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    int mes = jDateChooser1.getCalendar().get(Calendar.MONTH) +1;
+                    int año = jDateChooser1.getCalendar().get(Calendar.YEAR);
+                    String fechaDia = año + "-" + mes + "-" + dia;
+                    String fechaDia2 = dia + "-" + mes + "-" + año;
+                    System.out.println("Fechaaa " + fechaDia);
+                 jDateChooser1.setCalendar(null);
+                 int ventaXDia=dao.consultarDeudaRporteDia(fechaDia);
+                
+                 jLabel11.setText("Venta del dia  " + fechaDia2 );
+                 System.out.println("venta por dia  " + ventaXDia);
+                 jTextField1.setText(String.valueOf(ventaXDia));
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

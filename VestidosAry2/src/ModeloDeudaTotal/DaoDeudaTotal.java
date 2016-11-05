@@ -90,4 +90,30 @@ public class DaoDeudaTotal {
         }
         return ban;
     }
+ //Obtener la venta del dia para el reporte 
+      public int consultarDeudaRporteDia(String fecha){
+        int sumVentas=0;
+        String sql="select deudatotal.deudatotal from deudatotal where CONVERT(date, deudatotal.fecharegistro, 101)='"+fecha+"' and deudatotal.status='Pagado';";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            System.out.println("fecha en dao " + fecha);
+            System.out.println("sql " + sql);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                sumVentas=sumVentas+rs.getInt("deudatotal");
+                
+                
+                
+                
+            }
+            System.out.println("sum venta s dao " + sumVentas);
+            
+        } catch (Exception e) {
+             System.out.println("Mensaje daoDeudaTotal consultarDeudaRporteDia " + e);
+        }
+        
+    return sumVentas;
+    }
 }

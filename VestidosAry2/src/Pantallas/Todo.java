@@ -824,6 +824,7 @@ public class Todo extends javax.swing.JFrame {
                     int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
                     int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
                     String fechaP = año + "-" + mes + "-" + dia;
+                    
                     int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
                     int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
@@ -896,6 +897,7 @@ public class Todo extends javax.swing.JFrame {
                     int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
                     int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
                     String fechaP = año + "-" + mes + "-" + dia;
+                    System.err.println("fechasP " + fechaP);
                     int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
                     int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
