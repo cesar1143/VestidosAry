@@ -847,7 +847,21 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "cerrar sesion");
 
+       //ocultamos las cosas en reporte hasta que inicie sesion
         jLabel5.setVisible(false);
+        jLabel6.setVisible(false);
+        jLabel7.setVisible(false);
+        jLabel8.setVisible(false);
+        jLabel9.setVisible(false);
+        jLabel10.setVisible(false);
+        jLabel11.setVisible(false);
+        jComboBox2.setVisible(false);
+        jDateChooser1.setVisible(false);
+        jYearChooser1.setVisible(false);
+        jDateChooser2.setVisible(false);
+        jButton3.setVisible(false);
+        jTextField1.setVisible(false);
+        
         panelPrincipal.setSelectedIndex(1);
 
     }//GEN-LAST:event_jLabel5MouseClicked

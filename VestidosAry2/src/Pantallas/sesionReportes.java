@@ -5,6 +5,19 @@
  */
 package Pantallas;
 
+import static Pantallas.Principal.jButton3;
+import static Pantallas.Principal.jComboBox2;
+import static Pantallas.Principal.jDateChooser1;
+import static Pantallas.Principal.jDateChooser2;
+import static Pantallas.Principal.jLabel10;
+import static Pantallas.Principal.jLabel11;
+import static Pantallas.Principal.jLabel5;
+import static Pantallas.Principal.jLabel6;
+import static Pantallas.Principal.jLabel7;
+import static Pantallas.Principal.jLabel8;
+import static Pantallas.Principal.jLabel9;
+import static Pantallas.Principal.jTextField1;
+import static Pantallas.Principal.jYearChooser1;
 import javax.swing.JOptionPane;
 
 /**
@@ -133,11 +146,24 @@ public class sesionReportes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(contra.getText().toString().equals("123")){
-            JOptionPane.showMessageDialog(null,"simon");
+        if (contra.getText().toString().equals("123")) {
+            JOptionPane.showMessageDialog(null, "simon");
             this.setVisible(false);
-          
+
             Principal.jLabel5.setVisible(true);
+            Principal.jLabel5.setVisible(true);
+            Principal.jLabel6.setVisible(true);
+            Principal.jLabel7.setVisible(true);
+            Principal.jLabel8.setVisible(true);
+            Principal.jLabel9.setVisible(true);
+            Principal.jLabel10.setVisible(true);
+            Principal.jLabel11.setVisible(true);
+            Principal.jComboBox2.setVisible(true);
+            Principal.jDateChooser1.setVisible(true);
+            Principal.jYearChooser1.setVisible(true);
+            Principal.jDateChooser2.setVisible(true);
+            Principal.jButton3.setVisible(true);
+            Principal.jTextField1.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
