@@ -33,15 +33,16 @@ import servicios.conexion;
  * @author Usuario
  */
 public class Principal extends javax.swing.JFrame {
-    
+
     DefaultTableModel tableModel, tableVerProductos;
     ResultSet rs;
     private Object btnBoton;
     //estas variables sirven para que solo se abra un jframe
-    public static boolean controlClienteAdd=false;
-    public static boolean controlClienteMod=false;
-    public static boolean controlProductoMod=false;
-    public static boolean controlProductoAdd=false;
+    public static boolean controlClienteAdd = false;
+    public static boolean controlClienteMod = false;
+    public static boolean controlProductoMod = false;
+    public static boolean controlProductoAdd = false;
+
     public Principal() {
         tableModel = new DefaultTableModel();
         tableVerProductos = new DefaultTableModel(null, getColumnasVP());
@@ -51,42 +52,56 @@ public class Principal extends javax.swing.JFrame {
         setFilasVP();
         soloLetras(TextNombre);
         this.setExtendedState(MAXIMIZED_BOTH);
-        
+
+        //ocultamos las cosas en reporte hasta que inicie sesion
         jLabel5.setVisible(false);
+        jLabel6.setVisible(false);
+        jLabel7.setVisible(false);
+        jLabel8.setVisible(false);
+        jLabel9.setVisible(false);
+        jLabel10.setVisible(false);
+        jLabel11.setVisible(false);
+        jComboBox2.setVisible(false);
+        jDateChooser1.setVisible(false);
+        jYearChooser1.setVisible(false);
+        jDateChooser2.setVisible(false);
+        jButton3.setVisible(false);
+        jTextField1.setVisible(false);
     }
-    
+
     public String[] getColumnasVP() {
         String columnas[] = new String[]{"Id", "Clave", "Color", "Precio", "Tipo"};
         return columnas;
     }
-    
+
     public void vaciarTabla() {
-        
+
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             tableModel.removeRow(i);
-            
+
             i -= 1;
-            
+
         }
-        
+
     }
+
     public void vaciarTablaVP() {
-        
+
         for (int i = 0; i < jTable2.getRowCount(); i++) {
-           tableVerProductos.removeRow(i);
-            
+            tableVerProductos.removeRow(i);
+
             i -= 1;
-            
+
         }
-        
+
     }
-    
+
     public void setFilasVP() {
         System.out.println("ento en set filas Vp");
         DaoProductos dao = new DaoProductos();
         rs = dao.consultaTodos();
         try {
-            
+
             while (rs.next()) {
                 System.out.println("entro al while de set fila ver");
                 int id = rs.getInt("idproductos");
@@ -94,38 +109,38 @@ public class Principal extends javax.swing.JFrame {
                 String color = rs.getString("color");
                 int precio = rs.getInt("precio");
                 String tipo = rs.getString("tipo");
-                
+
                 tableVerProductos.addRow(new Object[]{id, clave, color, precio, tipo});
-                
+
             }
-            
+
         } catch (Exception e) {
         }
-        
+
     }
-    
+
     public void setFilas() {
-        
+
         daoCliente dao = new daoCliente();
         rs = dao.consultaTodos();
         try {
-            
+
             while (rs.next()) {
                 int id = rs.getInt("idclientes");
                 String nombre1 = rs.getString("nombre");
                 String apaterno1 = rs.getString("apaterno");
                 String amaterno1 = rs.getString("amaterno");
                 int telefono1 = rs.getInt("telefono");
-                
+
                 tableModel.addRow(new Object[]{id, nombre1, apaterno1, amaterno1, telefono1});
-                
+
             }
-            
+
         } catch (Exception e) {
         }
-        
+
     }
-    
+
     public void soloLetras(JTextField a) {
         a.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -134,11 +149,11 @@ public class Principal extends javax.swing.JFrame {
                     getToolkit().beep();
                     e.consume();
                 }
-                
+
             }
         });
     }
-    
+
     public void soloNumeros(JTextField a) {
         a.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -147,7 +162,7 @@ public class Principal extends javax.swing.JFrame {
                 {
                     e.consume();
                 }
-                
+
             }
         });
     }
@@ -476,6 +491,7 @@ public class Principal extends javax.swing.JFrame {
         panelPrincipal.addTab("Productos", jPanel2);
 
         panelPrincipal2.setBackground(new java.awt.Color(255, 0, 0));
+        panelPrincipal2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         panelPrincipal2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 panelPrincipal2MouseClicked(evt);
@@ -601,12 +617,12 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
 
-        panelPrincipal2.addTab("tab1", jPanel3);
+        panelPrincipal2.addTab("Ventas", jPanel3);
 
-        panelPrincipal.addTab("tab3", panelPrincipal2);
+        panelPrincipal.addTab("Reportes", panelPrincipal2);
 
         jMenu1.setText("Opciones");
 
@@ -662,12 +678,12 @@ public class Principal extends javax.swing.JFrame {
             System.out.println("tamaño " + tamaño);
             //entraria la consulta
             daoCliente dao = new daoCliente();
-            
+
             if (tamaño == 1) {
                 System.out.println("entro en la consulta con nombre ");
-                
+
                 Clientes bean = dao.consultaEspecifica(arrayNombre[0]);
-                
+
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null) {
                     vaciarTabla();
@@ -679,12 +695,12 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println("entro en la consulta con nombre y apaterno");
                 String nombre1 = "";
                 String apaterno = "";
-                
+
                 nombre1 = arrayNombre[0];
                 apaterno = arrayNombre[1];
-                
+
                 Clientes bean = dao.consultaEspecificaNombreAndApaterno(nombre1, apaterno);
-                
+
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null && bean.getApaterno() != null) {
                     vaciarTabla();
@@ -692,17 +708,17 @@ public class Principal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
                 }
-                
+
             } else if (tamaño == 3) {
                 System.out.println("entro en la consulta con nombre y apaterno y amaterno");
                 String nombre1 = "";
                 String apaterno = "";
-                
+
                 nombre1 = arrayNombre[0];
                 apaterno = arrayNombre[1];
                 String amaterno = arrayNombre[2];
                 Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nombre1, apaterno, amaterno);
-                
+
                 System.out.println("nombre " + bean.getNombre());
                 if (bean.getNombre() != null && bean.getApaterno() != null) {
                     vaciarTabla();
@@ -710,9 +726,9 @@ public class Principal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "El cliente no existe", "ERROR", 0);
                 }
-                
+
             }
-            
+
         }
 
     }//GEN-LAST:event_BuscarActionPerformed
@@ -731,9 +747,9 @@ public class Principal extends javax.swing.JFrame {
                 int telefono1 = rs.getInt("telefono");
                 System.out.println("nombre " + nombre1);
                 tableModel.addRow(new Object[]{id, nombre1, apaterno1, amaterno1, telefono1});
-                
+
             }
-            
+
         } catch (Exception e) {
         }
 
@@ -746,13 +762,13 @@ public class Principal extends javax.swing.JFrame {
         Object apaterno = jTable1.getValueAt(fila, 2);
         Object amaterno = jTable1.getValueAt(fila, 3);
         Object idCliente = jTable1.getValueAt(fila, 0);
-        
+
         String nomCompleto = nombre.toString() + " " + apaterno.toString() + " " + amaterno.toString();
         Todo t = new Todo();
         Todo.nom = nombre.toString();
         Todo.apa = apaterno.toString();
         Todo.ama = amaterno.toString();
-        
+
         Todo.idCliente = Integer.parseInt(idCliente.toString());
         Todo.jLabel2.setText(nomCompleto);
         t.infoPrincipal();
@@ -764,16 +780,16 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         ClienteAgregar ca = new ClienteAgregar();
-       
-        if(controlClienteAdd==false){
-             ca.setVisible(true);
-             controlClienteAdd=true;
-             
-        }else{
+
+        if (controlClienteAdd == false) {
+            ca.setVisible(true);
+            controlClienteAdd = true;
+
+        } else {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
+
         }
-         
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -781,8 +797,7 @@ public class Principal extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar la fila");
         } else {
-            
-       
+
             int fila = jTable1.getSelectedRow();
             Object nombre = jTable1.getValueAt(fila, 1);
             Object apaterno = jTable1.getValueAt(fila, 2);
@@ -790,25 +805,25 @@ public class Principal extends javax.swing.JFrame {
             Object telefono = jTable1.getValueAt(fila, 4);
             Object id = jTable1.getValueAt(fila, 0);
             ;
-            
+
             ClienteModificar cm = new ClienteModificar();
             ClienteModificar.nombre.setText(nombre.toString());
             ClienteModificar.apaterno.setText(apaterno.toString());
             ClienteModificar.amaterno.setText(amaterno.toString());
             ClienteModificar.telefono.setText(telefono.toString());
             ClienteModificar.id = Integer.parseInt(id.toString());
-            if(controlClienteMod==false){
-            
-             controlClienteMod=true;
-            cm.setVisible(true);
-          
-             }else{
-            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
+            if (controlClienteMod == false) {
+
+                controlClienteMod = true;
+                cm.setVisible(true);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+
+            }
+
         }
-          
-        }
-         
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void panelPrincipalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelPrincipalStateChanged
@@ -831,7 +846,7 @@ public class Principal extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "cerrar sesion");
-        
+
         jLabel5.setVisible(false);
         panelPrincipal.setSelectedIndex(1);
 
@@ -855,127 +870,123 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println("error al cargar al imagen " + ex);
         }
-        
+
     }//GEN-LAST:event_jTable2MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         vaciarTablaVP();
-       
-        String tipoB=jComboBox1.getSelectedItem().toString();
-       
+
+        String tipoB = jComboBox1.getSelectedItem().toString();
+
         DaoProductos dao = new DaoProductos();
-       Connection conec=null;
-       
-       
-        String sql = "select idproductos,clave,color,precio,tipo from productos where tipo='"+tipoB+"'";
+        Connection conec = null;
+
+        String sql = "select idproductos,clave,color,precio,tipo from productos where tipo='" + tipoB + "'";
         try {
-            
+
             conec = conexion.getConnection();
             PreparedStatement ps = conec.prepareStatement(sql);
             rs = ps.executeQuery();
             System.out.println("soy rs " + rs);
-            
+
             Object fila[] = new Object[5];
             while (rs.next()) {
                 for (int i = 0; i < 5; i++) {
                     fila[i] = rs.getObject(i + 1);
 
                 }
-                 tableVerProductos.addRow(fila);
+                tableVerProductos.addRow(fila);
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Mensaje Principal boton buscar setFeilasPA");
-            
+
         }
 
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-         vaciarTablaVP();
-       
-        
-       
+
+        vaciarTablaVP();
+
         DaoProductos dao = new DaoProductos();
-       Connection conec=null;
-       
-       
+        Connection conec = null;
+
         String sql = "select idproductos,clave,color,precio,tipo from productos";
         try {
-            
+
             conec = conexion.getConnection();
             PreparedStatement ps = conec.prepareStatement(sql);
             rs = ps.executeQuery();
             System.out.println("soy rs " + rs);
-            
+
             Object fila[] = new Object[5];
             while (rs.next()) {
                 for (int i = 0; i < 5; i++) {
                     fila[i] = rs.getObject(i + 1);
 
                 }
-                 tableVerProductos.addRow(fila);
+                tableVerProductos.addRow(fila);
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Mensaje Principal boton todos setFeilasPA");
-            
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        RegistroProducto rp= new RegistroProducto();
-        if(controlProductoAdd==false){
+        RegistroProducto rp = new RegistroProducto();
+        if (controlProductoAdd == false) {
             rp.setVisible(true);
-             controlProductoAdd=true;
-             
-        }else{
+            controlProductoAdd = true;
+
+        } else {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
+
         }
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if(jTable2.getSelectedRow()==-1){
+        if (jTable2.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar fila");
-        }else{
-         ModificarProducto mp = new ModificarProducto();
-        int fila=jTable2.getSelectedRow();
-        Object idPro=jTable2.getValueAt(fila,0);
-        DaoProductos dao= new DaoProductos();
-        System.out.println("idPro " + idPro);
-        Productos bean= dao.consultaEspecifica(Integer.parseInt(idPro.toString()));
-        RegistroProducto.idProducto=bean.getIdProductos();
-        System.out.println("get clave " + bean.getClave());
-         ModificarProducto.codigo.setText(bean.getClave());
-        ModificarProducto.precio.setText(String.valueOf(bean.getPrecio()));
-         ModificarProducto.color.setText(bean.getColor());
-         ModificarProducto.comboTipo.setSelectedItem(bean.getTipo());
-         ModificarProducto.idProducto=bean.getIdProductos();
-        Image imagen;
-        try {
-            imagen = dao.getImage(bean.getFoto(), false);
-            Icon icon = new ImageIcon(imagen.getScaledInstance(170, 130, Image.SCALE_DEFAULT));
-            ModificarProducto .jLabel2.setIcon(icon);
-        } catch (Exception ex) {
-            System.out.println("error al cargar al imagen " + ex);
-        }
-        if(controlProductoMod==false){
-             mp.setVisible(true);
-             controlProductoMod=true;
-             
-        }else{
-            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
-        }
-        
+        } else {
+            ModificarProducto mp = new ModificarProducto();
+            int fila = jTable2.getSelectedRow();
+            Object idPro = jTable2.getValueAt(fila, 0);
+            DaoProductos dao = new DaoProductos();
+            System.out.println("idPro " + idPro);
+            Productos bean = dao.consultaEspecifica(Integer.parseInt(idPro.toString()));
+            RegistroProducto.idProducto = bean.getIdProductos();
+            System.out.println("get clave " + bean.getClave());
+            ModificarProducto.codigo.setText(bean.getClave());
+            ModificarProducto.precio.setText(String.valueOf(bean.getPrecio()));
+            ModificarProducto.color.setText(bean.getColor());
+            ModificarProducto.comboTipo.setSelectedItem(bean.getTipo());
+            ModificarProducto.idProducto = bean.getIdProductos();
+            Image imagen;
+            try {
+                imagen = dao.getImage(bean.getFoto(), false);
+                Icon icon = new ImageIcon(imagen.getScaledInstance(170, 130, Image.SCALE_DEFAULT));
+                ModificarProducto.jLabel2.setIcon(icon);
+            } catch (Exception ex) {
+                System.out.println("error al cargar al imagen " + ex);
+            }
+            if (controlProductoMod == false) {
+                mp.setVisible(true);
+                controlProductoMod = true;
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+
+            }
+
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -1019,25 +1030,25 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField TextNombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    public static javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    public static javax.swing.JComboBox jComboBox2;
+    public static com.toedter.calendar.JDateChooser jDateChooser1;
+    public static com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    public static javax.swing.JLabel jLabel10;
+    public static javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    public static javax.swing.JLabel jLabel6;
+    public static javax.swing.JLabel jLabel7;
+    public static javax.swing.JLabel jLabel8;
+    public static javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1057,8 +1068,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private com.toedter.calendar.JYearChooser jYearChooser1;
+    public static javax.swing.JTextField jTextField1;
+    public static com.toedter.calendar.JYearChooser jYearChooser1;
     private javax.swing.JLabel labelFoto;
     private javax.swing.JTabbedPane panelPrincipal;
     private javax.swing.JTabbedPane panelPrincipal2;
