@@ -42,6 +42,7 @@ public class Principal extends javax.swing.JFrame {
     public static boolean controlClienteMod = false;
     public static boolean controlProductoMod = false;
     public static boolean controlProductoAdd = false;
+    public static boolean controlSesionReporte = false;
 
     public Principal() {
         tableModel = new DefaultTableModel();
@@ -67,6 +68,7 @@ public class Principal extends javax.swing.JFrame {
         jDateChooser2.setVisible(false);
         jButton3.setVisible(false);
         jTextField1.setVisible(false);
+        
     }
 
     public String[] getColumnasVP() {
@@ -789,6 +791,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
 
         }
+        
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -834,7 +837,18 @@ public class Principal extends javax.swing.JFrame {
     private void panelPrincipal2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPrincipal2MouseClicked
         // TODO add your handling code here:
         sesionReportes in = new sesionReportes();
-        in.setVisible(true);
+         if (controlSesionReporte  == false) {
+             in.setVisible(true);
+            controlSesionReporte  = true;
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+
+        }
+        
+       
+         
+        
 
     }//GEN-LAST:event_panelPrincipal2MouseClicked
 
@@ -846,8 +860,8 @@ public class Principal extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "cerrar sesion");
-
-       //ocultamos las cosas en reporte hasta que inicie sesion
+       
+        //ocultamos las cosas en reporte hasta que inicie sesion
         jLabel5.setVisible(false);
         jLabel6.setVisible(false);
         jLabel7.setVisible(false);
@@ -861,8 +875,10 @@ public class Principal extends javax.swing.JFrame {
         jDateChooser2.setVisible(false);
         jButton3.setVisible(false);
         jTextField1.setVisible(false);
+
+        panelPrincipal.setSelectedIndex(0);
+        controlSesionReporte =false;
         
-        panelPrincipal.setSelectedIndex(1);
 
     }//GEN-LAST:event_jLabel5MouseClicked
 

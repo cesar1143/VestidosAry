@@ -52,6 +52,11 @@ public class sesionReportes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -166,6 +171,11 @@ public class sesionReportes extends javax.swing.JFrame {
             Principal.jTextField1.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Principal.controlSesionReporte = false;
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
