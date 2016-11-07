@@ -16,7 +16,17 @@ public class DeudaTotal {
     private String status;
     private String fechaRegistro;
     private Date fechaRegistroDate;
+    private int conMes;
 
+    public int getConMes() {
+        return conMes;
+    }
+
+    public void setConMes(int conMes) {
+        this.conMes = conMes;
+    }
+    
+    
     public int getIdDeudaTotal() {
         return idDeudaTotal;
     }

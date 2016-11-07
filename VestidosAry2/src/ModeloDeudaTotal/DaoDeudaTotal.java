@@ -139,8 +139,8 @@ public class DaoDeudaTotal {
     return sumVentas;
     }
       //Obtener la venta semanal para el reporte 
-      public int consultarDeudaRporteMesMasVentas(String fechaInicial,String fechaFinal){
-        int sumVentas=0;
+      public String obtenerFechas(String fechaInicial,String fechaFinal){
+        String getFechas="";
         String sql="select CONVERT(date, deudatotal.fecharegistro, 101)as fechas,status,sum(deudatotal)from deudatotal group by  CONVERT(date, deudatotal.fecharegistro, 101),status having CONVERT(date, deudatotal.fecharegistro, 101)>='"+fechaInicial+"'  AND CONVERT(date, deudatotal.fecharegistro, 101)<='2016-10-31' and deudatotal.status='Pagado';";
         try {
             con=conexion.getConnection();
@@ -150,7 +150,35 @@ public class DaoDeudaTotal {
             
             rs=ps.executeQuery();
             while(rs.next()){
-                sumVentas=sumVentas+rs.getInt("deudatotal");
+                getFechas=rs.getString("fechas");
+                System.out.println("obtenmos las fechas " + getFechas);
+            }
+            
+            
+        } catch (Exception e) {
+             System.out.println("Mensaje daoDeudaTotal obtenerFechas " + e);
+        }
+        
+    return getFechas;
+    }
+      //Obtener la venta semanal para el reporte 
+      public DeudaTotal consultarDeudaRporteMesMasVentas(String fechaInicial,String fechaFinal,int conMes){
+        DeudaTotal bean= new DeudaTotal();
+          int sumVentas=0;
+        String sql="select CONVERT(date, deudatotal.fecharegistro, 101)as fechas,status,sum(deudatotal)as suma from deudatotal group by  CONVERT(date, deudatotal.fecharegistro, 101),status having CONVERT(date, deudatotal.fecharegistro, 101)>='"+fechaInicial+"'  AND CONVERT(date, deudatotal.fecharegistro, 101)<='"+fechaFinal+"' and deudatotal.status='Pagado';;";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+           
+            System.out.println("sql " + sql);
+            
+            rs=ps.executeQuery();
+            while(rs.next()){
+                bean.setFechaRegistro(rs.getString("fechas"));
+                bean.setStatus(rs.getString("status"));
+                sumVentas=sumVentas+rs.getInt("suma");
+                bean.setDeudaTotal(sumVentas);
+                bean.setConMes(conMes);
             }
             System.out.println("sum venta s dao " + sumVentas);
             
@@ -158,6 +186,6 @@ public class DaoDeudaTotal {
              System.out.println("Mensaje daoDeudaTotal consultarDeudaRporteDia " + e);
         }
         
-    return sumVentas;
+    return bean;
     }
 }

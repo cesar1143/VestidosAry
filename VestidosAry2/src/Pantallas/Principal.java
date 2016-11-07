@@ -8,6 +8,7 @@ package Pantallas;
 import ModeloClientes.Clientes;
 import ModeloClientes.daoCliente;
 import ModeloDeudaTotal.DaoDeudaTotal;
+import ModeloDeudaTotal.DeudaTotal;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
 import static Pantallas.Todo.ama;
@@ -1134,39 +1135,129 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "soy año " + año);
             String fechaInicialAño = año + "-" + "01" + "-" + "01";
             String fechaFinalAño = año + "-" + "12" + "-" + "31";
-            
-            String fechaInicialAño1 = "01"+"-"+"01"+"-"+año;
-            String fechaFinalAño1 = "31"+"-"+"12"+"-"+año;
-            
-            
-             //obtenemos la cantida de ventas y lo mostramos
-                int ventaXSemana = dao.consultarDeudaRporteSemana(fechaInicialAño, fechaFinalAño);
 
-                jLabel11.setText("Venta anual del  " + fechaInicialAño1 + " al " + fechaFinalAño1);
+            String fechaInicialAño1 = "01" + "-" + "01" + "-" + año;
+            String fechaFinalAño1 = "31" + "-" + "12" + "-" + año;
 
-                jTextField1.setText(String.valueOf(ventaXSemana));
+            //obtenemos la cantida de ventas y lo mostramos
+            int ventaXSemana = dao.consultarDeudaRporteSemana(fechaInicialAño, fechaFinalAño);
 
-        }else if(tipoReporte.equals("Mes con mas ventas")){
-            int conMes=1;
+            jLabel11.setText("Venta anual del  " + fechaInicialAño1 + " al " + fechaFinalAño1);
+
+            jTextField1.setText(String.valueOf(ventaXSemana));
+
+        } else if (tipoReporte.equals("Mes con mas ventas")) {
+            int conMes = 1;
             int añoMes = jYearChooser1.getYear();
-            
-            
+            DeudaTotal ventaMesMasVentas = null;
+            DeudaTotal arre[] = new DeudaTotal[12];
             /*
-            String fechaInicialAño1 = "01"+"-"+"01"+"-"+añoMes;
-            String fechaFinalAño1 = "31"+"-"+"12"+"-"+añoMes;
-            */
-            /* ------------>>>>>>>>>>>>>>>>>>> PENDIENTEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-            while(conMes<=12){
-                String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
-            String fechaFinalAño = añoMes + "-" + conMes + "-" + "31";
-            int ventaXSemana = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño);
-            conMes++;
-            }
-                jLabel11.setText("Venta del mes mas vendido");
+             String fechaInicialAño1 = "01"+"-"+"01"+"-"+añoMes;
+             String fechaFinalAño1 = "31"+"-"+"12"+"-"+añoMes;
+             */
+           
+            while (conMes <= 12) {
+                System.out.println("entro al while " + conMes);
 
-                jTextField1.setText(String.valueOf(ventaXSemana));
-            */
+                //String getFechas=dao.obtenerFechas(fechaInicialAño, fechaFinalAño);
+                if (conMes == 1 || conMes == 3 || conMes == 5 || conMes == 7 || conMes == 8 || conMes == 10 || conMes == 12) {
+                    String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
+                    String fechaFinalAño = añoMes + "-" + conMes + "-" + "31";
+
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
+                    System.out.println("conMes 1 " + conMes);
+                    
+                 
+                    arre[conMes - 1] = ventaMesMasVentas;
+
+                } else if (conMes == 4 || conMes == 6 || conMes == 9 || conMes == 11) {
+                    String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
+                    String fechaFinalAño = añoMes + "-" + conMes + "-" + "30";
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
+                    
+                    arre[conMes - 1] = ventaMesMasVentas;
+                } else if (conMes == 2) {
+                    String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
+                    String fechaFinalAño = añoMes + "-" + conMes + "-" + "29";
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
+                   
+                    arre[conMes - 1] = ventaMesMasVentas;
+                } else {
+                    System.out.println("else");
+                }
+
+                conMes++;
+            }
             
+            for (int i = 0; i < arre.length; i++) {
+                for (int j = i + 1; j < arre.length; j++) {
+                    if (arre[i].getDeudaTotal() < arre[j].getDeudaTotal()) {
+                        System.out.println("hay un cambio");
+                        DeudaTotal aux = arre[i];
+                        arre[i] = arre[j];
+                        arre[j] = aux;
+                    } else {
+                        System.out.println("no hay cambios");
+                    }
+
+                }
+
+            }
+            if(arre[0].getDeudaTotal()==0){
+                jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
+                jTextField1.setText(String.valueOf("No hay"));
+            }else{
+            if (arre[0].getConMes() == 1) {
+                jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
+                jTextField1.setText(String.valueOf("Enero"));
+            }else if(arre[0].getConMes() == 2){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Febrero"));
+            }else if(arre[0].getConMes() == 3){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Marzo"));
+            }else if(arre[0].getConMes() == 4){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Abril"));
+            }else if(arre[0].getConMes() == 5){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Mayo"));
+            }else if(arre[0].getConMes() == 6){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Junio"));
+           }else if(arre[0].getConMes() == 7){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Julio"));
+            }else if(arre[0].getConMes() == 8){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Agosto"));
+            }else if(arre[0].getConMes() == 9){
+                 jLabel11.setText("El mes con mas ventas del año " + añoMes);
+                jTextField1.setText(String.valueOf("Septiembre"));
+           }else if(arre[0].getConMes() == 10){
+           jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
+                jTextField1.setText(String.valueOf("Octubre"));
+            }else if(arre[0].getConMes() == 11){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Noviembre"));
+            }else if(arre[0].getConMes() == 12){
+                jLabel11.setText("Venta del mes mas vendido");
+                jTextField1.setText(String.valueOf("Diciembre"));
+            }else{
+                System.out.println("se salio del año");
+            }
+            
+            } 
+            
+            
+            
+            
+            
+
+            System.err.println("este es la cantidad mas grande " + arre[0].getDeudaTotal() + " - " +arre[0].getFechaRegistro()+ " - " + arre[0].getConMes());
         }
         jDateChooser1.setCalendar(null);
         jDateChooser2.setCalendar(null);
