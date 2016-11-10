@@ -147,7 +147,8 @@ public class InicioSesion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingresar contraseña");
         } else {
             daoUsuarios dao = new daoUsuarios();
-            Usuarios bean = dao.consultaEspecifica();
+            Usuarios bean = dao.consultaEspecifica(usuario,contraseña);
+            try{
             if (bean.getUsuario().equals(usuario)) {
                 if (bean.getContra().equals(contraseña)) {
                     //entra al sistema
@@ -171,6 +172,9 @@ public class InicioSesion extends javax.swing.JFrame {
                 }
             }else{
                  JOptionPane.showMessageDialog(null, "Usuario incorrecto","ERROR",0);
+            }
+            }catch(Exception e){
+                 JOptionPane.showMessageDialog(null, "Datos incorrectos","ERROR",0);
             }
 
         }

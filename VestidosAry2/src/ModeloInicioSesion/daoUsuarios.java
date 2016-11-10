@@ -20,12 +20,14 @@ public class daoUsuarios {
     ResultSet rs;
     Connection con=null;
  
-    public Usuarios consultaEspecifica(){
+    public Usuarios consultaEspecifica(String usuario,String contra){
         Usuarios bean= new Usuarios();
-        String sql="select * from usuarios";
+        String sql="select * from usuarios where usuario=? and contra=?";
         try {
             con=conexion.getConnection();
             ps=con.prepareStatement(sql);
+            ps.setString(1,usuario);
+            ps.setString(2, contra);
           
             rs=ps.executeQuery();
             while(rs.next()){
@@ -37,6 +39,7 @@ public class daoUsuarios {
                 bean.setContra(rs.getString(6));
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Mensaje en daoUsuarios, contra " + contra);
             JOptionPane.showMessageDialog(null,"Mensaje en daoUsuarios, consultaEspecifica " + e);
         }
         return bean;

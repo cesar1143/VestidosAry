@@ -165,7 +165,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
         String array[] = nombre1.split(" ");
         int tamaño = array.length;
         System.out.println("tamaño " + tamaño);
-        String tel = telefono.getText().toString();
+        int tel = Integer.parseInt(telefono.getText().toString());
         if (nombre1.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
         } else {
@@ -178,7 +178,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
             bean.setApaterno(array[1]);
             System.out.println("ar2 " + array[2]);
             bean.setAmaterno(array[2]);
-            bean.setTelefono(Integer.parseInt(tel));
+            bean.setTelefono(tel);
             boolean ban = dao.registrarCliente(bean);
             if (ban) {
                 JOptionPane.showMessageDialog(null, "El cliente se registro correctamente");

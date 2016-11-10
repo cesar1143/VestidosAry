@@ -5,6 +5,8 @@
  */
 package Pantallas;
 
+import ModeloInicioSesion.Usuarios;
+import ModeloInicioSesion.daoUsuarios;
 import static Pantallas.Principal.jButton3;
 import static Pantallas.Principal.jComboBox2;
 import static Pantallas.Principal.jDateChooser1;
@@ -68,7 +70,7 @@ public class sesionReportes extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Usuario: ");
 
-        comboUsuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mayra", "Areli", "Lucero" }));
+        comboUsuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mayra" }));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Contraseña: ");
@@ -151,32 +153,42 @@ public class sesionReportes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (contra.getText().toString().equals("123")) {
-            JOptionPane.showMessageDialog(null, "simon");
-            this.setVisible(false);
-            Principal.jLabel6.setVisible(true);
-             Principal.jLabel7.setVisible(true);
-             Principal.jComboBox2.setVisible(true);
-                Principal.jButton3.setVisible(true);
-                Principal.jLabel11.setVisible(true);
-                    Principal.jTextField1.setVisible(true);
-                    Principal.jLabel5.setVisible(true);
-/*
-            
-            Principal.jLabel5.setVisible(true);
-            
-           
-            Principal.jLabel8.setVisible(true);
-            Principal.jLabel9.setVisible(true);
-            Principal.jLabel10.setVisible(true);
-            
-            
-            Principal.jDateChooser1.setVisible(true);
-            Principal.jYearChooser1.setVisible(true);
-            Principal.jDateChooser2.setVisible(true);
-         
-        
-            */
+        String contraseña = contra.getText().toString();
+        String usuario = comboUsuarios.getSelectedItem().toString();
+        if (contraseña.equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar contraseña");
+        } else {
+            daoUsuarios dao = new daoUsuarios();
+            Usuarios bean = dao.consultaEspecifica(usuario, contraseña);
+              System.out.println("bbb11 " + bean.getUsuario());
+                System.out.println("ccc111" + bean.getContra());
+            try {
+                System.out.println("bbb22 " + bean.getUsuario());
+                System.out.println("ccc222 " + bean.getContra());
+                if (bean.getUsuario().equals(usuario)) {
+                    if (bean.getContra().equals(contraseña)) {
+                        
+                        Principal.jLabel6.setVisible(true);
+                        Principal.jLabel7.setVisible(true);
+                        Principal.jComboBox2.setVisible(true);
+                        Principal.jButton3.setVisible(true);
+                        Principal.jLabel11.setVisible(true);
+                        Principal.jTextField1.setVisible(true);
+                        Principal.jLabel5.setVisible(true);
+                        this.setVisible(false);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "ERROR", 0);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario incorrecto", "ERROR", 0);
+                }
+            } catch (Exception e) {
+                   System.out.println("bbb33 " + bean.getUsuario());
+                System.out.println("ccc333 " + bean.getContra());
+                JOptionPane.showMessageDialog(null, "Datos incorrectos", "ERROR", 0);
+            }
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
