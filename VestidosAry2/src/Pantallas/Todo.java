@@ -19,9 +19,13 @@ import ModeloProductosApartados.Operaciones;
 import ModeloProductosApartados.OpreacionesCondeuda;
 import ModeloProductosApartados.ProductosApartados;
 import static Pantallas.Principal.controlClienteAdd;
+import br.com.adilson.util.Extenso;
+import br.com.adilson.util.PrinterMatrix;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +36,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -79,9 +91,10 @@ public class Todo extends javax.swing.JFrame {
 
     Connection conex = null;
     JDialog ver = new JDialog(new Frame(), "reporte", true);
-    public static boolean controlProductoAdd=false;
-    public static boolean controlMedidasVer=false;
-       public static boolean controlMedidasAdd=false;
+    public static boolean controlProductoAdd = false;
+    public static boolean controlMedidasVer = false;
+    public static boolean controlMedidasAdd = false;
+
     public Todo() {
         tablaVentas = new DefaultTableModel(null, getColumnas());
         tableApartados = new DefaultTableModel(null, getColumnasPA());
@@ -670,15 +683,15 @@ public class Todo extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (CheckSi.isSelected()) {
             MedidasRegistrar mr = new MedidasRegistrar();
-            if(controlMedidasAdd==false){
-            mr.setVisible(true);
-             controlMedidasAdd=true;
-             
-        }else{
-            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
-        }
-           
+            if (controlMedidasAdd == false) {
+                mr.setVisible(true);
+                controlMedidasAdd = true;
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+
+            }
+
         } else {
 
             MedidasRegistrar mr = new MedidasRegistrar();
@@ -753,15 +766,15 @@ public class Todo extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         RegistroProducto pr = new RegistroProducto();
-        if(controlProductoAdd==false){
-             pr.setVisible(true);
-             controlProductoAdd=true;
-             
-        }else{
+        if (controlProductoAdd == false) {
+            pr.setVisible(true);
+            controlProductoAdd = true;
+
+        } else {
             JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
+
         }
-        
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -775,15 +788,15 @@ public class Todo extends javax.swing.JFrame {
 
             VerMedidas vm = new VerMedidas();
             vm.setFilas(Integer.parseInt(idPA.toString()));
-             if(controlMedidasVer==false){
-             vm.setVisible(true);
-             controlMedidasVer=true;
-             
-        }else{
-            JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
-           
-        }
-            
+            if (controlMedidasVer == false) {
+                vm.setVisible(true);
+                controlMedidasVer = true;
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Ya esta abierto esta ventana");
+
+            }
+
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -824,7 +837,7 @@ public class Todo extends javax.swing.JFrame {
                     int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
                     int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
                     String fechaP = año + "-" + mes + "-" + dia;
-                    
+
                     int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
                     int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
@@ -1040,60 +1053,58 @@ public class Todo extends javax.swing.JFrame {
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
                 Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
                 //if (estado.equals("Pagado entregado")) {//QUITAR ESTAR//si se cumple se registra en apartados y vendidos
-                    System.out.println("entro al estado pagado entregado");
-                    boolean ban = opera.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
+                System.out.println("entro al estado pagado entregado");
+                boolean ban = opera.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
-                    if (ban) {
-                        JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
-                        limpiarTabla();
-                        limpiarTablaPA();
-                        setFilasPA();
-                        limpiarTablaPagos();
-                        setFilasPagos();
-                        totalPagar = 0;
-                        jTextField2.setText(String.valueOf(totalPagar));
-                        con = 0;
-                        conFechas = 0;
-                        jLabel4.setText(String.valueOf(totalDeuda));
-                        jLabel6.setText(String.valueOf(deudaMenosPagos));
-                        //-------------->>>>>otra opcion es mandar a cambiarlo con el status del ultimo registro de venta
-                        CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
-                        cs.setFilasPA();
-                        cs.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                    limpiarTabla();
+                    limpiarTablaPA();
+                    setFilasPA();
+                    limpiarTablaPagos();
+                    setFilasPagos();
+                    totalPagar = 0;
+                    jTextField2.setText(String.valueOf(totalPagar));
+                    con = 0;
+                    conFechas = 0;
+                    jLabel4.setText(String.valueOf(totalDeuda));
+                    jLabel6.setText(String.valueOf(deudaMenosPagos));
+                    //-------------->>>>>otra opcion es mandar a cambiarlo con el status del ultimo registro de venta
+                    CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
+                    cs.setFilasPA();
+                    cs.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
 
-                    }
+                }
 
              //   } else {//QUITAR ESTE si el estado es igual a pagado no entregado solo registramos en la tabla apartados
-                   
-                    /*System.out.println("entro al estado pagado NO entregado");
-                    boolean ban1 = opera.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
-                    if (ban1) {
-                        JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
-                        limpiarTabla();
-                        limpiarTablaPA();
-                        setFilasPA();
-                        limpiarTablaPagos();
-                        setFilasPagos();
-                        totalPagar = 0;
-                        jTextField2.setText(String.valueOf(totalPagar));
-                        con = 0;
-                        conFechas = 0;
-                        jLabel4.setText(String.valueOf(totalDeuda));
-                        jLabel6.setText(String.valueOf(deudaMenosPagos));
-                        CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
-                        cs.setFilasPA();
-                        cs.setVisible(true);
-                        // jTextField2.setText(String.valueOf(totalPagar));
+                /*System.out.println("entro al estado pagado NO entregado");
+                 boolean ban1 = opera.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
+                 if (ban1) {
+                 JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                 limpiarTabla();
+                 limpiarTablaPA();
+                 setFilasPA();
+                 limpiarTablaPagos();
+                 setFilasPagos();
+                 totalPagar = 0;
+                 jTextField2.setText(String.valueOf(totalPagar));
+                 con = 0;
+                 conFechas = 0;
+                 jLabel4.setText(String.valueOf(totalDeuda));
+                 jLabel6.setText(String.valueOf(deudaMenosPagos));
+                 CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
+                 cs.setFilasPA();
+                 cs.setVisible(true);
+                 // jTextField2.setText(String.valueOf(totalPagar));
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
+                 } else {
+                 JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
 
-                    }
-                    */
-              //  }//QUITAR ESTE
-
+                 }
+                 */
+                //  }//QUITAR ESTE
             } else {//si el pago no es igual ala deuda pero el check esta seleccionado
                 System.out.println("El pago no es igual ala deuda");
 
@@ -1134,29 +1145,27 @@ public class Todo extends javax.swing.JFrame {
                 //creamos el item para el status
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
                 Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
-               
-                    
-                    boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
-                    if (ban) {
-                        JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
-                        limpiarTabla();
-                        limpiarTablaPA();
-                        setFilasPA();
-                        limpiarTablaPagos();
-                        setFilasPagos();
-                        totalPagar = 0;
-                        jTextField2.setText(String.valueOf(totalPagar));
-                        con = 0;
-                        conFechas = 0;
-                        jLabel4.setText(String.valueOf(totalDeuda));
-                        jLabel6.setText(String.valueOf(deudaMenosPagos));
+                boolean ban = o.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
+                    limpiarTabla();
+                    limpiarTablaPA();
+                    setFilasPA();
+                    limpiarTablaPagos();
+                    setFilasPagos();
+                    totalPagar = 0;
+                    jTextField2.setText(String.valueOf(totalPagar));
+                    con = 0;
+                    conFechas = 0;
+                    jLabel4.setText(String.valueOf(totalDeuda));
+                    jLabel6.setText(String.valueOf(deudaMenosPagos));
 
-                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
 
+                }
 
             } else {//si el pago no es igual ala deuda pero el check esta seleccionado
                 System.out.println("El pago no es igual ala deuda");
@@ -1184,27 +1193,89 @@ public class Todo extends javax.swing.JFrame {
             }
 
         }//cerramos el if de no tiene deuda
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
 
+    }//GEN-LAST:event_jButton3ActionPerformed
+    void imprimirFactura() {
+
+        PrinterMatrix printer = new PrinterMatrix();
+
+        Extenso e = new Extenso();
+
+        e.setNumber(101.85);
+
+        //Definir el tamanho del papel para la impresion  aca 25 lineas y 80 columnas
+        printer.setOutSize(60, 80);
+        //Imprimir * de la 2da linea a 25 en la columna 1;
+        // printer.printCharAtLin(2, 25, 1, "*");
+        //Imprimir * 1ra linea de la columa de 1 a 80
+        printer.printCharAtCol(1, 1, 80, "=");
+        //Imprimir Encabezado nombre del La EMpresa
+        printer.printTextWrap(1, 2, 30, 80, "FACTURA DE VENTA");
+        //printer.printTextWrap(linI, linE, colI, colE, null);
+        printer.printTextWrap(2, 3, 1, 22, "Num. Boleta : " + String.valueOf(111111));
+        printer.printTextWrap(2, 3, 25, 55, "Fecha de Emision: " + String.valueOf(12 - 12 - 05));
+        printer.printTextWrap(2, 3, 60, 80, "Hora: 12:22:51");
+        printer.printTextWrap(3, 3, 1, 80, "Vendedor.  : " + String.valueOf(12) + " - " + "cesar");
+        printer.printTextWrap(4, 4, 1, 80, "CLIENTE: " + "solo vino");
+        printer.printTextWrap(5, 5, 1, 80, "RUC/CI.: " + String.valueOf(1));
+        printer.printTextWrap(6, 6, 1, 80, "DIRECCION: " + "");
+        printer.printCharAtCol(7, 1, 80, "=");
+        printer.printTextWrap(7, 8, 1, 80, "Codigo          Descripcion                Cant.      P  P.Unit.      P.Total");
+        printer.printCharAtCol(9, 1, 80, "-");
+        int filas = jTable2.getRowCount();
+
+        for (int i = 0; i < filas; i++) {
+            printer.printTextWrap(9 + i, 10, 1, 80, jTable2.getValueAt(i, 0).toString() + "|" + jTable2.getValueAt(i, 1).toString() + "| " + jTable2.getValueAt(i, 2).toString() + "| " + jTable2.getValueAt(i, 3).toString());
+        }
+
+        if (filas > 15) {
+            printer.printCharAtCol(filas + 1, 1, 80, "=");
+            printer.printTextWrap(filas + 1, filas + 2, 1, 80, "TOTAL A PAGAR " + jLabel4.getText());
+            printer.printCharAtCol(filas + 2, 1, 80, "=");
+            printer.printTextWrap(filas + 2, filas + 3, 1, 80, "Esta boleta no tiene valor fiscal, solo para uso interno.: + Descripciones........");
+        } else {
+            printer.printCharAtCol(25, 1, 80, "=");
+            printer.printTextWrap(26, 26, 1, 80, "TOTAL A PAGAR " + jLabel4.getText());
+            printer.printCharAtCol(27, 1, 80, "=");
+            printer.printTextWrap(27, 28, 1, 80, "Esta boleta no tiene valor fiscal, solo para uso interno.: + Descripciones........");
+
+        }
+        printer.toFile("impresion.txt");
+
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream("impresion.txt");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        if (inputStream == null) {
+            return;
+        }
+
+        DocFlavor docFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc document = new SimpleDoc(inputStream, docFormat, null);
+
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+
+        PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+///desde aqui manda directo ala impresora a imprimir
+        if (defaultPrintService != null) {
+            DocPrintJob printJob = defaultPrintService.createPrintJob();
+            try {
+                printJob.print(document, attributeSet);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.err.println("No existen impresoras instaladas");
+        }
+
+        //inputStream.close();
+    }
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-/*
-        try {
-            
-            JasperReport report;
-            report = (JasperReport) JRLoader.loadObject("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Sicoca\\VestidosAry\\VestidosAry\\VestidosAry2\\src\\Pantallas\\report1.jrxml");
-            System.out.println("aaa " + report);
-            JasperPrint print = JasperFillManager.fillReport(report, null, conex);
- 
-            JasperViewer v = new   JasperViewer(print);
-            v.show();
-            
-        } catch (Exception e) {
-             
-            System.out.println("error " + e.getMessage());
-        }
-        */
+        imprimirFactura();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**

@@ -116,6 +116,29 @@ public class DaoProductos {
         }
         return bean;
     }
+    // ==================================== CONSULTA  imagenes CON CLAVE ====================================
+    public Productos consultarImageConClave(int idpro) {
+        Productos bean = new Productos();
+        String sql = "select foto from productos where clave=? ";
+
+        try {
+            con = conexion.getConnection();
+
+            ps = con.prepareStatement(sql);
+            System.out.println("soy id pro " + idpro);
+            ps.setInt(1, idpro);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                byte[] img = rs.getBytes("foto");
+                bean.setFoto(img);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje en daoProductos,  consultarImage " + e);
+        }
+        return bean;
+    }
 
 //=================================== OBTENER IMAGEN ================================================
     public Image getImage(byte[] bytes, boolean isThumbnail) throws IOException {

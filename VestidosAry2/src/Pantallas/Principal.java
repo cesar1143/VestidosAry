@@ -9,6 +9,7 @@ import ModeloClientes.Clientes;
 import ModeloClientes.daoCliente;
 import ModeloDeudaTotal.DaoDeudaTotal;
 import ModeloDeudaTotal.DeudaTotal;
+import ModeloPendientes.Pendientes;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
 import static Pantallas.Todo.ama;
@@ -22,6 +23,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -37,7 +40,7 @@ import servicios.conexion;
  */
 public class Principal extends javax.swing.JFrame {
 
-    DefaultTableModel tableModel, tableVerProductos;
+    DefaultTableModel tableModel, tableVerProductos, tablePendientes;
     ResultSet rs;
     private Object btnBoton;
     //estas variables sirven para que solo se abra un jframe
@@ -50,10 +53,12 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         tableModel = new DefaultTableModel();
         tableVerProductos = new DefaultTableModel(null, getColumnasVP());
+        tablePendientes = new DefaultTableModel(null, getColumnasPen());
         tableModel.setColumnIdentifiers(new Object[]{"Id", "Nombre", "Paterno", "Materno", "Telefono"});
         initComponents();
         setFilas();
         setFilasVP();
+         setFeilasPendientes();
         soloLetras(TextNombre);
         this.setExtendedState(MAXIMIZED_BOTH);
 
@@ -79,10 +84,25 @@ public class Principal extends javax.swing.JFrame {
         return columnas;
     }
 
+    public String[] getColumnasPen() {
+        String columnas[] = new String[]{"Id", "nombre", "Paterno", "Clave", "Color", "Precio", "Tipo","Status"};
+        return columnas;
+    }
+
     public void vaciarTabla() {
 
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             tableModel.removeRow(i);
+
+            i -= 1;
+
+        }
+
+    }
+    public void vaciarTablaPendientes() {
+
+        for (int i = 0; i < jTable3.getRowCount(); i++) {
+            tablePendientes.removeRow(i);
 
             i -= 1;
 
@@ -96,6 +116,35 @@ public class Principal extends javax.swing.JFrame {
             tableVerProductos.removeRow(i);
 
             i -= 1;
+
+        }
+
+    }
+
+    public void setFeilasPendientes() {
+        System.out.println("entro al se filas pendientes");
+        Connection conec = null;
+
+        String sql = "select productosapartados.idproductosapartados,clientes.nombre,clientes.apaterno, productos.clave,productos.color,productos.precio,productos.tipo,productosapartados.status\n"
+                + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id left join  fechaspruebas on fechaspruebas.productosapartados_id=productosapartados.idproductosapartados where   productosapartados.status='Pagado NO entregado' ;";
+        try {
+
+            conec = conexion.getConnection();
+            PreparedStatement ps = conec.prepareStatement(sql);
+            rs = ps.executeQuery();
+           
+
+            Object fila[] = new Object[8];
+            while (rs.next()) {
+                for (int i = 0; i < 8; i++) {
+                    fila[i] = rs.getObject(i + 1);
+
+                }
+               tablePendientes.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje Principal boton buscar setFeilasPA");
 
         }
 
@@ -226,6 +275,16 @@ public class Principal extends javax.swing.JFrame {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        TextNombre1 = new javax.swing.JTextField();
+        Buscar1 = new javax.swing.JButton();
+        todos1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -354,8 +413,6 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(264, 264, 264))
         );
-
-        jLabel12.getAccessibleContext().setAccessibleName("Cerrar sesión");
 
         panelPrincipal.addTab("Clientes", jPanel1);
 
@@ -508,7 +565,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
 
         panelPrincipal.addTab("Productos", jPanel2);
@@ -646,12 +703,117 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(370, Short.MAX_VALUE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
 
         panelPrincipal2.addTab("Ventas", jPanel3);
 
         panelPrincipal.addTab("Reportes", panelPrincipal2);
+
+        jPanel7.setBackground(new java.awt.Color(204, 255, 204));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Pendientes");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Nombre: ");
+
+        TextNombre1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextNombre1ActionPerformed(evt);
+            }
+        });
+
+        Buscar1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Buscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475275692_search.png"))); // NOI18N
+        Buscar1.setText("Buscar");
+        Buscar1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        Buscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Buscar1ActionPerformed(evt);
+            }
+        });
+
+        todos1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        todos1.setText("Todos");
+        todos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                todos1ActionPerformed(evt);
+            }
+        });
+
+        jTable3.setModel(tablePendientes);
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable3MousePressed(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        jLabel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(377, 377, 377)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(444, 444, 444)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(Buscar1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(todos1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 942, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(545, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(TextNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(todos1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Buscar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(43, 43, 43)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(297, 297, 297))
+        );
+
+        panelPrincipal.addTab("Pendientes", jPanel7);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("Opciones");
 
@@ -966,7 +1128,7 @@ public class Principal extends javax.swing.JFrame {
     private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
         // TODO add your handling code here:
         int fila = jTable2.getSelectedRow();
-        Object idPro = jTable2.getValueAt(fila, 0);
+        Object idPro = jTable2.getValueAt(fila, 3);
         DaoProductos dao = new DaoProductos();
         Productos bean = dao.consultarImage(Integer.parseInt(idPro.toString()));
         Image imagen;
@@ -1150,7 +1312,7 @@ public class Principal extends javax.swing.JFrame {
             }
         } else if (tipoReporte.equals("Año")) {
             int año = jYearChooser1.getYear();
-           
+
             String fechaInicialAño = año + "-" + "01" + "-" + "01";
             String fechaFinalAño = año + "-" + "12" + "-" + "31";
 
@@ -1173,7 +1335,7 @@ public class Principal extends javax.swing.JFrame {
              String fechaInicialAño1 = "01"+"-"+"01"+"-"+añoMes;
              String fechaFinalAño1 = "31"+"-"+"12"+"-"+añoMes;
              */
-           
+
             while (conMes <= 12) {
                 System.out.println("entro al while " + conMes);
 
@@ -1182,26 +1344,25 @@ public class Principal extends javax.swing.JFrame {
                     String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
                     String fechaFinalAño = añoMes + "-" + conMes + "-" + "31";
 
-                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño, conMes);
                     System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
                     System.out.println("conMes 1 " + conMes);
-                    
-                 
+
                     arre[conMes - 1] = ventaMesMasVentas;
 
                 } else if (conMes == 4 || conMes == 6 || conMes == 9 || conMes == 11) {
                     String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
                     String fechaFinalAño = añoMes + "-" + conMes + "-" + "30";
-                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño, conMes);
                     System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
-                    
+
                     arre[conMes - 1] = ventaMesMasVentas;
                 } else if (conMes == 2) {
                     String fechaInicialAño = añoMes + "-" + conMes + "-" + "01";
                     String fechaFinalAño = añoMes + "-" + conMes + "-" + "29";
-                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño,conMes);
+                    ventaMesMasVentas = dao.consultarDeudaRporteMesMasVentas(fechaInicialAño, fechaFinalAño, conMes);
                     System.out.println("soy las ventas " + ventaMesMasVentas.getDeudaTotal());
-                   
+
                     arre[conMes - 1] = ventaMesMasVentas;
                 } else {
                     System.out.println("else");
@@ -1209,7 +1370,7 @@ public class Principal extends javax.swing.JFrame {
 
                 conMes++;
             }
-            
+
             for (int i = 0; i < arre.length; i++) {
                 for (int j = i + 1; j < arre.length; j++) {
                     if (arre[i].getDeudaTotal() < arre[j].getDeudaTotal()) {
@@ -1224,58 +1385,53 @@ public class Principal extends javax.swing.JFrame {
                 }
 
             }
-            if(arre[0].getDeudaTotal()==0){
+            if (arre[0].getDeudaTotal() == 0) {
                 jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
                 jTextField1.setText(String.valueOf("No hay"));
-            }else{
-            if (arre[0].getConMes() == 1) {
-                jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
-                jTextField1.setText(String.valueOf("Enero"));
-            }else if(arre[0].getConMes() == 2){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Febrero"));
-            }else if(arre[0].getConMes() == 3){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Marzo"));
-            }else if(arre[0].getConMes() == 4){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Abril"));
-            }else if(arre[0].getConMes() == 5){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Mayo"));
-            }else if(arre[0].getConMes() == 6){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Junio"));
-           }else if(arre[0].getConMes() == 7){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Julio"));
-            }else if(arre[0].getConMes() == 8){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Agosto"));
-            }else if(arre[0].getConMes() == 9){
-                 jLabel11.setText("El mes con mas ventas del año " + añoMes);
-                jTextField1.setText(String.valueOf("Septiembre"));
-           }else if(arre[0].getConMes() == 10){
-           jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
-                jTextField1.setText(String.valueOf("Octubre"));
-            }else if(arre[0].getConMes() == 11){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Noviembre"));
-            }else if(arre[0].getConMes() == 12){
-                jLabel11.setText("Venta del mes mas vendido");
-                jTextField1.setText(String.valueOf("Diciembre"));
-            }else{
-                System.out.println("se salio del año");
-            }
-            
-            } 
-            
-            
-            
-            
-            
+            } else {
+                if (arre[0].getConMes() == 1) {
+                    jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
+                    jTextField1.setText(String.valueOf("Enero"));
+                } else if (arre[0].getConMes() == 2) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Febrero"));
+                } else if (arre[0].getConMes() == 3) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Marzo"));
+                } else if (arre[0].getConMes() == 4) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Abril"));
+                } else if (arre[0].getConMes() == 5) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Mayo"));
+                } else if (arre[0].getConMes() == 6) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Junio"));
+                } else if (arre[0].getConMes() == 7) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Julio"));
+                } else if (arre[0].getConMes() == 8) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Agosto"));
+                } else if (arre[0].getConMes() == 9) {
+                    jLabel11.setText("El mes con mas ventas del año " + añoMes);
+                    jTextField1.setText(String.valueOf("Septiembre"));
+                } else if (arre[0].getConMes() == 10) {
+                    jLabel11.setText("El mes con mas ventas del año " + añoMes + " es: ");
+                    jTextField1.setText(String.valueOf("Octubre"));
+                } else if (arre[0].getConMes() == 11) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Noviembre"));
+                } else if (arre[0].getConMes() == 12) {
+                    jLabel11.setText("Venta del mes mas vendido");
+                    jTextField1.setText(String.valueOf("Diciembre"));
+                } else {
+                    System.out.println("se salio del año");
+                }
 
-            System.err.println("este es la cantidad mas grande " + arre[0].getDeudaTotal() + " - " +arre[0].getFechaRegistro()+ " - " + arre[0].getConMes());
+            }
+
+            System.err.println("este es la cantidad mas grande " + arre[0].getDeudaTotal() + " - " + arre[0].getFechaRegistro() + " - " + arre[0].getConMes());
         }
         jDateChooser1.setCalendar(null);
         jDateChooser2.setCalendar(null);
@@ -1284,11 +1440,62 @@ public class Principal extends javax.swing.JFrame {
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
         // TODO add your handling code here:
-         this.setVisible(false);
+        this.setVisible(false);
         InicioSesion in = new InicioSesion();
         in.setVisible(true);
-       
+
     }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void TextNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextNombre1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextNombre1ActionPerformed
+
+    private void Buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar1ActionPerformed
+        // TODO add your handling code here:
+        
+         if(TextNombre1.getText().toString().equals("")){
+             JOptionPane.showMessageDialog(null, "Ingresar nombre o apellido del cliente");
+         }else{
+              String dato = TextNombre1.getText().toString();
+              daoCliente dao = new daoCliente();
+             
+            List<Pendientes> listaPen=dao.consultaEspecificaNombreOApaternoOAmaterno(dato);
+            
+            vaciarTablaPendientes();
+           
+             for (int i = 0; i < listaPen.size(); i++) {
+                 System.out.println("entro al for");
+                  tablePendientes.addRow(new Object[]{String.valueOf(listaPen.get(i).getIdProductosApartados()),listaPen.get(i).getNombre(),listaPen.get(i).getApaterno(),listaPen.get(i).getClave(),listaPen.get(i).getColor(),listaPen.get(i).getPrecio(),listaPen.get(i).getTipo(),listaPen.get(i).getStatus()});
+             }
+             
+              
+         
+         TextNombre1.setText("");
+         }
+
+    }//GEN-LAST:event_Buscar1ActionPerformed
+
+    private void todos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todos1ActionPerformed
+        // TODO add your handling code here:
+            vaciarTablaPendientes();
+         setFeilasPendientes();
+    }//GEN-LAST:event_todos1ActionPerformed
+
+    private void jTable3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MousePressed
+        // TODO add your handling code here:
+        int fila = jTable3.getSelectedRow();
+        Object idPro = jTable3.getValueAt(fila, 3);
+        DaoProductos dao = new DaoProductos();
+        Productos bean = dao.consultarImageConClave(Integer.parseInt(idPro.toString()));
+        Image imagen;
+        try {
+            imagen = dao.getImage(bean.getFoto(), false);
+            Icon icon = new ImageIcon(imagen.getScaledInstance(330, 540, Image.SCALE_DEFAULT));
+            jLabel15.setIcon(icon);
+        } catch (Exception ex) {
+            System.out.println("error al cargar al imagen " + ex);
+        }
+    }//GEN-LAST:event_jTable3MousePressed
 
     /**
      * @param args the command line arguments
@@ -1332,7 +1539,9 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
+    private javax.swing.JButton Buscar1;
     private javax.swing.JTextField TextNombre;
+    private javax.swing.JTextField TextNombre1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public static javax.swing.JButton jButton3;
@@ -1347,6 +1556,9 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel10;
     public static javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1369,16 +1581,21 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     public static javax.swing.JTextField jTextField1;
     public static com.toedter.calendar.JYearChooser jYearChooser1;
     private javax.swing.JLabel labelFoto;
     private javax.swing.JTabbedPane panelPrincipal;
     private javax.swing.JTabbedPane panelPrincipal2;
     private javax.swing.JButton todos;
+    private javax.swing.JButton todos1;
     // End of variables declaration//GEN-END:variables
 }
