@@ -78,18 +78,18 @@ public class Operaciones {
                                 //si se registra en apartados registramos medidas
                                 boolean banM = registrarMedidas(arreMedidas[i][1], arreMedidas[i][2], arreMedidas[i][3], arreMedidas[i][4], arreMedidas[i][5], arreMedidas[i][6], arreMedidas[i][7], arreMedidas[i][8]);
                                 if (banM) {
-                                    JOptionPane.showMessageDialog(null, "Las medidas se registraron correctamente");
+                                  //  JOptionPane.showMessageDialog(null, "Las medidas se registraron correctamente");
                                     //si se registra en medidas registramos fechas
                                     boolean banFechas = registraFechas(arreFechas[k][1]);
                                     if (banFechas) {
-                                        JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
+                                       // JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                         //si se registra en fechas registramos vendidos
                                         System.out.println("soy el estado " + estado);
                                         if (estado.equals("Pagado entregado")) {
                                             boolean banPV = registrarProductosVendidos();
                                             if (banPV) {
                                                 //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                                JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                              //  JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
                                             } else {
                                                 JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
@@ -145,20 +145,20 @@ public class Operaciones {
 
                                 boolean banFechas = registraFechas(arreFechas[k][1]);
                                 if (banFechas) {
-                                    JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
+                                   // JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                     //si se registra en fechas registramos vendidos
                                     System.out.println("soy el estado " + estado);
                                     if (estado.equals("Pagado entregado")) {
                                         boolean banPV = registrarProductosVendidos();
                                         if (banPV) {
                                             //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                            //JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
                                         } else {
                                             JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
                                         }
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos");
+                                       // JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos");
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
@@ -190,13 +190,13 @@ public class Operaciones {
                                              boolean banPV = registrarProductosVendidos();
                                               if (banPV) {
                                             //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                            JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
+                                         //  JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
 
                                         } else {
                                             JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
                                         }
                                         }else{
-                                            JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                          //  JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
                                         }
 
                             }
@@ -214,11 +214,11 @@ public class Operaciones {
         //si se registra en vendidos registramos deuda total
         boolean banDT = resgistraDeudaTotla();
         if (banDT) {
-            JOptionPane.showMessageDialog(null, "Se resgistro correctamente en deuda total");
+         //   JOptionPane.showMessageDialog(null, "Se resgistro correctamente en deuda total");
             //si se registra la deuda total registramos en pagos
             boolean banP = registrarPagos();
             if (banP) {
-                JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
+              //  JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al registra el pago", "ERROR", 0);
             }
@@ -273,11 +273,11 @@ public class Operaciones {
                                 //si se registra en apartados registramos medidas
                                 boolean banM = registrarMedidas(arreMedidas[i][1], arreMedidas[i][2], arreMedidas[i][3], arreMedidas[i][4], arreMedidas[i][5], arreMedidas[i][6], arreMedidas[i][7], arreMedidas[i][8]);
                                 if (banM) {
-                                    JOptionPane.showMessageDialog(null, "Las medidas se registraron correctamente");
+                                   // JOptionPane.showMessageDialog(null, "Las medidas se registraron correctamente");
                                     //si se registra en medidas registramos fechas
                                     boolean banFechas = registraFechas(arreFechas[k][1]);
                                     if (banFechas) {
-                                        JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
+                                      //  JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
 
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
@@ -332,7 +332,7 @@ public class Operaciones {
 
                                 boolean banFechas = registraFechas(arreFechas[k][1]);
                                 if (banFechas) {
-                                    JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
+                                  //  JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Erro al registra la fecha Prueba " + "ERROR " + 0);
                                 }
@@ -372,11 +372,11 @@ public class Operaciones {
         //si se registra en vendidos registramos deuda total
         boolean banDT = resgistraDeudaTotla2();
         if (banDT) {
-            JOptionPane.showMessageDialog(null, "Se resgistro correctamente en deuda total");
+          //  JOptionPane.showMessageDialog(null, "Se resgistro correctamente en deuda total");
             //si se registra la deuda total registramos en pagos
             boolean banP = registrarPagos();
             if (banP) {
-                JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
+              //  JOptionPane.showMessageDialog(null, "El pago se registro correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al registra el pago", "ERROR", 0);
             }

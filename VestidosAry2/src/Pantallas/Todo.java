@@ -703,63 +703,87 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        int sumaPagos = 0;
-        int abono = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresar abono"));
-        for (int i = 0; i < jTable2.getRowCount(); i++) {
-            Object pagos = jTable2.getValueAt(i, 1);
-            sumaPagos = sumaPagos + Integer.parseInt(pagos.toString());
-
-        }
-        int total = sumaPagos + abono;
-        System.out.println("suma pagos  " + total);
-        int deudaMenosPagos = Integer.parseInt(jLabel4.getText().toString()) - total;
-        if (total == Integer.parseInt(jLabel4.getText().toString())) {
-            System.out.println("los pagos son igual ala deuda");
-            //entonces registramos y enviamos un mensaje de ultimo pago registrado
-            daoCliente daoCliente = new daoCliente();
-            DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
-            DaoPagos daoPagos = new DaoPagos();
-            Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-            System.out.println("soy el id del cliente " + idCliente);
-            DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
-
-            Pagos beanPagos = new Pagos();
-
-            beanPagos.setAbono(abono);
-            beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
-            boolean ban = daoPagos.registrar(beanPagos);
-            if (ban) {
-                JOptionPane.showMessageDialog(null, "Ultimo pago registrado correctamente");
-                limpiarTablaPagos();
-                setFilasPagos();
-                jLabel6.setText(String.valueOf(deudaMenosPagos));
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al registrar el Ultimo pago ", "ERROR", 0);
-            }
-
-        } else {
-            // registramos con mensaje de el abono se registro correctamente
-            daoCliente daoCliente = new daoCliente();
-            DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
-            DaoPagos daoPagos = new DaoPagos();
-            Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-            System.out.println("soy el id del cliente " + idCliente);
-            DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
-
-            Pagos beanPagos = new Pagos();
-
-            beanPagos.setAbono(abono);
-            beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
-            boolean ban = daoPagos.registrar(beanPagos);
-            if (ban) {
-                JOptionPane.showMessageDialog(null, "El abono registrado correctamente");
-                limpiarTablaPagos();
-                setFilasPagos();
-                jLabel6.setText(String.valueOf(deudaMenosPagos));
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al registrar el  abono ", "ERROR", 0);
+        try {
+            int sumaPagos = 0;
+            int abono = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresar abono"));
+            for (int i = 0; i < jTable2.getRowCount(); i++) {
+                Object pagos = jTable2.getValueAt(i, 1);
+                sumaPagos = sumaPagos + Integer.parseInt(pagos.toString());
 
             }
+            //se suman los pagos de la tabla mas el pago que dara
+            int total = sumaPagos + abono;
+            System.out.println("suma pagos  " + total);
+            int deudaMenosPagos = Integer.parseInt(jLabel4.getText().toString()) - total;
+            if (total == Integer.parseInt(jLabel4.getText().toString())) {
+                System.out.println("los pagos son igual ala deuda");
+                //entonces registramos y enviamos un mensaje de ultimo pago registrado
+                daoCliente daoCliente = new daoCliente();
+                DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+                DaoPagos daoPagos = new DaoPagos();
+                Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+                System.out.println("soy el id del cliente " + idCliente);
+                DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+
+                Pagos beanPagos = new Pagos();
+
+                beanPagos.setAbono(abono);
+                beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
+                boolean ban = daoPagos.registrar(beanPagos);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "Ultimo pago registrado correctamente");
+                    //imprimimos
+                    setFilasPagos();
+                    imprimirFactura();
+                     CambiarStatusProductosApartados cs= new CambiarStatusProductosApartados();
+                     cs.setFilasPA();
+                     cs.setVisible(true);
+                     
+                    limpiarTablaPagos();
+                    limpiarTablaPA();
+                    
+                    // todo esto deberia de entrar hasta que se alla modificado el status de los productos apartados
+                    boolean banC=daoDeuda.modificarStatus("Pagado", beanDeuda.getIdDeudaTotal());
+                    
+                    if(banC){
+                       //JOptionPane.showMessageDialog(null, "Deuda modificada");
+                        jLabel4.setText("0");
+                    }else{
+                          JOptionPane.showMessageDialog(null, " error Deuda modificada","ERROR " ,0);
+                    }
+                        
+
+                    jLabel6.setText(String.valueOf(deudaMenosPagos));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar el Ultimo pago ", "ERROR", 0);
+                }
+
+            } else {
+                // registramos con mensaje de el abono se registro correctamente
+                daoCliente daoCliente = new daoCliente();
+                DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
+                DaoPagos daoPagos = new DaoPagos();
+                Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
+                System.out.println("soy el id del cliente " + idCliente);
+                DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
+
+                Pagos beanPagos = new Pagos();
+
+                beanPagos.setAbono(abono);
+                beanPagos.setDeudaTotal_id(beanDeuda.getIdDeudaTotal());
+                boolean ban = daoPagos.registrar(beanPagos);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "El abono se registrado correctamente");
+                    limpiarTablaPagos();
+                    setFilasPagos();
+                    jLabel6.setText(String.valueOf(deudaMenosPagos));
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar el  abono ", "ERROR", 0);
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Se cancelo el abono " + e.getMessage());
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -1020,6 +1044,9 @@ public class Todo extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if(jTable3.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"No hay productos en la tabla");
+        }else{
         daoCliente daoCliente = new daoCliente();
         DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
         DaoPagos daoPagos = new DaoPagos();
@@ -1052,7 +1079,9 @@ public class Todo extends javax.swing.JFrame {
                 //creamos el item para el status
                 String status[] = {"Pagado entregado", "Pagado NO entregado"};
                 Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
+               
                 //if (estado.equals("Pagado entregado")) {//QUITAR ESTAR//si se cumple se registra en apartados y vendidos
+                
                 System.out.println("entro al estado pagado entregado");
                 boolean ban = opera.registrar(jTable3, arreMedidas, arreFechas, estado.toString());//Registro en la tabla apartados
 
@@ -1193,6 +1222,7 @@ public class Todo extends javax.swing.JFrame {
             }
 
         }//cerramos el if de no tiene deuda
+        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
     void imprimirFactura() {

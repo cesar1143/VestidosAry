@@ -7,6 +7,11 @@ package Pantallas;
 
 import ModeloClientes.Clientes;
 import ModeloClientes.daoCliente;
+import ModeloDeudaTotal.DaoDeudaTotal;
+import ModeloDeudaTotal.DeudaTotal;
+import ModeloProductosApartados.DaoProductosApartados;
+import ModeloProductosVendidos.DaoProductosVendidos;
+import ModeloProductosVendidos.ProductosVendidos;
 import static Pantallas.Todo.ama;
 import static Pantallas.Todo.apa;
 import static Pantallas.Todo.nom;
@@ -30,25 +35,28 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
     PreparedStatement ps;
     ResultSet rs;
     Connection conec = null;
+    private int idDeudadTotal;
 
     public CambiarStatusProductosApartados() {
+       
         tableCambioStatus = new DefaultTableModel(null, getColumnasPA());
         initComponents();
-        
+
     }
 
     public String[] getColumnasPA() {
         String columnas[] = new String[]{"Id", "clave", "Precio", "Tipo", "Estatus", "Fecha Evento"};
         return columnas;
     }
-    
-      public void setFilasPA() {
+
+    public void setFilasPA() {
         daoCliente dao = new daoCliente();
         System.out.println("nombre " + nom);
         Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
         System.out.println("bean.getidclieten " + bean.getIdClientes());
         String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
                 + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id where   clientes.idclientes='" + bean.getIdClientes() + "' and productosapartados.status='Apartado'  ;";
+        System.out.println("cambiar estatus  " + sql);
         try {
 
             conec = conexion.getConnection();
@@ -67,6 +75,13 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
         }
 
     }
+    public void limpiarTabla() {
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            tableCambioStatus.removeRow(i);
+            i = i - 1;
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,8 +96,10 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -93,6 +110,13 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cambio de status");
 
+        jButton1.setText("Cambiar todos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -102,15 +126,21 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(460, 460, 460)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,6 +156,44 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String status[] = {"Pagado entregado", "Pagado NO entregado"};
+        Object estado = JOptionPane.showInputDialog(this, "Status", "Seleccionar status", JOptionPane.INFORMATION_MESSAGE, null, status, status[0]);
+        DaoProductosVendidos dao = new DaoProductosVendidos();
+        ProductosVendidos bean = new ProductosVendidos();
+        DaoProductosApartados daoPA = new DaoProductosApartados();
+        boolean ban = false;
+        boolean banPA = false;
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            if (estado.toString().equals("Pagado entregado")) {
+
+                Object idPA = jTable1.getValueAt(i, 0);
+                banPA = daoPA.modificarStatus(estado.toString(), Integer.parseInt(idPA.toString()));
+
+                bean.setProductosApartados_id(Integer.parseInt(idPA.toString()));
+                ban = dao.registrar(bean);
+                
+                
+            } else {
+                //no se registra en vendidos solo cambiamos el status
+                Object idPA = jTable1.getValueAt(i, 0);
+                banPA = daoPA.modificarStatus(estado.toString(), Integer.parseInt(idPA.toString()));
+
+            }
+
+        }
+        if (banPA) {
+            JOptionPane.showMessageDialog(null, "Se cambio el status correcatamente");
+            limpiarTabla();
+            this.setVisible(false);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al cambiar el status ", "ERROR", 0);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +231,7 @@ public class CambiarStatusProductosApartados extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

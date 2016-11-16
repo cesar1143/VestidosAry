@@ -37,4 +37,22 @@ public class DaoProductosApartados {
         }
         return ban;
     }
+    
+    public boolean modificarStatus(String status, int idPA){
+        boolean ban=false;
+        String sql="update productosapartados set status=? where idproductosapartados=?"; 
+        
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, idPA);
+            ban=ps.executeUpdate()==1;
+            ban=true;
+        } catch (Exception e) {
+              System.out.println("Mensaje DaoProductosApartados modificarStatus " + e);
+        }
+        
+        return ban;
+    }
 }

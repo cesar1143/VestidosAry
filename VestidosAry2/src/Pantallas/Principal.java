@@ -12,6 +12,9 @@ import ModeloDeudaTotal.DeudaTotal;
 import ModeloPendientes.Pendientes;
 import ModeloProductos.DaoProductos;
 import ModeloProductos.Productos;
+import ModeloProductosApartados.DaoProductosApartados;
+import ModeloProductosVendidos.DaoProductosVendidos;
+import ModeloProductosVendidos.ProductosVendidos;
 import static Pantallas.Todo.ama;
 import static Pantallas.Todo.apa;
 import static Pantallas.Todo.nom;
@@ -58,7 +61,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setFilas();
         setFilasVP();
-         setFeilasPendientes();
+        setFeilasPendientes();
         soloLetras(TextNombre);
         this.setExtendedState(MAXIMIZED_BOTH);
 
@@ -76,6 +79,8 @@ public class Principal extends javax.swing.JFrame {
         jDateChooser2.setVisible(false);
         jButton3.setVisible(false);
         jTextField1.setVisible(false);
+        
+        jButton6.setVisible(false);
 
     }
 
@@ -85,7 +90,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public String[] getColumnasPen() {
-        String columnas[] = new String[]{"Id", "nombre", "Paterno", "Clave", "Color", "Precio", "Tipo","Status"};
+        String columnas[] = new String[]{"Id", "nombre", "Paterno", "Clave", "Color", "Precio", "Tipo", "Status"};
         return columnas;
     }
 
@@ -99,6 +104,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
     }
+
     public void vaciarTablaPendientes() {
 
         for (int i = 0; i < jTable3.getRowCount(); i++) {
@@ -132,7 +138,6 @@ public class Principal extends javax.swing.JFrame {
             conec = conexion.getConnection();
             PreparedStatement ps = conec.prepareStatement(sql);
             rs = ps.executeQuery();
-           
 
             Object fila[] = new Object[8];
             while (rs.next()) {
@@ -140,7 +145,7 @@ public class Principal extends javax.swing.JFrame {
                     fila[i] = rs.getObject(i + 1);
 
                 }
-               tablePendientes.addRow(fila);
+                tablePendientes.addRow(fila);
             }
 
         } catch (Exception e) {
@@ -284,6 +289,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -754,6 +760,13 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jButton6.setText("Cambiar todos");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -761,24 +774,30 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(377, 377, 377)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(444, 444, 444)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(Buscar1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(todos1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 942, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(TextNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(312, 312, 312)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGap(67, 67, 67)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addComponent(Buscar1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(todos1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addComponent(jLabel14)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(TextNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 942, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28)
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(400, 400, 400)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(545, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -799,7 +818,9 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(Buscar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(43, 43, 43)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(297, 297, 297))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addGap(268, 268, 268))
         );
 
         panelPrincipal.addTab("Pendientes", jPanel7);
@@ -1128,7 +1149,7 @@ public class Principal extends javax.swing.JFrame {
     private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
         // TODO add your handling code here:
         int fila = jTable2.getSelectedRow();
-        Object idPro = jTable2.getValueAt(fila, 3);
+        Object idPro = jTable2.getValueAt(fila, 0);
         DaoProductos dao = new DaoProductos();
         Productos bean = dao.consultarImage(Integer.parseInt(idPro.toString()));
         Image imagen;
@@ -1452,33 +1473,33 @@ public class Principal extends javax.swing.JFrame {
 
     private void Buscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Buscar1ActionPerformed
         // TODO add your handling code here:
-        
-         if(TextNombre1.getText().toString().equals("")){
-             JOptionPane.showMessageDialog(null, "Ingresar nombre o apellido del cliente");
-         }else{
-              String dato = TextNombre1.getText().toString();
-              daoCliente dao = new daoCliente();
-             
-            List<Pendientes> listaPen=dao.consultaEspecificaNombreOApaternoOAmaterno(dato);
-            
+
+        if (TextNombre1.getText().toString().equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingresar nombre o apellido del cliente");
+        } else {
+            String dato = TextNombre1.getText().toString();
+            daoCliente dao = new daoCliente();
+
+            List<Pendientes> listaPen = dao.consultaEspecificaNombreOApaternoOAmaterno(dato);
+
             vaciarTablaPendientes();
-           
-             for (int i = 0; i < listaPen.size(); i++) {
-                 System.out.println("entro al for");
-                  tablePendientes.addRow(new Object[]{String.valueOf(listaPen.get(i).getIdProductosApartados()),listaPen.get(i).getNombre(),listaPen.get(i).getApaterno(),listaPen.get(i).getClave(),listaPen.get(i).getColor(),listaPen.get(i).getPrecio(),listaPen.get(i).getTipo(),listaPen.get(i).getStatus()});
-             }
-             
-              
-         
-         TextNombre1.setText("");
-         }
+
+            for (int i = 0; i < listaPen.size(); i++) {
+                System.out.println("entro al for");
+                tablePendientes.addRow(new Object[]{String.valueOf(listaPen.get(i).getIdProductosApartados()), listaPen.get(i).getNombre(), listaPen.get(i).getApaterno(), listaPen.get(i).getClave(), listaPen.get(i).getColor(), listaPen.get(i).getPrecio(), listaPen.get(i).getTipo(), listaPen.get(i).getStatus()});
+            }
+
+            TextNombre1.setText("");
+        }
+        jButton6.setVisible(true);
 
     }//GEN-LAST:event_Buscar1ActionPerformed
 
     private void todos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todos1ActionPerformed
         // TODO add your handling code here:
-            vaciarTablaPendientes();
-         setFeilasPendientes();
+        vaciarTablaPendientes();
+        setFeilasPendientes();
+        jButton6.setVisible(false);
     }//GEN-LAST:event_todos1ActionPerformed
 
     private void jTable3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MousePressed
@@ -1496,6 +1517,48 @@ public class Principal extends javax.swing.JFrame {
             System.out.println("error al cargar al imagen " + ex);
         }
     }//GEN-LAST:event_jTable3MousePressed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        ProductosVendidos bean = new ProductosVendidos();
+        DaoProductosApartados daoPA = new DaoProductosApartados();
+        DaoProductosVendidos dao = new DaoProductosVendidos();
+        boolean ban = false;
+        boolean banPA = false;
+        if (jTable3.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "La tabla esta vacia");
+        } else {
+
+            for (int i = 0; i < jTable3.getRowCount(); i++) {
+                //registramos en vendidos y cambiamos status
+                Object idPA = jTable3.getValueAt(i, 0);
+                banPA = daoPA.modificarStatus("Pagado entregado", Integer.parseInt(idPA.toString()));
+
+            }
+            if (banPA) {
+                JOptionPane.showMessageDialog(null, "Se cambio el status correcatamente");
+                for (int i = 0; i < jTable3.getRowCount(); i++) {
+                    Object idPA = jTable3.getValueAt(i, 0);
+                    bean.setProductosApartados_id(Integer.parseInt(idPA.toString()));
+                    ban = dao.registrar(bean);
+                }
+                if(ban){
+                    vaciarTablaPendientes();
+                setFeilasPendientes();
+                jButton6.setVisible(false);
+                }else{
+                  JOptionPane.showMessageDialog(null, "Error al registrar en vendidos ", "ERROR", 0);   
+                }
+                
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al cambiar el status ", "ERROR", 0);
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1547,6 +1610,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JComboBox jComboBox1;
     public static javax.swing.JComboBox jComboBox2;

@@ -90,6 +90,21 @@ public class DaoDeudaTotal {
         }
         return ban;
     }
+     public boolean modificarStatus(String status , int idDeuda){
+        boolean ban=false;
+        String sql="update deudatotal set  status=? where iddeudatotal=?";
+        try {
+            con=conexion.getConnection();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, status);
+            
+            ps.setInt(2, idDeuda);
+            ban=ps.executeUpdate()==1;
+            ban=true;
+        } catch (Exception e) {
+        }
+        return ban;
+    }
  //Obtener la venta del dia para el reporte 
       public int consultarDeudaRporteDia(String fecha){
         int sumVentas=0;

@@ -24,7 +24,7 @@ public class conexion {
         try {
             Class.forName(driver);
             System.out.println("se conecto");
-             System.out.println("se conecto");
+             
         } catch (Exception e) {
             System.out.println("no conecto");
             e.getMessage();
@@ -32,11 +32,11 @@ public class conexion {
         try {
             con = DriverManager.getConnection(url, usuario, contrasena);
             System.out.println("conectado");
-             System.out.println("conectado " + url);
+       
         } catch (Exception e) {
             e.getMessage();
             System.out.println("no conecta");
-            System.out.println("no conecta " + url);
+           
 
         }
         return con;
