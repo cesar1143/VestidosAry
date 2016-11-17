@@ -162,38 +162,67 @@ public class ClienteAgregar extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         String nombre1 = nombre.getText().toString();
+
         String array[] = nombre1.split(" ");
         int tamaño = array.length;
         System.out.println("tamaño " + tamaño);
-        String tel = telefono.getText();
+
         if (nombre1.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingresar el nombre del cliente");
-        } else {
-            //aqui entaria el codigo
-            Clientes bean = new Clientes();
-            daoCliente dao = new daoCliente();
-            System.out.println("ar0 " + array[0]);
-            bean.setNombre(array[0]);
-            System.out.println("ar1 " + array[1]);
-            bean.setApaterno(array[1]);
-            System.out.println("ar2 " + array[2]);
-            bean.setAmaterno(array[2]);
-            bean.setTelefono(Integer.parseInt(tel.toString()));
-            boolean ban = dao.registrarCliente(bean);
-            if (ban) {
-                JOptionPane.showMessageDialog(null, "El cliente se registro correctamente");
-               
-                
+        } else if (telefono.getText().toString().equals("")) {
 
-                nombre.setText("");
-                telefono.setText("");
-                this.setVisible(false);
-               
+            //aqui entaria el codigo
+            if (array.length == 1 || array.length == 2) {
+                JOptionPane.showMessageDialog(null, "Ingresar nombre completo");
             } else {
-                JOptionPane.showMessageDialog(null, "Erro al registrar al cliente", "ERROR", 0);
+                Clientes bean = new Clientes();
+                daoCliente dao = new daoCliente();
+
+                bean.setNombre(array[0]);
+
+                bean.setApaterno(array[1]);
+
+                bean.setAmaterno(array[2]);
+                bean.setTelefono(0);
+
+                boolean ban = dao.registrarCliente(bean);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "El cliente se registro correctamente");
+
+                    nombre.setText("");
+                    telefono.setText("");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro al registrar al cliente", "ERROR", 0);
+                }
+
             }
-            
-           
+        }else{
+            if (array.length == 1 || array.length == 2) {
+                JOptionPane.showMessageDialog(null, "Ingresar nombre completo");
+            } else {
+            String tel = telefono.getText().toString();
+             Clientes bean = new Clientes();
+                daoCliente dao = new daoCliente();
+
+                bean.setNombre(array[0]);
+
+                bean.setApaterno(array[1]);
+
+                bean.setAmaterno(array[2]);
+                bean.setTelefono1(tel);
+
+                boolean ban = dao.registrarCliente(bean);
+                if (ban) {
+                    JOptionPane.showMessageDialog(null, "El cliente se registro correctamente");
+
+                    nombre.setText("");
+                    telefono.setText("");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro al registrar al cliente", "ERROR", 0);
+                }
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -205,7 +234,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Principal.controlClienteAdd=false;
+        Principal.controlClienteAdd = false;
     }//GEN-LAST:event_formWindowClosing
 
     /**

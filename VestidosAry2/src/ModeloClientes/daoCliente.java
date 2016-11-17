@@ -169,7 +169,7 @@ public class daoCliente {
             ps.setString(1, bean.getNombre());
             ps.setString(2, bean.getApaterno());
             ps.setString(3, bean.getAmaterno());
-            ps.setInt(4, bean.getTelefono());
+            ps.setString(4, bean.getTelefono1());
             ban = ps.executeUpdate() == 1;
             ban = true;
         } catch (Exception e) {
@@ -189,7 +189,7 @@ public class daoCliente {
             ps.setString(1, bean.getNombre());
             ps.setString(2, bean.getApaterno());
             ps.setString(3, bean.getAmaterno());
-            ps.setInt(4, bean.getTelefono());
+            ps.setString(4, bean.getTelefono1());
             ps.setInt(5, bean.getIdClientes());
             ban = ps.executeUpdate() == 1;
             ban = true;

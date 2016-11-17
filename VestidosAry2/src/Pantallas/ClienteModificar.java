@@ -198,7 +198,7 @@ public void soloNumeros(JTextField a){
             bean.setNombre(nombre1);
             bean.setApaterno(apaterno1);
             bean.setAmaterno(amaterno1);
-            bean.setTelefono(Integer.parseInt(telefono1));
+            bean.setTelefono1(telefono1);
             System.out.println("id cliente " + id);
             bean.setIdClientes(id);
             boolean ban=dao.modificar(bean);
@@ -209,6 +209,7 @@ public void soloNumeros(JTextField a){
                 amaterno.setText("");
                 telefono.setText("");
                 this.setVisible(false);
+                  Principal.controlClienteMod=false;
                 
             }else{
                 JOptionPane.showMessageDialog(null,"Error al modificar el cliente","ERROR",0);

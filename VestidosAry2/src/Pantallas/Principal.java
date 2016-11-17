@@ -189,7 +189,7 @@ public class Principal extends javax.swing.JFrame {
                 String nombre1 = rs.getString("nombre");
                 String apaterno1 = rs.getString("apaterno");
                 String amaterno1 = rs.getString("amaterno");
-                int telefono1 = rs.getInt("telefono");
+                String telefono1 = rs.getString("telefono");
 
                 tableModel.addRow(new Object[]{id, nombre1, apaterno1, amaterno1, telefono1});
 
@@ -947,23 +947,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void todosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todosActionPerformed
         // TODO add your handling code here:
-        daoCliente dao = new daoCliente();
-        rs = dao.consultaTodos();
-        try {
-            vaciarTabla();
-            while (rs.next()) {
-                int id = rs.getInt("idclientes");
-                String nombre1 = rs.getString("nombre");
-                String apaterno1 = rs.getString("apaterno");
-                String amaterno1 = rs.getString("amaterno");
-                int telefono1 = rs.getInt("telefono");
-                System.out.println("nombre " + nombre1);
-                tableModel.addRow(new Object[]{id, nombre1, apaterno1, amaterno1, telefono1});
-
-            }
-
-        } catch (Exception e) {
-        }
+      
+        vaciarTabla();
+        setFilas();
 
     }//GEN-LAST:event_todosActionPerformed
 

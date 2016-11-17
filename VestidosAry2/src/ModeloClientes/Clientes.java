@@ -14,11 +14,20 @@ import java.util.Date;
 public class Clientes {
 
     private int idClientes,telefono;
-    private String nombre, apaterno, amaterno;
+    private String nombre, apaterno, amaterno,telefono1;
     public static int usuarios_id;
     private Date fechaRegistroDate;
     private String fechaRegistro;
 
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    
     public int getTelefono() {
         return telefono;
     }
