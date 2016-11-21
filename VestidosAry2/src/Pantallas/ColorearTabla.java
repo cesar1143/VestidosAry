@@ -25,38 +25,46 @@ public class ColorearTabla extends DefaultTableCellRenderer {
     ResultSet rs;
     Connection con = null;
     private Component componente;
-
+ int cont1=1;
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+     
         componente = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         componente.setForeground(Color.black);
+       
+      
         Object v = table.getValueAt(row, 0);
-        System.out.println("valor celda " + v);
+     
         boolean ban = ver(Integer.parseInt(v.toString()));
-        System.out.println("ban " + ban);
+   ;
         if (ban) {
-            System.out.println("entro a amarillo");
+           
             componente.setBackground(Color.YELLOW);
         } else {
             componente.setBackground(Color.white);
-            System.out.println("entro a blanco");
+            
         }
+        
+     
         return componente;
+        
     }
     
     public boolean ver(int fila) {
+     
         boolean ban = false;
-        System.out.println("entro a colorear ");
+        
         
         con = conexion.getConnection();
-        System.out.println("entro a colorear  111111");        
+        
         String sql = "select  productosapartados.idproductosapartados from productosapartados where idproductosapartados in (select medidas.productosapartados_id from medidas) and idproductosapartados='" + fila + "' and productosapartados.status='Apartado' ";
-        System.out.println("sqql " + sql);
+    
         try {
-            System.out.println("entro a colorear 22222222222 ");
+      
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
+               
                 ban = true;
             }
             

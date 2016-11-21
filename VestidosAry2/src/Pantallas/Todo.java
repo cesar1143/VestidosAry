@@ -111,11 +111,11 @@ public class Todo extends javax.swing.JFrame {
         daoCliente daoCliente = new daoCliente();
         DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
         DaoPagos daoPagos = new DaoPagos();
-        System.out.println("nombre " + nom);
+ 
         Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-        System.out.println("soy el id del cliente " + idCliente);
+       
         DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
-        System.out.println("bean get deuda " + beanDeuda.getDeudaTotal());
+       
 
         int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal());
         int deudaMenosPagos = beanDeuda.getDeudaTotal() - sumaPagos;
@@ -141,9 +141,9 @@ public class Todo extends javax.swing.JFrame {
 
     public void setFilasPA() {
         daoCliente dao = new daoCliente();
-        System.out.println("nombre " + nom);
+    
         Clientes bean = dao.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-        System.out.println("bean.getidclieten " + bean.getIdClientes());
+    
         String sql = "select productosapartados.idproductosapartados,productos.clave,productos.precio,productos.tipo,productosapartados.status,fechaspruebas.fechaprueba,productosapartados.fechaentrega,clientes.nombre,clientes.idclientes\n"
                 + "from productos join productosapartados on productos.idproductos=productosapartados.producto_id join clientes on clientes.idclientes= productosapartados.cliente_id  left join  fechaspruebas on fechaspruebas.productosapartados_id=productosapartados.idproductosapartados "
                 + "where   clientes.idclientes='" + bean.getIdClientes() + "' and productosapartados.status='Apartado'  ;";
@@ -244,7 +244,7 @@ public class Todo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Cliente: ");
@@ -254,7 +254,7 @@ public class Todo extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Productos apartados", 0, 0, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Productos apartados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(733, 253));
 
         jTable1.setModel(tableApartados);
@@ -262,7 +262,7 @@ public class Todo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel7.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Medidas", 0, 0, new java.awt.Font("Arial", 0, 11))); // NOI18N
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Medidas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 11))); // NOI18N
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/ver.png"))); // NOI18N
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -305,7 +305,7 @@ public class Todo extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Pagos", 0, 0, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Pagos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(733, 253));
 
         jTable2.setModel(tablePagos);
@@ -327,7 +327,7 @@ public class Todo extends javax.swing.JFrame {
         jLabel6.setText("jLabel6");
 
         jPanel6.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Agregar abono", 0, 0, new java.awt.Font("Arial", 0, 11))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Agregar abono", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 11))); // NOI18N
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475467111_sign-add.png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -399,7 +399,7 @@ public class Todo extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Registro venta", 0, 0, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Registro venta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Producto: ");
@@ -465,7 +465,7 @@ public class Todo extends javax.swing.JFrame {
         });
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(0), "Registro Producto", 0, 0, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Registro Producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/1475467326_sign-add.png"))); // NOI18N
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -661,7 +661,7 @@ public class Todo extends javax.swing.JFrame {
         DaoProductos dao = new DaoProductos();
         String clave = producto.getText().toString();
         Productos bean = dao.consultaExiste(clave);
-        System.out.println("bean +  " + bean.getClave());
+     
         try {
             if (bean.getClave().equals(clave)) {
                 JOptionPane.showMessageDialog(null, "\n Precio: " + bean.getPrecio(), "Acerca del producto", -1);
@@ -722,7 +722,7 @@ public class Todo extends javax.swing.JFrame {
                 DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
                 DaoPagos daoPagos = new DaoPagos();
                 Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-                System.out.println("soy el id del cliente " + idCliente);
+               
                 DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
 
                 Pagos beanPagos = new Pagos();
@@ -764,7 +764,7 @@ public class Todo extends javax.swing.JFrame {
                 DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
                 DaoPagos daoPagos = new DaoPagos();
                 Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-                System.out.println("soy el id del cliente " + idCliente);
+          
                 DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
 
                 Pagos beanPagos = new Pagos();
@@ -808,7 +808,7 @@ public class Todo extends javax.swing.JFrame {
         } else {
             int fila = jTable1.getSelectedRow();
             Object idPA = jTable1.getValueAt(fila, 0);
-            System.out.println("este es el valor de la fila " + idPA);
+       
 
             VerMedidas vm = new VerMedidas();
             vm.setFilas(Integer.parseInt(idPA.toString()));
@@ -881,33 +881,7 @@ public class Todo extends javax.swing.JFrame {
                     arreFechas[conFechas][2] = fechaEven;
                     conFechas++;
                     con++;
-                    /*
-                     for (int i = 0; i < arreFechas.length; i++) {
-
-                     System.out.println("========= Fechas  chek seleccionado ==============");
-                     System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
-                     System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
-                     System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
-                     System.out.println("========== termina impresion fechas ============");
-
-                     }
-                     for (int j = 0; j < arre.length; j++) {
-
-                     System.out.println("======= imprimir medidas ================");
-
-                     System.out.println("idvestido " + "posicion " + j + 0 + arre[j][0]);
-                     System.out.println("talle " + "posicion " + j + 1 + arre[j][1]);
-                     System.out.println("sise " + "posicion " + j + 2 + arre[j][2]);
-                     System.out.println("hombros " + "posicion " + j + 3 + arre[j][3]);
-                     System.out.println("busto " + "posicion " + j + 4 + arre[j][4]);
-                     System.out.println("cintura " + "posicion " + j + 5 + arre[j][5]);
-
-                     System.out.println("cadera " + "posicion " + j + 6 + arre[j][6]);
-                     System.out.println("largoFalda " + "posicion " + j + 7 + arre[j][7]);
-                     System.out.println("ancho puño" + "posicion " + j + 8 + arre[j][8]);
-
-                     }
-                     */
+                   
                     //limpia campo de producto
                     producto.setText("");        // TODO add your handling code here:
                     fechaPrueba.setCalendar(null);
@@ -923,7 +897,7 @@ public class Todo extends javax.swing.JFrame {
                     MedidasRegistrar.anchoPuño.setText("");
                     CheckSi.setSelected(false);
                     MedidasRegistrar m = new MedidasRegistrar();
-                    System.out.println("si paso por aqui");
+                  
                     m.setVisible(false);
 
                 }//cierra el if de fechas
@@ -934,7 +908,7 @@ public class Todo extends javax.swing.JFrame {
                     int mes = fechaPrueba.getCalendar().get(Calendar.MARCH);
                     int año = fechaPrueba.getCalendar().get(Calendar.YEAR);
                     String fechaP = año + "-" + mes + "-" + dia;
-                    System.err.println("fechasP " + fechaP);
+                   
                     int diaE = fechaEvento.getCalendar().get(Calendar.DAY_OF_MONTH);
                     int mesE = fechaEvento.getCalendar().get(Calendar.MARCH);
                     int añoE = fechaEvento.getCalendar().get(Calendar.YEAR);
@@ -944,17 +918,7 @@ public class Todo extends javax.swing.JFrame {
                     arreFechas[conFechas][2] = fechaEven;
 
                     conFechas++;
-                    /*
-                     for (int i = 0; i < arreFechas.length; i++) {
-
-                     System.out.println("========= Fechas sin chek seleccionado ==============");
-                     System.out.println("id " + "Posicion " + i + " " + 0 + arreFechas[i][0]);
-                     System.out.println("fecha Prueba " + "Posicion " + i + " " + 1 + arreFechas[i][1]);
-                     System.out.println("Fecha Evento " + "Posicion " + i + " " + 2 + arreFechas[i][2]);
-                     System.out.println("========== termina impresion fechas ============");
-
-                     }
-                     */
+                  
                 } catch (Exception e) {
                     System.out.println("No hay fechas " + e);
                 }
@@ -1051,16 +1015,16 @@ public class Todo extends javax.swing.JFrame {
         DaoDeudaTotal daoDeuda = new DaoDeudaTotal();
         DaoPagos daoPagos = new DaoPagos();
         Clientes beanCliente = daoCliente.consultaEspecificaNombreAndApaternoAndAmaterno(nom, apa, ama);
-        System.out.println("soy el id del cliente " + idCliente);
+        
         DeudaTotal beanDeuda = daoDeuda.consultarDeuda(idCliente);
 
-        System.out.println("bean get deuda " + beanDeuda.getDeudaTotal());
+        
         int totalDeuda = beanDeuda.getDeudaTotal() + Integer.parseInt(jTextField2.getText().toString());
-        System.out.println("esto es lo que debees " + totalDeuda);
+       
 
-        System.out.println("filas " + jTable3.getRowCount());
+       
         int pago = Integer.parseInt(JOptionPane.showInputDialog("Ingresar Pago"));
-        System.out.println("pago " + pago);
+      
 
         int sumaPagos = daoPagos.sumaabonos(beanDeuda.getIdDeudaTotal());
         int sumarPagos = sumaPagos + pago;
@@ -1107,33 +1071,7 @@ public class Todo extends javax.swing.JFrame {
 
                 }
 
-             //   } else {//QUITAR ESTE si el estado es igual a pagado no entregado solo registramos en la tabla apartados
-                /*System.out.println("entro al estado pagado NO entregado");
-                 boolean ban1 = opera.registrarExecptoVendidos(jTable3, arreMedidas, arreFechas, estado.toString());
-                 if (ban1) {
-                 JOptionPane.showMessageDialog(null, "La venta se registro correctamente");
-                 limpiarTabla();
-                 limpiarTablaPA();
-                 setFilasPA();
-                 limpiarTablaPagos();
-                 setFilasPagos();
-                 totalPagar = 0;
-                 jTextField2.setText(String.valueOf(totalPagar));
-                 con = 0;
-                 conFechas = 0;
-                 jLabel4.setText(String.valueOf(totalDeuda));
-                 jLabel6.setText(String.valueOf(deudaMenosPagos));
-                 CambiarStatusProductosApartados cs = new CambiarStatusProductosApartados();
-                 cs.setFilasPA();
-                 cs.setVisible(true);
-                 // jTextField2.setText(String.valueOf(totalPagar));
-
-                 } else {
-                 JOptionPane.showMessageDialog(null, "Error al registrar la venta ", "ERROR", 0);
-
-                 }
-                 */
-                //  }//QUITAR ESTE
+             
             } else {//si el pago no es igual ala deuda pero el check esta seleccionado
                 System.out.println("El pago no es igual ala deuda");
 
@@ -1158,13 +1096,7 @@ public class Todo extends javax.swing.JFrame {
 
                 }
             }
-            /*
-             totalPagar = 0;
-             jTextField2.setText(String.valueOf(totalPagar));
-             con = 0;
-             conFechas = 0;
-             */
-
+            
 //------------------------ HASTA AQUI ----------------------------------------------------------------                
         } else {// si no tiene deuda se registrara todo
             System.out.println("se registra todo por que no tienes deuda");

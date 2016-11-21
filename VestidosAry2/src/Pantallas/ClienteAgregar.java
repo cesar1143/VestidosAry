@@ -183,7 +183,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
                 bean.setApaterno(array[1]);
 
                 bean.setAmaterno(array[2]);
-                bean.setTelefono(0);
+                bean.setTelefono1("0");
 
                 boolean ban = dao.registrarCliente(bean);
                 if (ban) {

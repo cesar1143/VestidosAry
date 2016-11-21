@@ -128,7 +128,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void setFeilasPendientes() {
-        System.out.println("entro al se filas pendientes");
+       
         Connection conec = null;
 
         String sql = "select productosapartados.idproductosapartados,clientes.nombre,clientes.apaterno, productos.clave,productos.color,productos.precio,productos.tipo,productosapartados.status\n"
@@ -156,13 +156,13 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void setFilasVP() {
-        System.out.println("ento en set filas Vp");
+      
         DaoProductos dao = new DaoProductos();
         rs = dao.consultaTodos();
         try {
 
             while (rs.next()) {
-                System.out.println("entro al while de set fila ver");
+                
                 int id = rs.getInt("idproductos");
                 String clave = rs.getString("clave");
                 String color = rs.getString("color");

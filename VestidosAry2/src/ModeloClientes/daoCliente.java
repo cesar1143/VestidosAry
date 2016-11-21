@@ -41,7 +41,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
-                bean.setTelefono(rs.getInt(5));
+                bean.setTelefono1(rs.getString(5));
 
             }
 
@@ -68,7 +68,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
-                bean.setTelefono(rs.getInt(5));
+                bean.setTelefono1(rs.getString(5));
 
             }
 
@@ -96,7 +96,7 @@ public class daoCliente {
                 bean.setNombre(rs.getString(2));
                 bean.setApaterno(rs.getString(3));
                 bean.setAmaterno(rs.getString(4));
-                bean.setTelefono(rs.getInt(5));
+                bean.setTelefono1(rs.getString(5));
 
             }
 
