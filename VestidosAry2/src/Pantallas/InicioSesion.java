@@ -153,6 +153,7 @@ public class InicioSesion extends javax.swing.JFrame {
                 if (bean.getContra().equals(contraseña)) {
                     //entra al sistema
                     Principal p = new Principal();
+                  
                    
                     p.setVisible(true);
                     

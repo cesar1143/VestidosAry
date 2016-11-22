@@ -701,7 +701,7 @@ public class Todo extends javax.swing.JFrame {
             }
             //se suman los pagos de la tabla mas el pago que dara
             int total = sumaPagos + abono;
-            System.out.println("suma pagos  " + total);
+           
             int deudaMenosPagos = Integer.parseInt(jLabel4.getText().toString()) - total;
             if (total == Integer.parseInt(jLabel4.getText().toString())) {
                 System.out.println("los pagos son igual ala deuda");
@@ -1018,7 +1018,7 @@ public class Todo extends javax.swing.JFrame {
         int sumarPagos = sumaPagos + pago;
 
         int deudaMenosPagos = totalDeuda - sumarPagos;
-        System.out.println("esto debes descontando los pagos " + deudaMenosPagos);
+        
         Operaciones o = new Operaciones(pago);
 //===================== BUSCAMOS SI TIENE DEUDA ====================================================
         if (beanDeuda.getDeudaTotal() != 0) {// si tiene deuda solo modificaremos la deuda

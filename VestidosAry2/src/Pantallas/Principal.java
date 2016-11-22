@@ -43,7 +43,7 @@ import servicios.conexion;
  */
 public class Principal extends javax.swing.JFrame {
 
-    DefaultTableModel tableModel, tableVerProductos, tablePendientes;
+    DefaultTableModel tableModel,tableVerProductos, tablePendientes;
     ResultSet rs;
     private Object btnBoton;
     //estas variables sirven para que solo se abra un jframe
@@ -178,7 +178,7 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    public void setFilas() {
+    public   void setFilas() {
 
         daoCliente dao = new daoCliente();
         rs = dao.consultaTodos();
@@ -981,6 +981,7 @@ public class Principal extends javax.swing.JFrame {
 
         if (controlClienteAdd == false) {
             ca.setVisible(true);
+            this.setVisible(false);
             controlClienteAdd = true;
 
         } else {
@@ -996,7 +997,7 @@ public class Principal extends javax.swing.JFrame {
         if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Seleccionar la fila");
         } else {
-
+           
             int fila = jTable1.getSelectedRow();
             Object nombre = jTable1.getValueAt(fila, 1);
             Object apaterno = jTable1.getValueAt(fila, 2);
@@ -1011,6 +1012,7 @@ public class Principal extends javax.swing.JFrame {
             ClienteModificar.amaterno.setText(amaterno.toString());
             ClienteModificar.telefono.setText(telefono.toString());
             ClienteModificar.id = Integer.parseInt(id.toString());
+              this.setVisible(false);
             if (controlClienteMod == false) {
 
                 controlClienteMod = true;

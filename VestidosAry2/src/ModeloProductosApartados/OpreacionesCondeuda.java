@@ -47,39 +47,37 @@ public class OpreacionesCondeuda {
 
     public boolean registrar(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
         boolean banr = false;
-        System.out.println("filas " + jTable3.getRowCount());
+      
         for (int j = 0; j < jTable3.getRowCount(); j++) {//obtenemos el id de la tabla
 
-            System.out.println("valores " + jTable3.getValueAt(j, 0));
+           
             Object idProducto = jTable3.getValueAt(j, 0);
 
             for (int i = 0; i < arreMedidas.length; i++) {//buscamos si el id de la tabla existe el arre medidas
-                System.out.println("idProducto " + idProducto);
-                System.out.println("id arreglo " + (int) ((arreMedidas[i][0])));
+               
 
                 if (Integer.parseInt(idProducto.toString()) == (int) (arreMedidas[i][0])) {//si si existe obtenemos las medidas
                     System.out.println(" si existe este id en medidas y en la tabla");
-                    System.out.println("idTabla " + idProducto);
-                    System.out.println("id arreglo medidas " + (int) arreMedidas[i][0] + " posicion " + i + " " + 0);
+                   
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
                     //LLENAMOS EL BEAN DE PROAPAR
                     beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
-                    System.out.println("long arre fechas " + arreFechas.length);
+              
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
                         if (arreFechas[k][0] == null) {
                             arreFechas[k][0] = String.valueOf("0");
-                            System.out.println("entro al if " + arreFechas[k][0]);
+                           
                         } else {
 
                         }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
-                            System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
+                           
                             beanPA.setFechaEntrega(arreFechas[k][2]);
                             boolean ban = daoPA.registrarVenta(beanPA);//registramos en apartados
                             if (ban) {
@@ -92,21 +90,17 @@ public class OpreacionesCondeuda {
                                     //si se registra en medidas registramos fechas
                                     boolean banFechas = registraFechas(arreFechas[k][1]);
                                     if (banFechas) {
-                                        //JOptionPane.showMessageDialog(null, "La fecha prueba se registro correctamente");
-                                        //si se registra en fechas registramos vendidos
- //-->aqui le meti mano jejeje
-                                        System.out.println("soy el estado " + estado);
+                             
+                                        
                                         if(estado.equals("Pagado entregado")){
                                              boolean banPV = registrarProductosVendidos();
                                               if (banPV) {
-                                            //---------------------------------->>  //ver donde poner el registro de deuda total y pagos por que deben registrarse solo 1 vez
-                                          //  JOptionPane.showMessageDialog(null, "Se registro correctamente en vendidos");
-
+                                           
                                         } else {
                                             JOptionPane.showMessageDialog(null, "Erro al registra en vendidos", "ERROR", 0);
                                         }
                                         }else{
-                                          //  JOptionPane.showMessageDialog(null, "No se registra en vendidos por que el estado es no Pagado entregado en vendidos"); 
+                                       
                                         }
                                        
                                        
@@ -133,7 +127,7 @@ public class OpreacionesCondeuda {
                     /*No se encontro el id de la tabla en arreglo medias, osea no hay medidas*/
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
-                    System.out.println(" no encontro el id en el arreglo arre medidas");
+                  
                     //LLENAMOS EL BEAN DE PROAPAR
                     beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
                     beanPA.setCliente_id(idCliente);
@@ -141,14 +135,14 @@ public class OpreacionesCondeuda {
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
                         if (arreFechas[k][0] == null) {
                             arreFechas[k][0] = String.valueOf("0");
-                            System.out.println("entro al if " + arreFechas[k][0]);
+                          
                         } else {
 
                         }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
-                            System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
+                           
                             beanPA.setFechaEntrega(arreFechas[k][2]);
                             boolean ban = daoPA.registrarVenta(beanPA);//registramos en apartados
                             if (ban) {
@@ -182,9 +176,9 @@ public class OpreacionesCondeuda {
                             k = arreFechas.length;
                         } else {
                             //si no tiene fechas y tampoco medidas
-                            System.out.println(" nose encontro el id en fechas y tampoco medidas");
+                            
 
-                            System.out.println(" no encontro el id en el arreglo arre medidas");
+                        
                             //LLENAMOS EL BEAN DE PROAPAR
                             beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
                             beanPA.setCliente_id(idCliente);
@@ -245,37 +239,35 @@ public class OpreacionesCondeuda {
     public boolean registrarExecptoVendidos(JTable jTable3, double arreMedidas[][], String arreFechas[][], String estado) {
         boolean banr = false;
 
-        System.out.println("filas " + jTable3.getRowCount());
+     
         for (int j = 0; j < jTable3.getRowCount(); j++) {//obtenemos el id de la tabla
 
-            System.out.println("valores " + jTable3.getValueAt(j, 0));
+           
             Object idProducto = jTable3.getValueAt(j, 0);
             for (int i = 0; i < arreMedidas.length; i++) {//buscamos si el id de la tabla existe el arre medidas
-                System.out.println("idProducto " + idProducto);
-                System.out.println("id arreglo " + (int) ((arreMedidas[i][0])));
+               
                 if (Integer.parseInt(idProducto.toString()) == (int) (arreMedidas[i][0])) {//si si existe obtenemos las medidas
                     System.out.println(" si existe este id en medidas y en la tabla");
-                    System.out.println("idTabla " + idProducto);
-                    System.out.println("id arreglo medidas " + (int) arreMedidas[i][0] + " posicion " + i + " " + 0);
+                   
                     ProductosApartados beanPA = new ProductosApartados();
                     DaoProductosApartados daoPA = new DaoProductosApartados();
                     //LLENAMOS EL BEAN DE PROAPAR
                     beanPA.setProducto_id(Integer.parseInt(idProducto.toString()));
                     beanPA.setCliente_id(idCliente);
                     beanPA.setStatus(estado.toString());
-                    System.out.println("long arre fechas " + arreFechas.length);
+                  
 
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
                         if (arreFechas[k][0] == null) {
                             arreFechas[k][0] = String.valueOf("0");
-                            System.out.println("entro al if " + arreFechas[k][0]);
+                         
                         } else {
 
                         }
                         System.out.println("entramos al for para buscar fechas");
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
                             System.out.println("si tiene fechas");
-                            System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
+                           
                             beanPA.setFechaEntrega(arreFechas[k][2]);
                             boolean ban = daoPA.registrarVenta(beanPA);//registramos en apartados
                             if (ban) {
@@ -321,18 +313,16 @@ public class OpreacionesCondeuda {
                     for (int k = 0; k < arreFechas.length; k++) {//vemos si existe el id en el arre fechas
                         if (arreFechas[k][0] == null) {
                             arreFechas[k][0] = String.valueOf("0");
-                            System.out.println("entro al if " + arreFechas[k][0]);
+                           
                         } else {
 
                         }
                         System.out.println("entramos al for para buscar fechas");
-//                        System.out.println("arreFechas " + Integer.parseInt(String.valueOf(arreFechas[k][0])));
-                        System.out.println("STring " + arreFechas[k][0]);
-                        System.out.println("");
+//                      
                         if (Integer.parseInt(idProducto.toString()) == Integer.parseInt(String.valueOf(arreFechas[k][0]))) {//si si existe obtenemos las fechas
 
                             System.out.println("si tiene fechas");
-                            System.out.println("las fechas " + arreFechas[k][2] + " " + " posicino " + k);
+               
                             beanPA.setFechaEntrega(arreFechas[k][2]);
                             boolean ban = daoPA.registrarVenta(beanPA);//registramos en apartados
                             if (ban) {
