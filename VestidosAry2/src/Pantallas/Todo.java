@@ -737,7 +737,7 @@ public class Todo extends javax.swing.JFrame {
                        //JOptionPane.showMessageDialog(null, "Deuda modificada");
                         jLabel4.setText("0");
                     }else{
-                          JOptionPane.showMessageDialog(null, " error Deuda modificada","ERROR " ,0);
+                          JOptionPane.showMessageDialog(null, " Error Deuda modificada","ERROR " ,0);
                     }
                         
 

@@ -44,7 +44,8 @@ import servicios.conexion;
 public class Principal extends javax.swing.JFrame {
 
     DefaultTableModel tableModel,tableVerProductos, tablePendientes;
-    ResultSet rs;
+   
+   ResultSet rs;
     private Object btnBoton;
     //estas variables sirven para que solo se abra un jframe
     public static boolean controlClienteAdd = false;
@@ -178,25 +179,31 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    public   void setFilas() {
+    public  void setFilas() {
 
-        daoCliente dao = new daoCliente();
-        rs = dao.consultaTodos();
+       Connection conec = null;
+
+        String sql = "select * from clientes ";
         try {
 
+            conec = conexion.getConnection();
+            PreparedStatement ps = conec.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            Object fila[] = new Object[5];
             while (rs.next()) {
-                int id = rs.getInt("idclientes");
-                String nombre1 = rs.getString("nombre");
-                String apaterno1 = rs.getString("apaterno");
-                String amaterno1 = rs.getString("amaterno");
-                String telefono1 = rs.getString("telefono");
+                for (int i = 0; i < 5; i++) {
+                    fila[i] = rs.getObject(i + 1);
 
-                tableModel.addRow(new Object[]{id, nombre1, apaterno1, amaterno1, telefono1});
-
+                }
+                tableModel.addRow(fila);
             }
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Mensaje Principal setFilas");
+
         }
+
 
     }
 
@@ -981,7 +988,7 @@ public class Principal extends javax.swing.JFrame {
 
         if (controlClienteAdd == false) {
             ca.setVisible(true);
-            this.setVisible(false);
+           
             controlClienteAdd = true;
 
         } else {
@@ -1012,7 +1019,7 @@ public class Principal extends javax.swing.JFrame {
             ClienteModificar.amaterno.setText(amaterno.toString());
             ClienteModificar.telefono.setText(telefono.toString());
             ClienteModificar.id = Integer.parseInt(id.toString());
-              this.setVisible(false);
+             
             if (controlClienteMod == false) {
 
                 controlClienteMod = true;
@@ -1463,7 +1470,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (TextNombre1.getText().toString().equals("")) {
-            JOptionPane.showMessageDialog(null, "Ingresar nombre o apellido del cliente");
+            JOptionPane.showMessageDialog(null, "Ingresar nombre del cliente");
         } else {
             String dato = TextNombre1.getText().toString();
             daoCliente dao = new daoCliente();
@@ -1473,7 +1480,7 @@ public class Principal extends javax.swing.JFrame {
             vaciarTablaPendientes();
 
             for (int i = 0; i < listaPen.size(); i++) {
-                System.out.println("entro al for");
+              
                 tablePendientes.addRow(new Object[]{String.valueOf(listaPen.get(i).getIdProductosApartados()), listaPen.get(i).getNombre(), listaPen.get(i).getApaterno(), listaPen.get(i).getClave(), listaPen.get(i).getColor(), listaPen.get(i).getPrecio(), listaPen.get(i).getTipo(), listaPen.get(i).getStatus()});
             }
 

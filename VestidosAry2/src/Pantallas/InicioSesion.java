@@ -156,7 +156,7 @@ public class InicioSesion extends javax.swing.JFrame {
                   
                    
                     p.setVisible(true);
-                    
+                  
                     this.setVisible(false);
                     //clientes
                      Clientes.usuarios_id=bean.getIdusuarios();

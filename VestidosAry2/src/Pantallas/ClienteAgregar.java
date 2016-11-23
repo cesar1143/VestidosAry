@@ -191,9 +191,7 @@ public class ClienteAgregar extends javax.swing.JFrame {
 
                     nombre.setText("");
                     telefono.setText("");
-                    Principal p = new Principal();
-                    p.setFilas();
-                    p.setVisible(true);
+                   
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro al registrar al cliente", "ERROR", 0);
